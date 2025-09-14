@@ -208,13 +208,15 @@ jobs:
 
   # Run Chromatic visual regression tests
   chromatic-tests:
-    name: Chromatic Tests
+    name: Chromatic Visual Tests
     runs-on: ubuntu-latest
     needs: [install, build-storybook]
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for Chromatic to detect changes
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -235,6 +237,14 @@ jobs:
         run: yarn chromatic --exit-zero-on-changes
         env:
           CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - name: Comment PR with visual changes
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // This will be handled by Chromatic's automatic PR comments
+            console.log('Chromatic will automatically comment on this PR with visual changes');
 
   # Run all tests (comprehensive suite)
   full-test-suite:

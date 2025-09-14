@@ -41,6 +41,7 @@
     "chromatic": "chromatic --exit-zero-on-changes",
     "chromatic:ci": "chromatic --exit-zero-on-changes --auto-accept-changes",
     "setup:testing": "./scripts/setup-testing.sh",
+    "setup:chromatic": "./scripts/setup-chromatic.sh",
     "update:snapshots": "./scripts/update-snapshots.sh"
   },
   "browserslist": {

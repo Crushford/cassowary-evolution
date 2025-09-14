@@ -7,8 +7,12 @@
   "ignoreLastBuildOnBranch": "main",
   "storybookBuildDir": "storybook-static",
   "storybookConfigDir": ".storybook",
-  "onlyChanged": true,
+  "onlyChanged": false,
   "skip": false,
   "debug": false,
-  "verbose": false
+  "verbose": false,
+  "uploadOnly": false,
+  "preserveMissingSpecs": true,
+  "includeTags": ["visual"],
+  "excludeTags": ["skip-visual"]
 }
