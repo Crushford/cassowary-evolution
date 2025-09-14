@@ -17,7 +17,11 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
   const canPrestige = gameState.player.chips >= gameState.era.cap;
 
   return (
-    <div className="app-surface p-4 rounded-lg mb-4">
+    <div
+      className="app-surface p-4 rounded-lg mb-4"
+      role="banner"
+      aria-label="Game status and progress"
+    >
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Era Info */}
         <div className="flex items-center gap-2">
@@ -30,32 +34,52 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
         </div>
 
         {/* Chips */}
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-success">
+        <div
+          className="flex items-center gap-2"
+          role="status"
+          aria-label={`Current chips: ${gameState.player.chips} out of ${gameState.era.cap} required`}
+        >
+          <span className="text-lg font-bold text-success" aria-hidden="true">
             🍯 {gameState.player.chips}
           </span>
-          <span className="text-sm text-ink-secondary">
+          <span className="text-sm text-ink-secondary" aria-hidden="true">
             / {gameState.era.cap}
           </span>
         </div>
 
         {/* Partners */}
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-ink-primary">
+        <div
+          className="flex items-center gap-2"
+          role="status"
+          aria-label={`Current partners: ${gameState.player.partners}`}
+        >
+          <span
+            className="text-lg font-bold text-ink-primary"
+            aria-hidden="true"
+          >
             👥 {gameState.player.partners}
           </span>
-          <span className="text-sm text-ink-secondary">partners</span>
+          <span className="text-sm text-ink-secondary" aria-hidden="true">
+            partners
+          </span>
         </div>
 
         {/* Progress Bar */}
         <div className="flex-1 min-w-0">
-          <div className="bg-app-2 rounded-full h-4 overflow-hidden">
+          <div
+            className="bg-app-2 rounded-full h-4 overflow-hidden"
+            role="progressbar"
+            aria-valuenow={gameState.player.chips}
+            aria-valuemin={0}
+            aria-valuemax={gameState.era.cap}
+            aria-label={`Progress towards era cap: ${progressPercentage.toFixed(0)}%`}
+          >
             <div
               className="bg-success h-full transition-all duration-500 ease-out"
               style={{ width: `${progressPercentage}%` }}
             />
           </div>
-          <div className="text-xs text-ink-muted mt-1">
+          <div className="text-xs text-ink-muted mt-1" aria-hidden="true">
             {gameState.player.chips} / {gameState.era.cap} nectar-chips
           </div>
         </div>
@@ -64,9 +88,10 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
         {canPrestige && (
           <button
             onClick={onPrestige}
+            aria-label="Prestige - Advance to next era and reset progress"
             className="bg-accent text-app-0 px-4 py-2 rounded-lg font-bold hover:bg-accent-600 active:bg-accent-700 transition-all duration-200 shadow-soft"
           >
-            ✨ Prestige
+            <span aria-hidden="true">✨</span> Prestige
           </button>
         )}
       </div>

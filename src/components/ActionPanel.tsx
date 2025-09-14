@@ -104,13 +104,22 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   }
 
   return (
-    <div className="app-surface p-6 rounded-lg">
+    <div
+      className="app-surface p-6 rounded-lg"
+      role="complementary"
+      aria-label="Game actions panel"
+    >
       <h3 className="text-lg font-bold text-ink-primary mb-4">Actions</h3>
 
       <div className="space-y-3">
         <button
           onClick={onLayEggs}
           disabled={!canLayEggs}
+          aria-label={
+            canLayEggs
+              ? 'Lay eggs and resolve round'
+              : `Select ${3 - gameState.selectedTiles.length} more tiles before laying eggs`
+          }
           className={`w-full py-3 px-4 rounded-lg font-bold transition-colors duration-200 ${
             canLayEggs
               ? 'bg-success hover:bg-success/80 text-ink-primary'
@@ -124,6 +133,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
 
         <button
           onClick={onShop}
+          aria-label={`Open upgrade shop. You have ${gameState.player.chips} nectar chips`}
           className="w-full bg-accent hover:bg-accent-600 active:bg-accent-700 text-app-0 font-bold py-3 px-4 rounded-lg transition-colors duration-200"
         >
           🛒 Upgrade Shop ({gameState.player.chips} chips)

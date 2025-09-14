@@ -18,7 +18,15 @@ const TileButton: React.FC<{
   isHinted: boolean;
   isQueen: boolean;
   onClick: () => void;
-}> = ({ tileType, isSelected, isRevealed, isHinted, isQueen, onClick }) => {
+}> = ({
+  tileType,
+  isSelected,
+  isRevealed,
+  isHinted,
+  isQueen,
+  onClick,
+  coord,
+}) => {
   const baseClasses =
     'w-12 h-12 border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 hover:scale-105 cursor-pointer';
 
@@ -58,22 +66,38 @@ const TileButton: React.FC<{
     textColor = 'text-ink-secondary';
   }
 
+  const getAriaLabel = () => {
+    if (isQueen) return "Queen's Nest - Cannot be selected";
+    if (isRevealed)
+      return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Revealed: ${tileType}`;
+    if (isSelected)
+      return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Selected`;
+    if (isHinted)
+      return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Safe area`;
+    return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Unknown territory`;
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (!isQueen) {
+        onClick();
+      }
+    }
+  };
+
   return (
     <button
       className={`${baseClasses} ${bgColor} ${borderColor} ${textColor} ${
         isSelected ? 'ring-2 ring-ring' : ''
       } ${isHinted ? 'ring-1 ring-ring/60' : ''}`}
       onClick={onClick}
+      onKeyDown={handleKeyDown}
       disabled={isQueen}
-      title={
-        isQueen
-          ? "Queen's Nest"
-          : isRevealed
-            ? `Revealed: ${tileType}`
-            : isHinted
-              ? 'Safe area'
-              : 'Unknown territory'
-      }
+      aria-label={getAriaLabel()}
+      aria-pressed={isSelected}
+      role="button"
+      tabIndex={isQueen ? -1 : 0}
     >
       {isQueen
         ? 'Q'
@@ -110,7 +134,12 @@ export const GameGrid: React.FC<GameGridProps> = ({
       <h2 className="text-xl font-bold text-ink-primary mb-4 text-center">
         Cassowary Territory
       </h2>
-      <div className="grid grid-cols-9 gap-1 mx-auto w-fit">
+      <div
+        className="grid grid-cols-9 gap-1 mx-auto w-fit"
+        role="grid"
+        aria-label="Game board with 9x9 grid of tiles"
+        aria-describedby="game-instructions"
+      >
         {Array.from({ length: 9 }, (_, r) =>
           Array.from({ length: 9 }, (_, c) => {
             const coord = { r, c };
@@ -133,7 +162,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
         )}
       </div>
       <div className="mt-4 text-sm text-ink-secondary text-center">
-        <p>
+        <p id="game-instructions">
           Select {3 - selectedTiles.length} more tile
           {3 - selectedTiles.length !== 1 ? 's' : ''} to place your partners
         </p>
