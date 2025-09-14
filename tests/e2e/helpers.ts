@@ -5,6 +5,27 @@ import { Page } from '@playwright/test';
  * This ensures consistent E2E test behavior
  */
 export async function pickFirstN(page: Page, n: number): Promise<void> {
+  // Make sure all modals are closed first
+  const introModal = page.getByTestId('intro-modal');
+  if (await introModal.isVisible()) {
+    await page.getByTestId('intro-skip').click();
+    await introModal.waitFor({ state: 'hidden' });
+  }
+  
+  // Check for end modal and close it
+  const endModal = page.getByTestId('end-modal');
+  if (await endModal.isVisible()) {
+    await page.getByTestId('continue').click();
+    await endModal.waitFor({ state: 'hidden' });
+  }
+  
+  // Check for level complete modal and close it
+  const levelCompleteModal = page.getByTestId('level-complete-modal');
+  if (await levelCompleteModal.isVisible()) {
+    await page.getByTestId('continue').click();
+    await levelCompleteModal.waitFor({ state: 'hidden' });
+  }
+  
   for (let i = 0; i < n; i++) {
     await page.getByTestId(`card-${i}`).click();
   }
