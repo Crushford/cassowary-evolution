@@ -21,16 +21,13 @@ export const PrestigeModal: React.FC<PrestigeModalProps> = ({
 }) => {
   const nextEraIndex = gameState.era.id + 1;
   const nextEra = nextEraIndex < 4 ? `Era ${nextEraIndex + 1}` : 'The End';
-  const flavorText =
-    ERA_FLAVOR_TEXT[gameState.era.id] || 'The cycle continues...';
+  const flavorText = ERA_FLAVOR_TEXT[gameState.era.id] || 'The cycle continues...';
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="app-surface-2 rounded-lg shadow-soft max-w-2xl w-full mx-4">
         <div className="bg-accent text-app-0 p-6 rounded-t-lg">
-          <h2 className="text-3xl font-bold text-center">
-            ✨ Prestige Opportunity ✨
-          </h2>
+          <h2 className="text-3xl font-bold text-center">✨ Prestige Opportunity ✨</h2>
           <p className="text-app-0/80 text-center mt-2">
             You have reached the threshold of your current era
           </p>
@@ -70,9 +67,9 @@ export const PrestigeModal: React.FC<PrestigeModalProps> = ({
           <div className="bg-danger/15 border border-danger/30 rounded-lg p-4 mb-6">
             <h4 className="font-bold text-danger mb-2">⚠️ Warning:</h4>
             <p className="text-danger text-sm">
-              The next era will have more predators and fewer safe nesting
-              grounds. Your current partners and temporary upgrades will be
-              reset. Only your permanent evolutionary traits will carry forward.
+              The next era will have more predators and fewer safe nesting grounds. Your
+              current partners and temporary upgrades will be reset. Only your permanent
+              evolutionary traits will carry forward.
             </p>
           </div>
 

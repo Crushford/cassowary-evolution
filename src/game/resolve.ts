@@ -3,7 +3,7 @@ import type { TileOutcome } from './deal3x3';
 export function resolveRound(
   selected: Array<[number, number]>,
   outcomes: Map<string, TileOutcome>,
-  population: number
+  population: number,
 ) {
   let delta = 0;
   const results = selected.map(([r, c]) => {

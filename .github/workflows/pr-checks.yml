@@ -2,7 +2,7 @@ name: Pull Request Checks
 
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
     types: [opened, synchronize, reopened]
 
 env:
@@ -118,7 +118,7 @@ jobs:
             const prChecks = '${{ needs.pr-checks.result }}';
             const visualChecks = '${{ needs.visual-checks.result }}';
             const chromaticChecks = '${{ needs.chromatic-checks.result }}';
-            
+
             const getStatus = (result) => {
               switch(result) {
                 case 'success': return '✅ Passed';
@@ -128,18 +128,18 @@ jobs:
                 default: return '⏳ Running';
               }
             };
-            
+
             const comment = `
             ## 🔍 Pull Request Test Results
-            
+
             | Test Type | Status |
             |-----------|--------|
             | **Code Quality** | ${getStatus(prChecks)} |
             | **Visual Regression** | ${getStatus(visualChecks)} |
             | **Chromatic Tests** | ${getStatus(chromaticChecks)} |
-            
+
             ---
-            
+
             ### 📋 Test Details
             - **Linting**: ESLint checks for code quality
             - **Formatting**: Prettier formatting validation
@@ -148,20 +148,20 @@ jobs:
             - **Build Check**: Production build verification
             - **Visual Tests**: Playwright visual regression tests
             - **Chromatic**: Storybook visual testing
-            
+
             Check the [Actions tab](https://github.com/${{ github.repository }}/actions) for detailed logs and artifacts.
             `;
-            
+
             // Find existing bot comment
             const { data: comments } = await github.rest.issues.listComments({
               owner: context.repo.owner,
               issue_number: context.issue.number,
             });
-            
+
             const botComment = comments.find(comment => 
               comment.user.type === 'Bot' && comment.body.includes('Pull Request Test Results')
             );
-            
+
             if (botComment) {
               await github.rest.issues.updateComment({
                 owner: context.repo.owner,

@@ -5,22 +5,25 @@ Goal: keep the UI cohesive and accessible using 3 backgrounds and 3 text tokens,
 ## Tokens
 
 ### Backgrounds
+
 - `bg-app-0` #071411 — page/base
 - `bg-app-1` #0B1F1A — surfaces/cards
 - `bg-app-2` #133129 — popovers/menus
 
 ### Ink (text)
-- `text-ink-primary`   #E6F4F1
+
+- `text-ink-primary` #E6F4F1
 - `text-ink-secondary` #B6D4CD
-- `text-ink-muted`     #7CA39A
+- `text-ink-muted` #7CA39A
 
 ### Semantics
-- `accent`  #F6B94B (600 #DFA640, 700 #C89338)
+
+- `accent` #F6B94B (600 #DFA640, 700 #C89338)
 - `success` #30B27A
 - `warning` #C4A46D
-- `danger`  #C2452D
-- `border`  #21463C
-- `ring`    #F6B94B (focus)
+- `danger` #C2452D
+- `border` #21463C
+- `ring` #F6B94B (focus)
 
 ## Usage rules
 
@@ -39,6 +42,7 @@ Goal: keep the UI cohesive and accessible using 3 backgrounds and 3 text tokens,
 ## Theming
 
 If colors change in the future, update only:
+
 - `tailwind.config.ts` color tokens
 - `/src/styles/colors.ts` exports
 
@@ -52,6 +56,7 @@ Do not hardcode hex values in components.
 ## Examples
 
 ### Card
+
 ```jsx
 <div className="app-surface rounded-2xl p-4">
   <h3 className="text-ink-primary text-lg">Season Summary</h3>
@@ -61,17 +66,20 @@ Do not hardcode hex values in components.
 ```
 
 ### Primary Button
+
 ```jsx
 <button
   className="inline-flex items-center gap-2 rounded-xl px-4 py-2
              bg-accent text-app-0 font-medium shadow-soft
              hover:bg-accent-600 active:bg-accent-700
-             focus-visible:ring-2 focus-visible:ring-ring">
+             focus-visible:ring-2 focus-visible:ring-ring"
+>
   Deal Next Season
 </button>
 ```
 
 ### Tile (unselected vs selected)
+
 ```jsx
 <div className="rounded-xl bg-app-1 border border-border/60 hover:border-border/90
                 transition-colors">
@@ -84,6 +92,7 @@ Do not hardcode hex values in components.
 ```
 
 ### Badge
+
 ```jsx
 <span className="inline-flex items-center rounded-md px-2 py-0.5
                  border border-border/50 text-ink-secondary">

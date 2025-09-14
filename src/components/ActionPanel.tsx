@@ -8,7 +8,7 @@ interface ActionPanelProps {
   onContinue: () => void;
   onShop: () => void;
   onRareOffer?: () => void;
-  rareOffer?: any;
+  rareOffer?: unknown;
 }
 
 export const ActionPanel: React.FC<ActionPanelProps> = ({
@@ -20,15 +20,12 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   onRareOffer,
   rareOffer,
 }) => {
-  const canLayEggs =
-    gameState.selectedTiles.length === 3 && !gameState.roundComplete;
+  const canLayEggs = gameState.selectedTiles.length === 3 && !gameState.roundComplete;
 
   if (gameState.roundComplete && roundOutcome) {
     return (
       <div className="app-surface p-6 rounded-lg">
-        <h3 className="text-lg font-bold text-ink-primary mb-4">
-          Round Results
-        </h3>
+        <h3 className="text-lg font-bold text-ink-primary mb-4">Round Results</h3>
 
         {/* Flip Results */}
         <div className="space-y-2 mb-4">
@@ -57,14 +54,10 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
                         : 'Unknown'}
                 </span>
                 {flip.type === 'predator' && !flip.survived && (
-                  <span className="text-danger text-sm">
-                    (Clutch scattered)
-                  </span>
+                  <span className="text-danger text-sm">(Clutch scattered)</span>
                 )}
                 {flip.type === 'predator' && flip.survived && (
-                  <span className="text-success text-sm">
-                    (Claws saved them!)
-                  </span>
+                  <span className="text-success text-sm">(Claws saved them!)</span>
                 )}
               </div>
               <div className="font-bold text-success">
@@ -84,20 +77,22 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
         </div>
 
         <div className="flex gap-3">
-          <button
-            onClick={onContinue}
-            className="flex-1 bg-accent hover:bg-accent-600 active:bg-accent-700 text-app-0 font-bold py-3 px-4 rounded-lg transition-colors duration-200"
-          >
-            Continue
-          </button>
-          {rareOffer && onRareOffer && (
+          <>
             <button
-              onClick={onRareOffer}
-              className="bg-accent/80 hover:bg-accent active:bg-accent-700 text-app-0 font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+              onClick={onContinue}
+              className="flex-1 bg-accent hover:bg-accent-600 active:bg-accent-700 text-app-0 font-bold py-3 px-4 rounded-lg transition-colors duration-200"
             >
-              View Mutation
+              Continue
             </button>
-          )}
+            {rareOffer && onRareOffer && (
+              <button
+                onClick={onRareOffer}
+                className="bg-accent/80 hover:bg-accent active:bg-accent-700 text-app-0 font-bold py-3 px-4 rounded-lg transition-colors duration-200"
+              >
+                View Mutation
+              </button>
+            )}
+          </>
         </div>
       </div>
     );

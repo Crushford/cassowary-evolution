@@ -1,0 +1,27 @@
+import seedrandom from 'seedrandom';
+import type { LevelRecipe, Outcome } from '../types/nestCards';
+
+export const makeRoundRng = (seed: string, globalRound: number) =>
+  seedrandom(`${seed}::${globalRound}`);
+
+export function makeDeal(
+  seed: string,
+  globalRound: number,
+  recipe: LevelRecipe,
+): Outcome[] {
+  const rng = makeRoundRng(seed, globalRound);
+  const { fruit, barren, predator } = recipe.composition;
+  const arr: Outcome[] = [
+    ...Array(fruit).fill('fruit'),
+    ...Array(barren).fill('barren'),
+    ...Array(predator).fill('predator'),
+  ];
+
+  // Fisher-Yates shuffle with seeded RNG
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+
+  return arr;
+}

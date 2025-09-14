@@ -1,14 +1,16 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test("tutorial 3x3: reaches population 100 with fixed seed and composition", async ({ page }) => {
-  const seed = "cass-queen-seed-001";
+test('tutorial 3x3: reaches population 100 with fixed seed and composition', async ({
+  page,
+}) => {
+  const seed = 'cass-queen-seed-001';
   const params = new URLSearchParams({
     seed,
-    testMode: "1",
-    foodCount: "6",
-    barrenCount: "2",
-    predatorCount: "0",
-    goal: "100",
+    testMode: '1',
+    foodCount: '6',
+    barrenCount: '2',
+    predatorCount: '0',
+    goal: '100',
   });
 
   await page.goto(`/?${params.toString()}`);
@@ -27,16 +29,21 @@ test("tutorial 3x3: reaches population 100 with fixed seed and composition", asy
   }
 
   // Helpers
-  const popEl = page.getByTestId("population");
-  const roundEl = page.getByTestId("round");
-  const endBtn = page.getByTestId("end-round");
-  const contBtn = page.getByTestId("continue");
+  const popEl = page.getByTestId('population');
+  const roundEl = page.getByTestId('round');
+  const endBtn = page.getByTestId('end-round');
+  const contBtn = page.getByTestId('continue');
 
   // Tiles in reading order excluding center must exist with data-testids:
   const tileIds = [
-    "tile-r0-c0","tile-r0-c1","tile-r0-c2",
-    "tile-r1-c0",            "tile-r1-c2",
-    "tile-r2-c0","tile-r2-c1","tile-r2-c2",
+    'tile-r0-c0',
+    'tile-r0-c1',
+    'tile-r0-c2',
+    'tile-r1-c0',
+    'tile-r1-c2',
+    'tile-r2-c0',
+    'tile-r2-c1',
+    'tile-r2-c2',
   ];
 
   async function clickFirstThree() {
@@ -49,7 +56,7 @@ test("tutorial 3x3: reaches population 100 with fixed seed and composition", asy
   }
 
   let rounds = 0;
-  let population = parseInt(await popEl.textContent() || "0", 10);
+  let population = parseInt((await popEl.textContent()) || '0', 10);
   const MAX_GUARD = 50; // Reduced for faster testing
 
   while (population < 100 && rounds < MAX_GUARD) {
@@ -59,8 +66,8 @@ test("tutorial 3x3: reaches population 100 with fixed seed and composition", asy
 
     // Wait for result panel and population update
     await expect(popEl).toHaveText(/\d+/);
-    rounds = parseInt((await roundEl.textContent()) || "0", 10);
-    population = parseInt((await popEl.textContent()) || "0", 10);
+    rounds = parseInt((await roundEl.textContent()) || '0', 10);
+    population = parseInt((await popEl.textContent()) || '0', 10);
 
     // Proceed to the next deal
     await contBtn.click();
@@ -71,5 +78,5 @@ test("tutorial 3x3: reaches population 100 with fixed seed and composition", asy
 
   // Snapshot how many rounds it took — alerts us if algo/odds drift
   // First run will create the snapshot; subsequent runs will diff
-  expect(`${rounds}`).toMatchSnapshot("rounds-to-pop-100.txt");
+  expect(`${rounds}`).toMatchSnapshot('rounds-to-pop-100.txt');
 });

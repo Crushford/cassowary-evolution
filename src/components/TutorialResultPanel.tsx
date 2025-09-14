@@ -87,9 +87,7 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
               <div className="flex items-center space-x-3">
                 <span className="text-2xl">{getResultIcon(flip.type)}</span>
                 <div>
-                  <p
-                    className={`font-medium ${getResultColor(flip.type).split(' ')[0]}`}
-                  >
+                  <p className={`font-medium ${getResultColor(flip.type).split(' ')[0]}`}>
                     {getResultText(flip.type, flip.payout)}
                   </p>
                   <p className="text-sm text-ink-muted">
@@ -99,9 +97,7 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
               </div>
 
               {flip.payout > 0 && (
-                <div className="text-lg font-bold text-green-600">
-                  +{flip.payout}
-                </div>
+                <div className="text-lg font-bold text-green-600">+{flip.payout}</div>
               )}
             </div>
           ))}
@@ -112,9 +108,7 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
               <span className="text-lg font-semibold text-ink-secondary">
                 Total Chips:
               </span>
-              <span className="text-xl font-bold text-accent">
-                +{outcome.chipsDelta}
-              </span>
+              <span className="text-xl font-bold text-accent">+{outcome.chipsDelta}</span>
             </div>
           </div>
         </div>

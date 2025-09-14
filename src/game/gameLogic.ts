@@ -27,7 +27,7 @@ export const getAllCoords = (): Coord[] => {
 };
 
 export const getAllCoordsExceptCenter = (): Coord[] => {
-  return getAllCoords().filter(coord => !(coord.r === 4 && coord.c === 4));
+  return getAllCoords().filter((coord) => !(coord.r === 4 && coord.c === 4));
 };
 
 // Fisher-Yates shuffle
@@ -49,10 +49,7 @@ export const generateBoard = (era: EraRecipe): BoardState => {
   });
 
   const allCoords = getAllCoordsExceptCenter();
-  console.log(
-    '📍 Total coordinates available (excluding center):',
-    allCoords.length
-  );
+  console.log('📍 Total coordinates available (excluding center):', allCoords.length);
 
   const shuffled = shuffleArray(allCoords);
   console.log('🔀 Shuffled coordinates:', shuffled.slice(0, 5), '...');
@@ -60,7 +57,7 @@ export const generateBoard = (era: EraRecipe): BoardState => {
   const predatorCoords = shuffled.slice(0, era.predatorCount);
   const barrenCoords = shuffled.slice(
     era.predatorCount,
-    era.predatorCount + era.barrenCount
+    era.predatorCount + era.barrenCount,
   );
   const foodCoords = shuffled.slice(era.predatorCount + era.barrenCount);
 
@@ -74,15 +71,15 @@ export const generateBoard = (era: EraRecipe): BoardState => {
   const tiles: Record<string, TileType> = {};
 
   // Assign tile types
-  predatorCoords.forEach(coord => {
+  predatorCoords.forEach((coord) => {
     tiles[coordToKey(coord)] = 'predator';
   });
 
-  barrenCoords.forEach(coord => {
+  barrenCoords.forEach((coord) => {
     tiles[coordToKey(coord)] = 'barren';
   });
 
-  foodCoords.forEach(coord => {
+  foodCoords.forEach((coord) => {
     tiles[coordToKey(coord)] = 'food';
   });
 
@@ -103,10 +100,7 @@ export const generateBoard = (era: EraRecipe): BoardState => {
 };
 
 // Round resolution
-export const resolveRound = (
-  selections: Coord[],
-  gameState: GameState
-): RoundOutcome => {
+export const resolveRound = (selections: Coord[], gameState: GameState): RoundOutcome => {
   console.log('🎯 resolveRound called with:', {
     selections,
     gameState: {

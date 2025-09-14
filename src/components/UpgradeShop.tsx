@@ -35,7 +35,7 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
 
         <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           <div className="grid gap-4 md:grid-cols-2">
-            {availableUpgrades.map(upgrade => {
+            {availableUpgrades.map((upgrade) => {
               const cost = getUpgradeCost(upgrade, upgrade.currentTier || 0);
               const canAfford = gameState.player.chips >= cost;
 
@@ -49,13 +49,9 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
                   }`}
                 >
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-bold text-lg text-gray-900">
-                      {upgrade.name}
-                    </h3>
+                    <h3 className="font-bold text-lg text-gray-900">{upgrade.name}</h3>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-green-600">
-                        🍯 {cost}
-                      </div>
+                      <div className="text-lg font-bold text-green-600">🍯 {cost}</div>
                       {upgrade.maxTier && (
                         <div className="text-xs text-gray-500">
                           Tier {upgrade.currentTier || 0} / {upgrade.maxTier}
@@ -64,9 +60,7 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
                     </div>
                   </div>
 
-                  <p className="text-gray-700 mb-3 text-sm">
-                    {upgrade.description}
-                  </p>
+                  <p className="text-gray-700 mb-3 text-sm">{upgrade.description}</p>
 
                   <button
                     onClick={() => onPurchaseUpgrade(upgrade)}
@@ -86,9 +80,7 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
 
           {availableUpgrades.length === 0 && (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-lg">
-                No upgrades available right now.
-              </p>
+              <p className="text-gray-500 text-lg">No upgrades available right now.</p>
               <p className="text-gray-400 text-sm mt-2">
                 Keep playing to unlock more evolutionary paths!
               </p>

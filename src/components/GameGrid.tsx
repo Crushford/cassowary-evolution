@@ -18,15 +18,7 @@ const TileButton: React.FC<{
   isHinted: boolean;
   isQueen: boolean;
   onClick: () => void;
-}> = ({
-  tileType,
-  isSelected,
-  isRevealed,
-  isHinted,
-  isQueen,
-  onClick,
-  coord,
-}) => {
+}> = ({ tileType, isSelected, isRevealed, isHinted, isQueen, onClick, coord }) => {
   const baseClasses =
     'w-12 h-12 border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 hover:scale-105 cursor-pointer';
 
@@ -70,10 +62,8 @@ const TileButton: React.FC<{
     if (isQueen) return "Queen's Nest - Cannot be selected";
     if (isRevealed)
       return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Revealed: ${tileType}`;
-    if (isSelected)
-      return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Selected`;
-    if (isHinted)
-      return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Safe area`;
+    if (isSelected) return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Selected`;
+    if (isHinted) return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Safe area`;
     return `Tile at row ${coord.r + 1}, column ${coord.c + 1} - Unknown territory`;
   };
 
@@ -125,7 +115,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
 }) => {
   const isQueen = (coord: Coord) => coord.r === 4 && coord.c === 4;
   const isSelected = (coord: Coord) =>
-    selectedTiles.some(sel => sel.r === coord.r && sel.c === coord.c);
+    selectedTiles.some((sel) => sel.r === coord.r && sel.c === coord.c);
   const isRevealed = (coord: Coord) => revealedTiles.has(coordToKey(coord));
   const isHinted = (coord: Coord) => hintedTiles.has(coordToKey(coord));
 
@@ -158,7 +148,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
                 onClick={() => onTileSelect(coord)}
               />
             );
-          })
+          }),
         )}
       </div>
       <div className="mt-4 text-sm text-ink-secondary text-center">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { CassowaryQueenGame } from './components/CassowaryQueenGame';
+import { NestCardsGame } from './components/NestCardsGame';
 import Tutorial3x3 from './components/Tutorial3x3';
 
 interface URLParams {
@@ -9,6 +10,8 @@ interface URLParams {
   predatorCount?: number;
   testMode?: boolean;
   goal?: number;
+  nestCards?: boolean;
+  fastPeek?: boolean;
 }
 
 function App() {
@@ -42,8 +45,27 @@ function App() {
       parsed.goal = parseInt(params.get('goal') || '100', 10);
     }
 
+    if (params.has('nestCards')) {
+      parsed.nestCards = params.get('nestCards') === '1';
+    }
+
+    if (params.has('fastPeek')) {
+      parsed.fastPeek = params.get('fastPeek') === '1';
+    }
+
     setUrlParams(parsed);
   }, []);
+
+  // If we have nestCards parameter, show the Nest + Cards game
+  if (urlParams.nestCards) {
+    return (
+      <NestCardsGame
+        seed={urlParams.seed}
+        testMode={urlParams.testMode}
+        fastPeek={urlParams.fastPeek}
+      />
+    );
+  }
 
   // If we have tutorial parameters, show the 3x3 tutorial
   if (

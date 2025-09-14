@@ -21,8 +21,7 @@ export const STANDARD_UPGRADES: Upgrade[] = [
   {
     id: 'claws',
     name: 'Claws',
-    description:
-      'Predator tiles have 50% chance to wound only (no payout but no death)',
+    description: 'Predator tiles have 50% chance to wound only (no payout but no death)',
     cost: 300,
     purchased: false,
     effect: (gameState: GameState): GameState => ({
@@ -114,10 +113,7 @@ export const STANDARD_UPGRADES: Upgrade[] = [
   },
 ];
 
-export const getUpgradeCost = (
-  upgrade: Upgrade,
-  currentTier: number = 0
-): number => {
+export const getUpgradeCost = (upgrade: Upgrade, currentTier: number = 0): number => {
   if (upgrade.maxTier && currentTier > 0) {
     // Scale cost for tiered upgrades
     return upgrade.cost * Math.pow(3, currentTier);
@@ -128,13 +124,13 @@ export const getUpgradeCost = (
 export const canAffordUpgrade = (
   upgrade: Upgrade,
   playerChips: number,
-  currentTier: number = 0
+  currentTier: number = 0,
 ): boolean => {
   return playerChips >= getUpgradeCost(upgrade, currentTier);
 };
 
 export const getAvailableUpgrades = (gameState: GameState): Upgrade[] => {
-  return STANDARD_UPGRADES.map(upgrade => {
+  return STANDARD_UPGRADES.map((upgrade) => {
     const currentTier = upgrade.maxTier
       ? upgrade.id === 'add-partner'
         ? gameState.player.partners - 3
@@ -155,14 +151,8 @@ export const getAvailableUpgrades = (gameState: GameState): Upgrade[] => {
             : false
       : false;
 
-    const affordable = canAffordUpgrade(
-      upgrade,
-      gameState.player.chips,
-      currentTier
-    );
-    const canUpgrade = upgrade.maxTier
-      ? currentTier < upgrade.maxTier
-      : !purchased;
+    const affordable = canAffordUpgrade(upgrade, gameState.player.chips, currentTier);
+    const canUpgrade = upgrade.maxTier ? currentTier < upgrade.maxTier : !purchased;
 
     return {
       ...upgrade,
@@ -171,5 +161,5 @@ export const getAvailableUpgrades = (gameState: GameState): Upgrade[] => {
       canAfford: affordable,
       canUpgrade,
     };
-  }).filter(upgrade => upgrade.canUpgrade);
+  }).filter((upgrade) => upgrade.canUpgrade);
 };

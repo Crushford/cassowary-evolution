@@ -35,8 +35,7 @@ export const RARE_OFFERS: RareOffer[] = [
   {
     id: 'mutant-arm-buds',
     name: 'Mutant Arm Buds',
-    benefit:
-      '+1 Partner this round and next; Predators −3 tiles globally this round',
+    benefit: '+1 Partner this round and next; Predators −3 tiles globally this round',
     risk: '6% chance all chosen tiles this round are forced to Barren (no payout)',
     cost: 250,
     effect: () => {}, // Will be implemented with game state

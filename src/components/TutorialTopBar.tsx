@@ -23,9 +23,7 @@ export const TutorialTopBar: React.FC<TutorialTopBarProps> = ({
         <div className="flex items-center justify-between">
           {/* Left: Era title */}
           <div className="flex items-center space-x-3">
-            <h2 className="text-lg font-bold text-ink-primary">
-              Eden · Round 1
-            </h2>
+            <h2 className="text-lg font-bold text-ink-primary">Eden · Round 1</h2>
           </div>
 
           {/* Center: Chips and progress */}

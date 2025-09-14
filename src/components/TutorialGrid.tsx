@@ -183,7 +183,7 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (isFlipping) return;
 
-      let newFocus = { ...focusedTile };
+      const newFocus = { ...focusedTile };
 
       switch (event.key) {
         case 'ArrowUp':
@@ -235,23 +235,23 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
     if (!tile || isFlipping) return;
 
     const isAlreadySelected = selectedTiles.some(
-      sel => sel.r === coord.r && sel.c === coord.c
+      (sel) => sel.r === coord.r && sel.c === coord.c,
     );
 
     if (isAlreadySelected) {
       // Deselect tile
-      setSelectedTiles(prev =>
-        prev.filter(sel => !(sel.r === coord.r && sel.c === coord.c))
+      setSelectedTiles((prev) =>
+        prev.filter((sel) => !(sel.r === coord.r && sel.c === coord.c)),
       );
-      setTiles(prev => ({
+      setTiles((prev) => ({
         ...prev,
         [key]: { ...prev[key], isSelected: false },
       }));
       onSelectionChange?.(selectedTiles.length - 1);
     } else if (selectedTiles.length < 3) {
       // Select tile
-      setSelectedTiles(prev => [...prev, coord]);
-      setTiles(prev => ({
+      setSelectedTiles((prev) => [...prev, coord]);
+      setTiles((prev) => ({
         ...prev,
         [key]: { ...prev[key], isSelected: true },
       }));
@@ -281,16 +281,16 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
       const tile = tiles[key];
 
       // Start flip animation
-      setTiles(prev => ({
+      setTiles((prev) => ({
         ...prev,
         [key]: { ...prev[key], isFlipping: true },
       }));
 
       // Wait for flip animation
-      await new Promise(resolve => setTimeout(resolve, 250));
+      await new Promise((resolve) => setTimeout(resolve, 250));
 
       // Reveal tile
-      setTiles(prev => ({
+      setTiles((prev) => ({
         ...prev,
         [key]: {
           ...prev[key],
@@ -311,7 +311,7 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
 
       // Small delay between flips
       if (i < sortedSelections.length - 1) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     }
 
@@ -355,7 +355,7 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
                   onClick={() => handleTileClick(coord)}
                 />
               );
-            })
+            }),
           )}
         </div>
       </div>

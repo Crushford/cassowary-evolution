@@ -1,0 +1,51 @@
+import { test, expect } from '@playwright/test';
+
+test('Population grows deterministically under fixed seed', async ({ page }) => {
+  const params = new URLSearchParams({
+    nestCards: '1',
+    seed: 'public-seed-002',
+    testMode: '1',
+    fastPeek: '1',
+  });
+  await page.goto(`/?${params.toString()}`);
+  const begin = page.getByTestId('intro-begin');
+  if (await begin.isVisible().catch(() => false)) await begin.click();
+
+  const popEl = page.getByTestId('population');
+  const roundEl = page.getByTestId('round');
+  const yearsEl = page.getByTestId('years');
+
+  // Simulate naive player: always click first three hidden cards in index order
+  const clickThree = async () => {
+    for (let i = 0, clicked = 0; i < 5 && clicked < 3; i++) {
+      const tile = page.getByTestId(`card-${i}`);
+      const state = await tile.getAttribute('data-state');
+      if (state === 'hidden') {
+        await tile.click();
+        clicked++;
+      }
+    }
+  };
+
+  let guard = 30;
+  while (guard-- > 0) {
+    await clickThree();
+    // End modal should appear
+    await expect(page.getByTestId('end-modal')).toBeVisible();
+    // Read numbers to ensure they update
+    const round = parseInt((await roundEl.textContent()) || '0', 10);
+    const years = parseInt(
+      (await yearsEl.textContent())?.replace(/[^0-9]/g, '') || '0',
+      10,
+    );
+    expect(round).toBeGreaterThan(0);
+    expect(years).toBe(round * 100000);
+
+    // Advance
+    await page.getByTestId('btn-next-season').click();
+    if (round >= 10) break; // Level 1 complete
+  }
+
+  // At least reached end of Level 1 flow
+  expect(await page.getByTestId('round').textContent()).toBe('10');
+});

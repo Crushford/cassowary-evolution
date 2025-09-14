@@ -1,46 +1,147 @@
-# Getting Started with Create React App
+# 🦚 Cassowary Queen - Evolution Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A strategic evolution simulation game built with React, TypeScript, and Tailwind CSS.
 
-## Available Scripts
+## 🎮 How to Play
 
-In the project directory, you can run:
+You are the Cassowary Queen, leading your dynasty through evolutionary epochs. Place your male partners on the 9×9 grid to find safe nesting grounds and earn nectar-chips.
 
-### `npm start`
+### Gameplay
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Select 3 tiles** each round to place your partners
+- **Food tiles** 🍎 give you nectar-chips
+- **Barren tiles** 🌱 give nothing
+- **Predator tiles** 🦅 are dangerous but can be survived with upgrades
+- The center tile (Q) is your Queen's nest and cannot be selected
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Evolution
 
-### `npm test`
+- Spend nectar-chips on **upgrades** to improve your chances
+- **Claws** give you a 50% chance to survive predators
+- **Add Partners** to place more males each round
+- **Scout Instinct** reveals safe tiles before selection
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prestige
 
-### `npm run build`
+When you reach the era's chip cap, you can **prestige** to advance to the next era. This resets your chips but keeps permanent traits and makes the game harder with bigger rewards.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 Development
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Node.js 20+
+- Yarn package manager
 
-### `npm run eject`
+### Local Development
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+# Install dependencies
+yarn install
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Start development server
+yarn dev
+# or
+yarn start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Open [http://localhost:3000](http://localhost:3000) to view the game.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Testing
 
-## Learn More
+```bash
+# Run unit tests
+yarn test
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Run E2E tests (requires build first)
+yarn build && yarn test:e2e
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Run visual regression tests
+yarn test:visual
+
+# Run all tests
+yarn test:all:visual
+```
+
+### Production Preview
+
+```bash
+# Build and preview production build locally
+yarn build && yarn preview
+```
+
+## 🌐 Deployments (Vercel)
+
+We deploy with **Vercel**.
+
+- **Preview**: every PR gets a unique URL (see the PR checks)
+- **Production**: merges to `main` auto-deploy
+
+### Environment Variables
+
+Set in Vercel project settings (Development/Preview/Production):
+
+- `REACT_APP_DEFAULT_SEED` – default RNG seed
+- `REACT_APP_ENABLE_SFX` – `true|false`
+- `REACT_APP_ANALYTICS` – `off|vercel|plausible|...`
+
+### SPA Routing (Create React App)
+
+We use `vercel.json` to rewrite all routes to `index.html` for client-side routing.
+
+### CI
+
+GitHub Actions runs linting, unit tests, build, and E2E tests on PRs.
+
+## 🎯 Game Features
+
+### Tutorial System
+
+- 3x3 tutorial mode for new players
+- URL parameters for testing: `?seed=...`, `?testMode=1`, `?fastPeek=1`
+
+### Accessibility
+
+- Full keyboard navigation support
+- Screen reader compatible
+- ARIA labels and roles
+- High contrast design
+
+### Testing
+
+- Comprehensive Playwright E2E tests
+- Visual regression testing with Storybook
+- Accessibility testing
+- Keyboard-only gameplay testing
+
+## 🛠️ Tech Stack
+
+- **Frontend**: React 19 + TypeScript
+- **Styling**: Tailwind CSS (utility-first)
+- **Testing**: Playwright, Jest, Testing Library
+- **Build**: Create React App
+- **Deployment**: Vercel
+- **Package Manager**: Yarn
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # React components
+├── game/               # Game logic and reducers
+├── types/              # TypeScript definitions
+├── lib/                # Utilities (RNG)
+├── config/             # Game configuration
+└── styles/             # Global styles and colors
+```
+
+## 🎲 Randomness & Reproducibility
+
+The game uses seeded random number generation for reproducible gameplay:
+
+- Default seed: `cassowary-default-seed`
+- URL parameter: `?seed=your-seed-here`
+- Uses `seedrandom` library for consistent results
+
+---
+
+_Built with ❤️ for strategic evolution simulation enthusiasts_

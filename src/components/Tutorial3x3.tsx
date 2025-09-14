@@ -55,7 +55,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       barrenCount,
       predatorCount,
     });
-    setGameState(prev => ({
+    setGameState((prev) => ({
       ...prev,
       outcomes,
     }));
@@ -65,11 +65,9 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
     if (gameState.gameComplete || gameState.roundResults) return;
     if (row === 1 && col === 1) return; // Center tile (Queen) is not selectable
 
-    setGameState(prev => {
+    setGameState((prev) => {
       const newSelected = [...prev.selectedTiles];
-      const existingIndex = newSelected.findIndex(
-        ([r, c]) => r === row && c === col
-      );
+      const existingIndex = newSelected.findIndex(([r, c]) => r === row && c === col);
 
       if (existingIndex >= 0) {
         // Deselect tile
@@ -89,10 +87,10 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
     const { results, nextPop } = resolveRound(
       gameState.selectedTiles,
       gameState.outcomes,
-      gameState.population
+      gameState.population,
     );
 
-    setGameState(prev => ({
+    setGameState((prev) => ({
       ...prev,
       roundResults: results,
       population: nextPop,
@@ -108,7 +106,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       barrenCount,
       predatorCount,
     });
-    setGameState(prev => ({
+    setGameState((prev) => ({
       ...prev,
       round: prev.round + 1,
       selectedTiles: [],
@@ -123,9 +121,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
     }
 
     if (gameState.roundResults) {
-      const result = gameState.roundResults.find(
-        r => r.r === row && r.c === col
-      );
+      const result = gameState.roundResults.find((r) => r.r === row && r.c === col);
       if (result) {
         switch (result.type) {
           case 'food':
@@ -150,9 +146,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
     }
 
     if (gameState.roundResults) {
-      const result = gameState.roundResults.find(
-        r => r.r === row && r.c === col
-      );
+      const result = gameState.roundResults.find((r) => r.r === row && r.c === col);
       if (result) {
         switch (result.type) {
           case 'food':
@@ -166,9 +160,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       return `${baseClass} bg-app-1 border-border/60`;
     }
 
-    const isSelected = gameState.selectedTiles.some(
-      ([r, c]) => r === row && c === col
-    );
+    const isSelected = gameState.selectedTiles.some(([r, c]) => r === row && c === col);
     if (isSelected) {
       return `${baseClass} bg-accent/20 border-accent`;
     }
@@ -181,8 +173,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       <div className="flex flex-col items-center space-y-4 p-8">
         <h2 className="text-3xl font-bold text-success">Victory!</h2>
         <p className="text-xl">
-          Population reached:{' '}
-          <span data-testid="population">{gameState.population}</span>
+          Population reached: <span data-testid="population">{gameState.population}</span>
         </p>
         <p className="text-lg">
           Rounds completed: <span data-testid="round">{gameState.round}</span>
@@ -200,8 +191,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
             Round: <span data-testid="round">{gameState.round}</span>
           </span>
           <span>
-            Population:{' '}
-            <span data-testid="population">{gameState.population}</span>
+            Population: <span data-testid="population">{gameState.population}</span>
           </span>
         </div>
       </div>
@@ -220,7 +210,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
             >
               {getTileContent(row, col)}
             </button>
-          ))
+          )),
         )}
       </div>
 
@@ -230,8 +220,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
           className="px-6 py-2 bg-accent text-white rounded-lg disabled:bg-app-2 disabled:cursor-not-allowed"
           onClick={handleEndRound}
           disabled={
-            gameState.selectedTiles.length !== 3 ||
-            gameState.roundResults !== null
+            gameState.selectedTiles.length !== 3 || gameState.roundResults !== null
           }
         >
           End Round

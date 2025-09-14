@@ -1,11 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import {
-  GameState,
-  Coord,
-  RoundOutcome,
-  Upgrade,
-  RareOffer,
-} from '../types/game';
+import { GameState, Coord, RoundOutcome, Upgrade, RareOffer } from '../types/game';
 import {
   createInitialGameState,
   resolveRound,
@@ -26,16 +20,12 @@ import { RareOfferModal } from './RareOfferModal';
 import { InstructionsModal } from './InstructionsModal';
 
 export const CassowaryQueenGame: React.FC = () => {
-  const [gameState, setGameState] = useState<GameState>(
-    createInitialGameState()
-  );
+  const [gameState, setGameState] = useState<GameState>(createInitialGameState());
   const [roundOutcome, setRoundOutcome] = useState<RoundOutcome | undefined>();
   const [showUpgradeShop, setShowUpgradeShop] = useState(false);
   const [showPrestigeModal, setShowPrestigeModal] = useState(false);
   const [showRareOffer, setShowRareOffer] = useState(false);
-  const [currentRareOffer, setCurrentRareOffer] = useState<
-    RareOffer | undefined
-  >();
+  const [currentRareOffer, setCurrentRareOffer] = useState<RareOffer | undefined>();
   const [showInstructions, setShowInstructions] = useState(true);
 
   const handleTileSelect = useCallback(
@@ -43,38 +33,35 @@ export const CassowaryQueenGame: React.FC = () => {
       if (gameState.roundComplete) return;
 
       const isAlreadySelected = gameState.selectedTiles.some(
-        tile => tile.r === coord.r && tile.c === coord.c
+        (tile) => tile.r === coord.r && tile.c === coord.c,
       );
 
       if (isAlreadySelected) {
         // Deselect tile
-        setGameState(prev => ({
+        setGameState((prev) => ({
           ...prev,
           selectedTiles: prev.selectedTiles.filter(
-            tile => !(tile.r === coord.r && tile.c === coord.c)
+            (tile) => !(tile.r === coord.r && tile.c === coord.c),
           ),
         }));
       } else if (gameState.selectedTiles.length < 3) {
         // Select tile
-        setGameState(prev => ({
+        setGameState((prev) => ({
           ...prev,
           selectedTiles: [...prev.selectedTiles, coord],
         }));
       }
     },
-    [gameState.roundComplete, gameState.selectedTiles.length]
+    [gameState.roundComplete, gameState.selectedTiles.length],
   );
 
   const handleLayEggs = useCallback(() => {
-    console.log(
-      '🥚 handleLayEggs called with selectedTiles:',
-      gameState.selectedTiles
-    );
+    console.log('🥚 handleLayEggs called with selectedTiles:', gameState.selectedTiles);
 
     if (gameState.selectedTiles.length !== 3) {
       console.log(
         '❌ Cannot lay eggs: need exactly 3 tiles, have',
-        gameState.selectedTiles.length
+        gameState.selectedTiles.length,
       );
       return;
     }
@@ -97,7 +84,7 @@ export const CassowaryQueenGame: React.FC = () => {
       newChips,
     });
 
-    setGameState(prev => {
+    setGameState((prev) => {
       const newState = {
         ...prev,
         player: {
@@ -122,8 +109,7 @@ export const CassowaryQueenGame: React.FC = () => {
 
     // Check for rare offer
     if (maybeRollRareOffer()) {
-      const randomOffer =
-        RARE_OFFERS[Math.floor(Math.random() * RARE_OFFERS.length)];
+      const randomOffer = RARE_OFFERS[Math.floor(Math.random() * RARE_OFFERS.length)];
       setCurrentRareOffer(randomOffer);
       setShowRareOffer(true);
       console.log('🎁 Rare offer rolled:', randomOffer);
@@ -147,7 +133,7 @@ export const CassowaryQueenGame: React.FC = () => {
       revealedHints: newBoard.revealedHints.size,
     });
 
-    setGameState(prev => {
+    setGameState((prev) => {
       const newState = {
         ...prev,
         board: newBoard,
@@ -175,7 +161,7 @@ export const CassowaryQueenGame: React.FC = () => {
         '❌ Prestige not available. Need',
         gameState.era.cap,
         'chips, have',
-        gameState.player.chips
+        gameState.player.chips,
       );
     }
   }, [gameState]);
@@ -196,7 +182,7 @@ export const CassowaryQueenGame: React.FC = () => {
         });
       }
     },
-    [gameState]
+    [gameState],
   );
 
   const handlePrestige = useCallback(() => {
@@ -207,13 +193,12 @@ export const CassowaryQueenGame: React.FC = () => {
   }, [gameState]);
 
   const handleAcceptRareOffer = useCallback(() => {
-    if (!currentRareOffer || gameState.player.chips < currentRareOffer.cost)
-      return;
+    if (!currentRareOffer || gameState.player.chips < currentRareOffer.cost) return;
 
     // Apply the rare offer effect (simplified for v0.1)
     currentRareOffer.effect();
 
-    setGameState(prev => ({
+    setGameState((prev) => ({
       ...prev,
       player: {
         ...prev.player,
@@ -235,9 +220,7 @@ export const CassowaryQueenGame: React.FC = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-ink-primary mb-2">
-            🦚 Cassowary Queen
-          </h1>
+          <h1 className="text-4xl font-bold text-ink-primary mb-2">🦚 Cassowary Queen</h1>
           <p className="text-lg text-ink-secondary">
             Lead your cassowary dynasty through the ages of evolution
           </p>
@@ -276,9 +259,7 @@ export const CassowaryQueenGame: React.FC = () => {
               onLayEggs={handleLayEggs}
               onContinue={handleContinue}
               onShop={() => setShowUpgradeShop(true)}
-              onRareOffer={
-                showRareOffer ? () => setShowRareOffer(true) : undefined
-              }
+              onRareOffer={showRareOffer ? () => setShowRareOffer(true) : undefined}
               rareOffer={currentRareOffer}
             />
           </div>

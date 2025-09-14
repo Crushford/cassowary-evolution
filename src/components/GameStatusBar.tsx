@@ -12,7 +12,7 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
 }) => {
   const progressPercentage = Math.min(
     (gameState.player.chips / gameState.era.cap) * 100,
-    100
+    100,
   );
   const canPrestige = gameState.player.chips >= gameState.era.cap;
 
@@ -25,12 +25,8 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Era Info */}
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-ink-primary">
-            {gameState.era.name}
-          </span>
-          <span className="text-sm text-ink-secondary">
-            Era {gameState.era.id}
-          </span>
+          <span className="text-lg font-bold text-ink-primary">{gameState.era.name}</span>
+          <span className="text-sm text-ink-secondary">Era {gameState.era.id}</span>
         </div>
 
         {/* Chips */}
@@ -53,10 +49,7 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
           role="status"
           aria-label={`Current partners: ${gameState.player.partners}`}
         >
-          <span
-            className="text-lg font-bold text-ink-primary"
-            aria-hidden="true"
-          >
+          <span className="text-lg font-bold text-ink-primary" aria-hidden="true">
             👥 {gameState.player.partners}
           </span>
           <span className="text-sm text-ink-secondary" aria-hidden="true">

@@ -7,8 +7,7 @@ export const TutorialGame: React.FC = () => {
   const [chips, setChips] = useState(0);
   const [, setRoundNumber] = useState(1);
   const [showResultPanel, setShowResultPanel] = useState(false);
-  const [currentOutcome, setCurrentOutcome] =
-    useState<TutorialRoundOutcome | null>(null);
+  const [currentOutcome, setCurrentOutcome] = useState<TutorialRoundOutcome | null>(null);
   const [showInstructions, setShowInstructions] = useState(false);
   const [selectedPartners, setSelectedPartners] = useState(0);
 
@@ -16,13 +15,13 @@ export const TutorialGame: React.FC = () => {
   const maxPartners = 3;
 
   const handleRoundComplete = useCallback((outcome: TutorialRoundOutcome) => {
-    setChips(prev => prev + outcome.chipsDelta);
+    setChips((prev) => prev + outcome.chipsDelta);
     setCurrentOutcome(outcome);
     setShowResultPanel(true);
   }, []);
 
   const handleContinue = useCallback(() => {
-    setRoundNumber(prev => prev + 1);
+    setRoundNumber((prev) => prev + 1);
     setShowResultPanel(false);
     setCurrentOutcome(null);
     setSelectedPartners(0);
@@ -55,9 +54,7 @@ export const TutorialGame: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-ink-primary mb-2">
-            🦚 Cassowary Queen
-          </h1>
+          <h1 className="text-4xl font-bold text-ink-primary mb-2">🦚 Cassowary Queen</h1>
           <p className="text-lg text-ink-secondary">
             Choose 3 nests. Flip to see what fate dealt.
           </p>
@@ -99,9 +96,7 @@ export const TutorialGame: React.FC = () => {
             <div className="space-y-4 text-ink-secondary">
               <div>
                 <h4 className="font-semibold text-accent mb-2">Objective:</h4>
-                <p>
-                  Select 3 nests around the Queen for your partners to explore.
-                </p>
+                <p>Select 3 nests around the Queen for your partners to explore.</p>
               </div>
 
               <div>

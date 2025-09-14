@@ -18,9 +18,7 @@ export const RareOfferModal: React.FC<RareOfferModalProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="app-surface-2 rounded-lg shadow-soft max-w-2xl w-full mx-4">
         <div className="bg-danger text-ink-primary p-6 rounded-t-lg">
-          <h2 className="text-3xl font-bold text-center">
-            🧬 Rare Mutation Offer 🧬
-          </h2>
+          <h2 className="text-3xl font-bold text-center">🧬 Rare Mutation Offer 🧬</h2>
           <p className="text-ink-primary/80 text-center mt-2">
             A dangerous evolutionary opportunity presents itself
           </p>
@@ -29,9 +27,7 @@ export const RareOfferModal: React.FC<RareOfferModalProps> = ({
         <div className="p-6">
           <div className="text-center mb-6">
             <div className="text-6xl mb-4">⚡</div>
-            <h3 className="text-2xl font-bold text-ink-primary mb-2">
-              {offer.name}
-            </h3>
+            <h3 className="text-2xl font-bold text-ink-primary mb-2">{offer.name}</h3>
             <div className="text-xl font-bold text-success mb-4">
               🍯 {offer.cost} nectar-chips
             </div>
@@ -46,22 +42,18 @@ export const RareOfferModal: React.FC<RareOfferModalProps> = ({
             </div>
 
             <div className="bg-danger/15 border border-danger/30 rounded-lg p-4">
-              <h4 className="font-bold text-danger mb-2 flex items-center">
-                ⚠️ Risk
-              </h4>
+              <h4 className="font-bold text-danger mb-2 flex items-center">⚠️ Risk</h4>
               <p className="text-ink-secondary text-sm">{offer.risk}</p>
             </div>
           </div>
 
           <div className="bg-warning/15 border border-warning/30 rounded-lg p-4 mb-6">
-            <h4 className="font-bold text-warning mb-2">
-              🧬 Mutation Details:
-            </h4>
+            <h4 className="font-bold text-warning mb-2">🧬 Mutation Details:</h4>
             <p className="text-ink-secondary text-sm">
-              This is a rare evolutionary opportunity that comes with both great
-              benefits and significant risks. Mutations are unpredictable and
-              may change the course of your evolution in unexpected ways. Choose
-              carefully - there may not be another chance like this.
+              This is a rare evolutionary opportunity that comes with both great benefits
+              and significant risks. Mutations are unpredictable and may change the course
+              of your evolution in unexpected ways. Choose carefully - there may not be
+              another chance like this.
             </p>
           </div>
 
@@ -87,8 +79,7 @@ export const RareOfferModal: React.FC<RareOfferModalProps> = ({
 
           <div className="text-center mt-4">
             <p className="text-xs text-ink-muted">
-              Mutations are rare and risky. This offer may not appear again
-              soon.
+              Mutations are rare and risky. This offer may not appear again soon.
             </p>
           </div>
         </div>

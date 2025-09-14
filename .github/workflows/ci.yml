@@ -1,343 +1,41 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
-  push:
-    branches: [ main, develop ]
   pull_request:
-    branches: [ main, develop ]
-
-env:
-  NODE_VERSION: '18'
-  PLAYWRIGHT_BROWSERS_PATH: '0'
+    branches: [main, first-attempt]
+  push:
+    branches: [main, first-attempt]
 
 jobs:
-  # Install dependencies and cache them
-  install:
-    name: Install Dependencies
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          node-version: '20'
           cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
+      - name: Lint
+        run: yarn lint
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            node_modules
-            .yarn/cache
-            .playwright
-          key: ${{ runner.os }}-deps-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-deps-
-
-  # Build the application
-  build-app:
-    name: Build Application
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build application
-        run: yarn build
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-files
-          path: build/
-          retention-days: 1
-
-  # Build Storybook
-  build-storybook:
-    name: Build Storybook
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Build Storybook
-        run: yarn build-storybook
-
-      - name: Upload Storybook artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: storybook-files
-          path: storybook-static/
-          retention-days: 1
-
-  # Run unit tests
-  unit-tests:
-    name: Unit Tests
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Run unit tests
+      - name: Unit tests
         run: yarn test
 
-      - name: Upload coverage reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 7
+      - name: Build
+        run: yarn build
 
-  # Run Playwright E2E tests
-  e2e-tests:
-    name: E2E Tests
-    runs-on: ubuntu-latest
-    needs: [install, build-app]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+      - name: E2E tests (local preview)
+        run: yarn test:e2e:ci
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: build/
-
-      - name: Run E2E tests
-        run: yarn test:e2e
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: e2e-test-results
-          path: |
-            test-results/
-            playwright-report/
-          retention-days: 7
-
-  # Run Storybook visual tests
-  visual-tests:
-    name: Visual Tests
-    runs-on: ubuntu-latest
-    needs: [install, build-storybook]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
-
-      - name: Download Storybook artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: storybook-files
-          path: storybook-static/
-
-      - name: Run visual tests
+      - name: Visual regression tests
         run: yarn test:visual
-
-      - name: Upload visual test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: visual-test-results
-          path: |
-            test-results/
-            playwright-report/
-          retention-days: 7
-
-  # Run Chromatic visual regression tests
-  chromatic-tests:
-    name: Chromatic Visual Tests
-    runs-on: ubuntu-latest
-    needs: [install, build-storybook]
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Required for Chromatic to detect changes
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Download Storybook artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: storybook-files
-          path: storybook-static/
-
-      - name: Run Chromatic tests
-        run: yarn chromatic --exit-zero-on-changes
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-
-      - name: Comment PR with visual changes
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            // This will be handled by Chromatic's automatic PR comments
-            console.log('Chromatic will automatically comment on this PR with visual changes');
-
-  # Run all tests (comprehensive suite)
-  full-test-suite:
-    name: Full Test Suite
-    runs-on: ubuntu-latest
-    needs: [install, build-app, build-storybook]
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-files
-          path: build/
-
-      - name: Download Storybook artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: storybook-files
-          path: storybook-static/
-
-      - name: Run all tests
-        run: |
-          yarn test:all
-          yarn test:visual
-
-      - name: Upload comprehensive test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: comprehensive-test-results
-          path: |
-            test-results/
-            playwright-report/
-            coverage/
-          retention-days: 7
-
-  # Comment on PR with test results
-  comment-pr:
-    name: Comment on PR
-    runs-on: ubuntu-latest
-    needs: [unit-tests, e2e-tests, visual-tests, chromatic-tests]
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Comment PR
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              issue_number: context.issue.number,
-            });
-            
-            const botComment = comments.find(comment => 
-              comment.user.type === 'Bot' && comment.body.includes('## Test Results')
-            );
-            
-            const testResults = `
-            ## Test Results ✅
-            
-            - **Unit Tests**: ${needs.unit-tests.result === 'success' ? '✅ Passed' : '❌ Failed'}
-            - **E2E Tests**: ${needs.e2e-tests.result === 'success' ? '✅ Passed' : '❌ Failed'}
-            - **Visual Tests**: ${needs.visual-tests.result === 'success' ? '✅ Passed' : '❌ Failed'}
-            - **Chromatic Tests**: ${needs.chromatic-tests.result === 'success' ? '✅ Passed' : '❌ Failed'}
-            
-            All tests have completed. Check the Actions tab for detailed results.
-            `;
-            
-            if (botComment) {
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                issue_number: context.issue.number,
-                comment_id: botComment.id,
-                body: testResults
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                issue_number: context.issue.number,
-                body: testResults
-              });
-            }

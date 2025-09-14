@@ -8,7 +8,7 @@ export function deal3x3(
     foodCount: number;
     barrenCount: number;
     predatorCount: number;
-  }
+  },
 ) {
   // Coordinates for the 8 selectable tiles in reading order, skipping center (1,1)
   const coords: Array<[number, number]> = [];
