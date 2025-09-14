@@ -1,192 +1,299 @@
-# Testing Setup
+# Cassowary Queen — Testing Guide
 
-This project includes comprehensive testing setup with Playwright E2E tests, Storybook visual regression testing, and Chromatic integration.
+This document outlines the comprehensive testing strategy for the Cassowary Queen evolution game, covering unit tests, integration tests, and end-to-end (E2E) tests.
 
-## Test Types
+## Test Structure
 
-### 1. Unit Tests
+```
+tests/
+├── unit/                    # Unit tests for individual functions
+│   ├── levels.spec.ts      # Level generation and configuration
+│   ├── ep.spec.ts          # Evolution Points accounting
+│   ├── evolution.spec.ts   # Evolution gating and costs
+│   └── boardThresholds.spec.ts # Board transition selection
+├── integration/            # Integration tests for component interactions
+│   ├── dealEngine.spec.ts  # Deal engine + odds integration
+│   └── evolutionModal.spec.ts # Evolution modal functionality
+├── e2e/                    # End-to-end Playwright tests
+│   ├── helpers.ts          # Test helper functions
+│   ├── 01_tutorial_intro_growth.spec.ts
+│   ├── 02_ep_milestones_evolution.spec.ts
+│   ├── 03_cycle_reset.spec.ts
+│   └── 04_a11y_focus.spec.ts
+└── storybook/              # Visual regression tests
+    ├── button.spec.ts
+    └── storybook-visual.spec.ts
+```
 
-- **Command**: `yarn test`
-- **Framework**: Jest + React Testing Library
-- **Location**: `src/**/*.test.tsx`
+## Test Commands
 
-### 2. End-to-End Tests
-
-- **Command**: `yarn test:e2e`
-- **Framework**: Playwright
-- **Location**: `tests/*.spec.ts`
-- **Config**: `playwright.config.ts`
-
-### 3. Visual Regression Tests
-
-- **Command**: `yarn test:visual`
-- **Framework**: Playwright + Storybook
-- **Location**: `tests/storybook/*.spec.ts`
-- **Config**: `playwright-storybook.config.ts`
-
-### 4. Chromatic Visual Testing
-
-- **Command**: `yarn chromatic`
-- **Service**: Chromatic
-- **Config**: `.chromaticrc.json`
-
-## Running Tests
-
-### Local Development
-
+### Unit Tests
 ```bash
-# Run all tests
+# Run all unit tests
+yarn test:unit
+
+# Run specific unit test
+yarn test tests/unit/levels.spec.ts
+```
+
+### Integration Tests
+```bash
+# Run all integration tests
+yarn test:integration
+
+# Run specific integration test
+yarn test tests/integration/dealEngine.spec.ts
+```
+
+### E2E Tests
+```bash
+# Run all E2E tests
+yarn test:e2e
+
+# Run E2E tests with UI
+yarn test:e2e:ui
+
+# Run specific E2E test suites
+yarn test:e2e:smoke      # Fast smoke tests
+yarn test:e2e:balanced   # Recommended test suite
+yarn test:e2e:exhaustive # Full test suite including A11y
+```
+
+### All Tests
+```bash
+# Run all tests (unit + integration + E2E balanced)
+yarn test:all
+
+# Run all tests including visual regression
 yarn test:all:visual
-
-# Run specific test types
-yarn test                    # Unit tests
-yarn test:e2e               # E2E tests
-yarn test:visual            # Visual tests
-yarn chromatic              # Chromatic tests
-
-# Interactive mode
-yarn test:e2e:ui            # E2E tests with UI
-yarn test:visual:ui         # Visual tests with UI
 ```
 
-### CI/CD Pipeline
+## Test Configuration
 
-The GitHub Actions pipeline automatically runs:
+### Data Test IDs
 
-1. **Install dependencies** and cache them
-2. **Build** the application and Storybook
-3. **Unit tests** with coverage reporting
-4. **E2E tests** with Playwright
-5. **Visual regression tests** against Storybook
-6. **Chromatic tests** for visual changes
+The following data-testids are required for E2E tests:
 
-**Workflows:**
+#### Core HUD
+- `population` - Current population count
+- `round` - Current round number
+- `ep-balance` - Evolution Points balance
+- `board-card-count` - Current number of cards on board
+- `board-scale-label` - Scale label (nest/grove/valley/etc.)
 
-- `ci.yml`: Full CI pipeline for main/develop branches
-- `pr-checks.yml`: Quick validation for pull requests
+#### Intro Modal
+- `intro-modal` - Intro modal container
+- `intro-next` - Begin Level 1 button
+- `intro-skip` - Skip Tutorial button
 
-## Git Hooks
+#### Board
+- `card-{index}` - Individual cards (0..cardCount-1)
+- `end-round` - Admire board button
+- `continue` - Next season button
 
-### Pre-commit Hook
+#### Toasts
+- `toast-board-growth` - Board growth notification
+- `toast-ep-gain` - EP gain notification
 
-Runs on every commit:
+#### Evolution
+- `evolution-open` - Open evolution modal button
+- `evolution-modal` - Evolution modal container
+- `evolution-node-{id}` - Individual evolution nodes
 
-- ESLint checks
-- Prettier formatting check
-- TypeScript type checking
-- Unit tests
-- Build verification
+### Test Mode
 
-### Pre-push Hook
+Tests use `?testMode=1` to enable:
+- Instant animations (no delays)
+- Deterministic behavior
+- Faster test execution
+- Disabled motion for accessibility
 
-Runs before pushing:
+### Seeded RNG
 
-- All unit tests
-- E2E tests
-- Visual regression tests (if Storybook is built)
+Tests use `?seed=SEED` for deterministic behavior:
+- `cq-e2e-seed-01` - Tutorial and growth tests
+- `cq-e2e-seed-02` - EP and evolution tests
+- `cq-e2e-seed-03` - Full cycle tests
+- `cq-e2e-seed-04` - A11y tests
 
-## Visual Testing
+## Test Scenarios
 
-### Storybook Stories
+### Unit Tests
 
-All components should have corresponding Storybook stories in `src/**/*.stories.tsx`.
+#### Level Generation (`levels.spec.ts`)
+- ✅ First cycle thresholds: [1,10,50,100,200,400] → [5,10,15,20,40,80] cards
+- ✅ Next cycle starts at 5 again with cycleIndex = 1
+- ✅ Layout matches expectations for each card count
+- ✅ Uses fruitConstantL1 odds key
+- ✅ Snapshot test for first 18 levels
 
-### Visual Snapshots
+#### EP Accounting (`ep.spec.ts`)
+- ✅ EP increments by exact number of deaths
+- ✅ Predator mitigation prevents EP gain
+- ✅ EP milestone tier calculation: Math.floor(ep / 10)
 
-Visual snapshots are stored in `test-results/` and include:
+#### Evolution Gating (`evolution.spec.ts`)
+- ✅ visibleNodes(ep) returns nodes with tier <= floor(ep/10)
+- ✅ Node purchase validation (cost, prerequisites)
+- ✅ Effects application (popCapIncrease, extraFoodTiles, etc.)
 
-- Desktop, tablet, and mobile viewports
-- All story variations
-- Accessibility checks
+#### Board Thresholds (`boardThresholds.spec.ts`)
+- ✅ Correct level selection for population thresholds
+- ✅ No downsize on population drop within cycle
+- ✅ Proper cycle progression
 
-### Updating Snapshots
+### Integration Tests
 
-When visual changes are intentional:
+#### Deal Engine (`dealEngine.spec.ts`)
+- ✅ Deterministic results with same seed
+- ✅ Correct composition with fruitConstantL1 odds
+- ✅ Extra food tiles modifier integration
+- ✅ Distribution consistency over many deals
 
-```bash
-# Update Playwright snapshots
-yarn test:visual --update-snapshots
+#### Evolution Modal (`evolutionModal.spec.ts`)
+- ✅ Modal visibility based on EP milestones
+- ✅ Node purchase validation and effects
+- ✅ Prerequisite handling
+- ✅ Branch categorization
 
-# Update Chromatic snapshots
-yarn chromatic --auto-accept-changes
-```
+### E2E Tests
 
-## Configuration
+#### Tutorial Flow (`01_tutorial_intro_growth.spec.ts`)
+- ✅ Intro modal appears and can be navigated
+- ✅ Correct initial state (population=1, 5 cards)
+- ✅ Board growth at population 10 (5→10 cards)
+- ✅ Board growth at population 50 (10→15 cards)
+- ✅ Toast notifications appear exactly once per threshold
 
-### Playwright
+#### EP Milestones (`02_ep_milestones_evolution.spec.ts`)
+- ✅ EP accumulation from deaths
+- ✅ Evolution modal opens at EP milestone 10
+- ✅ Node purchase and EP deduction
+- ✅ Prerequisite validation
+- ✅ Tier progression (10, 20, 30, 40+ EP)
 
-- **Main config**: `playwright.config.ts` (E2E tests)
-- **Storybook config**: `playwright-storybook.config.ts` (Visual tests)
-- **Browsers**: Chrome, Firefox, Safari, Mobile Chrome, Mobile Safari
+#### Full Cycle (`03_cycle_reset.spec.ts`)
+- ✅ Complete progression: 5→10→15→20→40→80 cards
+- ✅ Correct scale labels: nest→grove→glade→valley→region→province
+- ✅ Board growth toasts at each threshold
+- ✅ Milestone timing recording for regression testing
 
-### Storybook
+#### A11y Focus (`04_a11y_focus.spec.ts`)
+- ✅ Proper focus order from load
+- ✅ Keyboard navigation for cards and modals
+- ✅ ARIA labels and roles
+- ✅ Screen reader compatibility
+- ✅ Reduced motion support
 
-- **Config**: `.storybook/main.ts`
-- **Preview**: `.storybook/preview.ts`
-- **Addons**: Essentials, Interactions, A11y, Viewport
+## Test Data and Snapshots
 
-### Chromatic
+### Snapshot Files
+- `first-18-levels.json` - Level configuration snapshot
+- `rounds-growth-l1.txt` - Growth timing data
+- `cycle-progression.csv` - Board growth progression
+- `milestone-timings.csv` - Threshold timing data
 
-- **Config**: `.chromaticrc.json`
-- **Setup**: Requires project token from Chromatic
-- **Integration**: Automatic on merge requests
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Visual tests failing**
-   - Check if Storybook is running: `yarn storybook`
-   - Verify viewport sizes match expected snapshots
-   - Update snapshots if changes are intentional
-
-2. **Chromatic tests failing**
-   - Ensure project token is set in `.chromaticrc.json`
-   - Check if Storybook build is successful
-   - Verify network connectivity
-
-3. **E2E tests timing out**
-   - Increase timeout in `playwright.config.ts`
-   - Check if application is running on correct port
-   - Verify test selectors are correct
-
-### Debug Mode
-
-```bash
-# Run tests in debug mode
-yarn test:visual --debug
-yarn test:e2e --debug
-
-# Run specific test
-yarn test:visual --grep "Button Component"
-```
-
-## Best Practices
-
-1. **Write comprehensive stories** for all components
-2. **Test multiple viewports** for responsive design
-3. **Update snapshots** when making intentional visual changes
-4. **Keep tests fast** by using appropriate timeouts
-5. **Use meaningful test names** and descriptions
-6. **Test accessibility** with proper ARIA attributes
-7. **Mock external dependencies** in tests
-8. **Clean up test data** after each test
+### Test Seeds
+Each test suite uses specific seeds for deterministic behavior:
+- **Seed 01**: Optimized for tutorial flow and basic growth
+- **Seed 02**: Includes occasional failures for EP accumulation
+- **Seed 03**: Balanced for full cycle progression
+- **Seed 04**: Optimized for accessibility testing
 
 ## CI/CD Integration
 
-The testing setup is fully integrated with GitHub Actions:
+### Pre-test Setup
+```bash
+# Generate configuration
+./scripts/generate-test-config.sh
 
-- Runs on every pull request and push to main/develop
-- Provides detailed test reports and PR comments
-- Stores artifacts for debugging
-- Supports parallel execution
-- Includes coverage reporting
-- Two workflow types:
-  - **Full CI**: Comprehensive testing on main/develop branches
-  - **PR Checks**: Quick validation for pull requests
+# Verify configuration
+yarn lint
+yarn tsc --noEmit
+```
 
-### Required Secrets
+### Test Execution Order
+1. **Unit Tests** - Fast, isolated function tests
+2. **Integration Tests** - Component interaction tests
+3. **E2E Tests** - Full user journey tests
+4. **Visual Tests** - UI regression tests
 
-Add these secrets to your GitHub repository:
+### Test Profiles
 
-- `CHROMATIC_PROJECT_TOKEN`: Your Chromatic project token for visual testing
+#### Fast Smoke (CI Quick)
+- Unit tests
+- Integration tests
+- E2E: Tutorial + EP milestones only
+
+#### Balanced (Recommended)
+- All unit tests
+- All integration tests
+- E2E: Tutorial + EP + Full cycle
+
+#### Exhaustive (Full)
+- All tests including A11y
+- Long-running cycle tests
+- Complete regression suite
+
+## Debugging Tests
+
+### Running Individual Tests
+```bash
+# Unit test
+yarn test tests/unit/levels.spec.ts --verbose
+
+# E2E test
+yarn test tests/e2e/01_tutorial_intro_growth.spec.ts --headed
+
+# E2E with UI
+yarn test:e2e:ui
+```
+
+### Test Debugging
+- Use `--headed` flag for E2E tests to see browser
+- Use `--debug` flag for step-by-step debugging
+- Check `playwright-report/` for detailed test results
+- Use `yarn test:e2e:ui` for interactive test running
+
+### Common Issues
+1. **Flaky tests**: Check for proper waits and deterministic seeds
+2. **Timeout errors**: Increase timeout or optimize test logic
+3. **Missing data-testids**: Ensure all required test IDs are present
+4. **Animation issues**: Verify testMode=1 is working correctly
+
+## Performance Expectations
+
+### Test Execution Times
+- **Unit tests**: < 30 seconds
+- **Integration tests**: < 1 minute
+- **E2E smoke**: < 2 minutes
+- **E2E balanced**: < 5 minutes
+- **E2E exhaustive**: < 10 minutes
+
+### Memory Usage
+- Unit tests: < 100MB
+- E2E tests: < 500MB per browser instance
+- CI total: < 2GB
+
+## Maintenance
+
+### Adding New Tests
+1. Follow existing naming conventions
+2. Use appropriate test data and seeds
+3. Add required data-testids to components
+4. Update this documentation
+
+### Updating Snapshots
+```bash
+# Update all snapshots
+yarn update:snapshots
+
+# Update specific test snapshots
+yarn test --updateSnapshot tests/unit/levels.spec.ts
+```
+
+### Test Data Management
+- Keep test seeds deterministic
+- Use meaningful test data
+- Document any special test scenarios
+- Maintain snapshot files in version control

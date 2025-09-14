@@ -6,6 +6,8 @@ import EndModal from './ui/EndModal';
 import LevelCompleteModal from './ui/LevelCompleteModal';
 import LevelOneBoard from './ui/LevelOneBoard';
 import HUD from './ui/HUD';
+import { EvolutionModal } from './components/EvolutionModal';
+import { Toast } from './components/Toast';
 
 export default function App() {
   const params = new URLSearchParams(location.search);
@@ -41,7 +43,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-app-0 text-ink-primary">
-      <HUD state={state} />
+      <HUD
+        state={state}
+        onShowEvolution={() => dispatch({ type: 'SHOW_EVOLUTION_MODAL' })}
+      />
       <main className="max-w-3xl mx-auto p-4">
         <LevelOneBoard
           state={state}
@@ -73,6 +78,32 @@ export default function App() {
       {state.ui.showLevelComplete && (
         <LevelCompleteModal onAdvance={() => dispatch({ type: 'ADVANCE_LEVEL' })} />
       )}
+
+      {state.ui.showEvolutionModal && (
+        <EvolutionModal
+          gameState={state}
+          onClose={() => dispatch({ type: 'CLOSE_EVOLUTION_MODAL' })}
+          onPurchaseNode={(nodeId) =>
+            dispatch({ type: 'PURCHASE_EVOLUTION_NODE', nodeId })
+          }
+        />
+      )}
+
+      <Toast
+        message={state.ui.boardGrowthMessage}
+        isVisible={state.ui.showBoardGrowthToast}
+        onDismiss={() => dispatch({ type: 'DISMISS_BOARD_GROWTH_TOAST' })}
+        type="success"
+        duration={4000}
+      />
+
+      <Toast
+        message={state.ui.epGainMessage}
+        isVisible={state.ui.showEPGainToast}
+        onDismiss={() => dispatch({ type: 'DISMISS_EP_GAIN_TOAST' })}
+        type="info"
+        duration={3000}
+      />
     </div>
   );
 }

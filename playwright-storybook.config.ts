@@ -35,6 +35,10 @@ export default defineConfig({
 
     /* Record video on failure */
     video: 'retain-on-failure',
+
+    /* Force stable viewport and color scheme for deterministic tests */
+    viewport: { width: 1280, height: 800 },
+    colorScheme: 'dark',
   },
 
   /* Configure projects for major browsers */

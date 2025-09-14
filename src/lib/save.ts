@@ -1,4 +1,4 @@
-import type { Progress, Equipped } from '@/types/game';
+import type { Progress, Equipped } from '../types/game';
 
 const KEY = 'cq:v1:progress';
 

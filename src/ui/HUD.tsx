@@ -1,6 +1,11 @@
 import type { GameState } from '../types/game';
 
-export default function HUD({ state }: { state: GameState }) {
+interface HUDProps {
+  state: GameState;
+  onShowEvolution?: () => void;
+}
+
+export default function HUD({ state, onShowEvolution }: HUDProps) {
   const handleExport = () => {
     const blob = { progress: state.progress, equipped: state.equipped };
     navigator.clipboard.writeText(JSON.stringify(blob));
@@ -52,7 +57,29 @@ export default function HUD({ state }: { state: GameState }) {
               Pop <b data-testid="population">{state.progress.population}</b>
             </span>
           </span>
+          <span className="flex items-center gap-1">
+            <span>🧬</span>
+            <span>
+              EP <b data-testid="ep-balance">{state.progress.evolutionPoints}</b>
+            </span>
+          </span>
+          <span className="flex items-center gap-1">
+            <span>🪺</span>
+            <span>
+              <span data-testid="board-card-count">{state.board.outcomes.length}</span>{' '}
+              <span data-testid="board-scale-label">nest</span>
+            </span>
+          </span>
           <div className="flex gap-2">
+            {onShowEvolution && (
+              <button
+                data-testid="evolution-open"
+                className="px-2 py-1 text-xs rounded bg-purple-600 hover:bg-purple-700 text-white"
+                onClick={onShowEvolution}
+              >
+                Evolution
+              </button>
+            )}
             <button
               data-testid="btn-export"
               className="px-2 py-1 text-xs rounded bg-app-2 hover:bg-app-1"

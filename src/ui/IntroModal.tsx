@@ -1,6 +1,9 @@
 export default function IntroModal({ onBegin }: { onBegin: () => void }) {
   return (
-    <div className="fixed inset-0 bg-black/60 grid place-items-center p-4">
+    <div
+      className="fixed inset-0 bg-black/60 grid place-items-center p-4"
+      data-testid="intro-modal"
+    >
       <div className="app-surface-2 rounded-2xl p-5 w-full max-w-lg">
         <div className="text-center mb-4">
           <div className="text-4xl mb-2">🦘</div>
@@ -21,13 +24,22 @@ export default function IntroModal({ onBegin }: { onBegin: () => void }) {
             <span>Barren = Bad</span>
           </div>
         </div>
-        <button
-          data-testid="intro-begin"
-          className="px-3 py-2 rounded-xl bg-accent text-app-0"
-          onClick={onBegin}
-        >
-          Begin Level 1
-        </button>
+        <div className="flex gap-2 justify-center">
+          <button
+            data-testid="intro-next"
+            className="px-3 py-2 rounded-xl bg-accent text-app-0"
+            onClick={onBegin}
+          >
+            Begin Level 1
+          </button>
+          <button
+            data-testid="intro-skip"
+            className="px-3 py-2 rounded-xl bg-app-2 text-ink-primary"
+            onClick={onBegin}
+          >
+            Skip Tutorial
+          </button>
+        </div>
       </div>
     </div>
   );

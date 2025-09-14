@@ -24,13 +24,17 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:5173/?seed=cq-e2e-01&testMode=1',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
 
     /* Ignore webpack dev server overlay */
     ignoreHTTPSErrors: true,
+
+    /* Force stable viewport and color scheme for deterministic tests */
+    viewport: { width: 1280, height: 800 },
+    colorScheme: 'dark',
   },
 
   /* Configure projects for major browsers */
@@ -75,8 +79,8 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: 'yarn build && yarn preview',
-        url: 'http://localhost:5173',
+        command: 'yarn start',
+        url: 'http://localhost:3000',
         reuseExistingServer: !process.env.CI,
         timeout: 300 * 1000, // 5 minutes
       },

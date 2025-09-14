@@ -1,4 +1,5 @@
 import type { GameState } from '../types/game';
+import { getCurrentLevel } from '../game/config';
 
 export default function LevelOneBoard({
   state,
@@ -7,6 +8,14 @@ export default function LevelOneBoard({
   state: GameState;
   onPlace: (i: number) => void;
 }) {
+  const currentLevel = getCurrentLevel(
+    state.progress.population,
+    state.progress.currentCycle,
+  );
+
+  // Use the current level's card count, fallback to recipe tileCount
+  const cardCount = currentLevel?.cardCount ?? state.recipe.tileCount;
+  const layout = currentLevel?.layout;
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Tray: 3 figurines */}
@@ -36,9 +45,19 @@ export default function LevelOneBoard({
         ))}
       </div>
 
-      {/* 5 nest cards row */}
-      <div className="grid grid-cols-5 gap-3">
-        {state.board.outcomes.map((_, i) => {
+      {/* Dynamic nest cards layout */}
+      <div
+        className={`grid gap-3 ${
+          layout?.kind === 'row'
+            ? 'grid-cols-5'
+            : layout?.kind === 'grid'
+              ? `grid-cols-${layout.cols}`
+              : layout?.kind === 'columnsOfRows'
+                ? `grid-cols-${layout.cols}`
+                : 'grid-cols-5'
+        }`}
+      >
+        {state.board.outcomes.slice(0, cardCount).map((_, i) => {
           const s = state.board.revealed[i]; // "hidden"|"revealed"|"shadow"
           const selected = state.board.selected.includes(i);
           const canClick =

@@ -1,0 +1,1843 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "generatedAt": "2025-09-14T16:53:16.038Z",
+    "notes": [
+      "Board cycle is [5,10,15,20,40,80] then resets to 5 at next zoom cycle.",
+      "Population thresholds per step: [1,10,50,100,200,400] (enter when >= threshold).",
+      "Evolution milestones unlock every 10 EP; nodes still cost EP to purchase."
+    ]
+  },
+  "levels": [
+    {
+      "levelIndex": 0,
+      "cycleIndex": 0,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 1,
+      "cycleIndex": 0,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 2,
+      "cycleIndex": 0,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 3,
+      "cycleIndex": 0,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 4,
+      "cycleIndex": 0,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 5,
+      "cycleIndex": 0,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 6,
+      "cycleIndex": 1,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 7,
+      "cycleIndex": 1,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 8,
+      "cycleIndex": 1,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 9,
+      "cycleIndex": 1,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 10,
+      "cycleIndex": 1,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 11,
+      "cycleIndex": 1,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 12,
+      "cycleIndex": 2,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 13,
+      "cycleIndex": 2,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 14,
+      "cycleIndex": 2,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 15,
+      "cycleIndex": 2,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 16,
+      "cycleIndex": 2,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 17,
+      "cycleIndex": 2,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 18,
+      "cycleIndex": 3,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 19,
+      "cycleIndex": 3,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 20,
+      "cycleIndex": 3,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 21,
+      "cycleIndex": 3,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 22,
+      "cycleIndex": 3,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 23,
+      "cycleIndex": 3,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 24,
+      "cycleIndex": 4,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 25,
+      "cycleIndex": 4,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 26,
+      "cycleIndex": 4,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 27,
+      "cycleIndex": 4,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 28,
+      "cycleIndex": 4,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 29,
+      "cycleIndex": 4,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 30,
+      "cycleIndex": 5,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 31,
+      "cycleIndex": 5,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 32,
+      "cycleIndex": 5,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 33,
+      "cycleIndex": 5,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 34,
+      "cycleIndex": 5,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 35,
+      "cycleIndex": 5,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 36,
+      "cycleIndex": 6,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 37,
+      "cycleIndex": 6,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 38,
+      "cycleIndex": 6,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 39,
+      "cycleIndex": 6,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 40,
+      "cycleIndex": 6,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 41,
+      "cycleIndex": 6,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 42,
+      "cycleIndex": 7,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 43,
+      "cycleIndex": 7,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 44,
+      "cycleIndex": 7,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 45,
+      "cycleIndex": 7,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 46,
+      "cycleIndex": 7,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 47,
+      "cycleIndex": 7,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 48,
+      "cycleIndex": 8,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 49,
+      "cycleIndex": 8,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 50,
+      "cycleIndex": 8,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 51,
+      "cycleIndex": 8,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 52,
+      "cycleIndex": 8,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 53,
+      "cycleIndex": 8,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 54,
+      "cycleIndex": 9,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 55,
+      "cycleIndex": 9,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 56,
+      "cycleIndex": 9,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 57,
+      "cycleIndex": 9,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 58,
+      "cycleIndex": 9,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 59,
+      "cycleIndex": 9,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 60,
+      "cycleIndex": 10,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 61,
+      "cycleIndex": 10,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 62,
+      "cycleIndex": 10,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 63,
+      "cycleIndex": 10,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 64,
+      "cycleIndex": 10,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 65,
+      "cycleIndex": 10,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 66,
+      "cycleIndex": 11,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 67,
+      "cycleIndex": 11,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 68,
+      "cycleIndex": 11,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 69,
+      "cycleIndex": 11,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 70,
+      "cycleIndex": 11,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 71,
+      "cycleIndex": 11,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 72,
+      "cycleIndex": 12,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 73,
+      "cycleIndex": 12,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 74,
+      "cycleIndex": 12,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 75,
+      "cycleIndex": 12,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 76,
+      "cycleIndex": 12,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 77,
+      "cycleIndex": 12,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 78,
+      "cycleIndex": 13,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 79,
+      "cycleIndex": 13,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 80,
+      "cycleIndex": 13,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 81,
+      "cycleIndex": 13,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 82,
+      "cycleIndex": 13,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 83,
+      "cycleIndex": 13,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 84,
+      "cycleIndex": 14,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 85,
+      "cycleIndex": 14,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 86,
+      "cycleIndex": 14,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 87,
+      "cycleIndex": 14,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 88,
+      "cycleIndex": 14,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 89,
+      "cycleIndex": 14,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 90,
+      "cycleIndex": 15,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 91,
+      "cycleIndex": 15,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 92,
+      "cycleIndex": 15,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 93,
+      "cycleIndex": 15,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 94,
+      "cycleIndex": 15,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 95,
+      "cycleIndex": 15,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 96,
+      "cycleIndex": 16,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 97,
+      "cycleIndex": 16,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 98,
+      "cycleIndex": 16,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 99,
+      "cycleIndex": 16,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 100,
+      "cycleIndex": 16,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 101,
+      "cycleIndex": 16,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 102,
+      "cycleIndex": 17,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 103,
+      "cycleIndex": 17,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 104,
+      "cycleIndex": 17,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 105,
+      "cycleIndex": 17,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 106,
+      "cycleIndex": 17,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 107,
+      "cycleIndex": 17,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 108,
+      "cycleIndex": 18,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 109,
+      "cycleIndex": 18,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 110,
+      "cycleIndex": 18,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 111,
+      "cycleIndex": 18,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 112,
+      "cycleIndex": 18,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 113,
+      "cycleIndex": 18,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    },
+    {
+      "levelIndex": 114,
+      "cycleIndex": 19,
+      "stepIndex": 0,
+      "populationMin": 1,
+      "cardCount": 5,
+      "layout": {
+        "kind": "row",
+        "rows": 1,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "nest"
+    },
+    {
+      "levelIndex": 115,
+      "cycleIndex": 19,
+      "stepIndex": 1,
+      "populationMin": 10,
+      "cardCount": 10,
+      "layout": {
+        "kind": "grid",
+        "rows": 2,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "grove"
+    },
+    {
+      "levelIndex": 116,
+      "cycleIndex": 19,
+      "stepIndex": 2,
+      "populationMin": 50,
+      "cardCount": 15,
+      "layout": {
+        "kind": "grid",
+        "rows": 3,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "glade"
+    },
+    {
+      "levelIndex": 117,
+      "cycleIndex": 19,
+      "stepIndex": 3,
+      "populationMin": 100,
+      "cardCount": 20,
+      "layout": {
+        "kind": "grid",
+        "rows": 4,
+        "cols": 5
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "valley"
+    },
+    {
+      "levelIndex": 118,
+      "cycleIndex": 19,
+      "stepIndex": 4,
+      "populationMin": 200,
+      "cardCount": 40,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 8,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "region"
+    },
+    {
+      "levelIndex": 119,
+      "cycleIndex": 19,
+      "stepIndex": 5,
+      "populationMin": 400,
+      "cardCount": 80,
+      "layout": {
+        "kind": "columnsOfRows",
+        "rows": 16,
+        "cols": 5,
+        "columns": 1
+      },
+      "oddsKey": "fruitConstantL1",
+      "scaleLabel": "province"
+    }
+  ],
+  "oddsTables": {
+    "fruitConstantL1": {
+      "description": "Constant fruit odds for Level 1",
+      "fruitRatio": 0.75,
+      "barrenRatio": 0.25,
+      "predatorRatio": 0
+    }
+  },
+  "evolution": {
+    "milestoneStepEP": 10,
+    "nodes": [
+      {
+        "id": "eggs-1",
+        "name": "Bigger Clutches I",
+        "cost": 15,
+        "tier": 1,
+        "effects": {
+          "eggMultiplier": 1.2
+        },
+        "branch": "social"
+      },
+      {
+        "id": "digestion-1",
+        "name": "Fruit Digestion I",
+        "cost": 20,
+        "tier": 1,
+        "effects": {
+          "extraFoodTiles": 1,
+          "popCapIncrease": 25
+        },
+        "branch": "foraging"
+      },
+      {
+        "id": "claws-1",
+        "name": "Claws I",
+        "cost": 30,
+        "tier": 2,
+        "effects": {
+          "predatorMitigationPct": 30
+        },
+        "branch": "defense"
+      },
+      {
+        "id": "eggs-2",
+        "name": "Bigger Clutches II",
+        "cost": 30,
+        "tier": 2,
+        "prereq": [
+          "eggs-1"
+        ],
+        "effects": {
+          "eggMultiplier": 1.4,
+          "popCapIncrease": 25
+        },
+        "branch": "social"
+      },
+      {
+        "id": "digestion-2",
+        "name": "Fruit Digestion II",
+        "cost": 40,
+        "tier": 3,
+        "prereq": [
+          "digestion-1"
+        ],
+        "effects": {
+          "extraFoodTiles": 2,
+          "popCapIncrease": 50
+        },
+        "branch": "foraging"
+      },
+      {
+        "id": "claws-2",
+        "name": "Claws II",
+        "cost": 50,
+        "tier": 3,
+        "prereq": [
+          "claws-1"
+        ],
+        "effects": {
+          "predatorMitigationPct": 50,
+          "popCapIncrease": 25
+        },
+        "branch": "defense"
+      },
+      {
+        "id": "co-op-1",
+        "name": "Cooperative Nesting",
+        "cost": 35,
+        "tier": 2,
+        "effects": {
+          "groupsIncrease": 1,
+          "popCapIncrease": 25
+        },
+        "branch": "social"
+      },
+      {
+        "id": "arms-1",
+        "name": "Forelimb Buds",
+        "cost": 80,
+        "tier": 4,
+        "prereq": [
+          "claws-1"
+        ],
+        "effects": {
+          "popCapIncrease": 50
+        },
+        "branch": "arms"
+      }
+    ]
+  }
+}

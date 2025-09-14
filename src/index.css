@@ -11,6 +11,28 @@
 /* Page baseline */
 body {
   @apply bg-app-0 text-ink-primary;
+  background-color: #071411; /* Fallback for app-0 */
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    Arial,
+    'Noto Sans',
+    'Liberation Sans',
+    sans-serif;
+}
+
+/* Ensure html element also has dark background */
+html {
+  background-color: #071411;
+}
+
+/* Ensure root element has dark background */
+#root {
+  background-color: #071411;
+  min-height: 100vh;
 }
 
 /* A11y: consistent focus */

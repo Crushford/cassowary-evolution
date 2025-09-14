@@ -74,14 +74,14 @@ export default function EndModal({
         </div>
         <div className="mt-4 flex items-center gap-2 justify-end">
           <button
-            data-testid="btn-admire-board"
+            data-testid="end-round"
             className="px-3 py-2 rounded-xl border border-border/60 text-ink-secondary"
             onClick={onAdmire}
           >
             Admire board
           </button>
           <button
-            data-testid="btn-next-season"
+            data-testid="continue"
             className="px-3 py-2 rounded-xl bg-accent text-app-0"
             onClick={onNext}
           >

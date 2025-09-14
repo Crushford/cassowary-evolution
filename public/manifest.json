@@ -1,11 +1,12 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Cassowary Queen",
+  "name": "Cassowary Queen - Evolution Strategy Game",
+  "description": "Guide cassowary flocks through seasons of survival. Choose nests wisely to avoid predators and find fruit!",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon.png",
+      "sizes": "any",
+      "type": "image/png"
     },
     {
       "src": "logo192.png",
@@ -20,6 +21,7 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#2D5A27",
+  "background_color": "#f0f8f0",
+  "categories": ["games", "entertainment", "strategy"]
 }

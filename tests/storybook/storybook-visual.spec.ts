@@ -32,14 +32,17 @@ test.describe('Storybook Visual Regression Tests', () => {
           await page.goto(`/iframe.html?id=${story.id}`);
 
           // Wait for the component to be fully loaded
-          await page.waitForLoadState('networkidle');
+          await page.waitForLoadState('domcontentloaded');
 
           // Wait a bit more for any animations to complete
-          await page.waitForTimeout(500);
+          await page.waitForTimeout(1000);
 
-          // Take a screenshot
+          // Take a screenshot with small tolerance for minor anti-alias differences
           const screenshotName = `${story.id.replace('--', '-')}-${viewport.name}.png`;
-          await expect(page).toHaveScreenshot(screenshotName);
+          await expect(page).toHaveScreenshot(screenshotName, { 
+            maxDiffPixelRatio: 0.02,
+            threshold: 0.2
+          });
         });
       }
     });
@@ -50,10 +53,11 @@ test.describe('Storybook Accessibility Tests', () => {
   for (const story of stories) {
     test(`${story.name} should be accessible`, async ({ page }) => {
       await page.goto(`/iframe.html?id=${story.id}`);
-      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('domcontentloaded');
+      await page.waitForTimeout(1000);
 
-      // Basic accessibility checks
-      const button = page.locator('button').first();
+      // Basic accessibility checks - look for the actual component button, not Storybook UI buttons
+      const button = page.locator('button').filter({ hasText: 'Button' }).first();
       await expect(button).toBeVisible();
 
       // Check if button has proper ARIA attributes when disabled

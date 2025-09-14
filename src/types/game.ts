@@ -40,6 +40,11 @@ export interface Progress {
   population: number;
   evolutionLevel: number;
   seed: string;
+  // New board growth system
+  currentLevelIndex: number; // Index into the level config array
+  currentCycle: number; // Which zoom cycle we're in
+  evolutionPoints: number; // EP for evolution tree
+  purchasedNodes: string[]; // IDs of purchased evolution nodes
 }
 
 export interface Equipped {
@@ -56,6 +61,12 @@ export interface UIFlags {
   blocking: boolean;
   testMode: boolean;
   fastPeek: boolean;
+  // New UI flags
+  showEvolutionModal: boolean;
+  showBoardGrowthToast: boolean;
+  boardGrowthMessage: string;
+  showEPGainToast: boolean;
+  epGainMessage: string;
 }
 
 export interface GameState {
