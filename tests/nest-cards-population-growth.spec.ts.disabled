@@ -11,9 +11,9 @@ test('Population grows deterministically under fixed seed', async ({ page }) => 
   const begin = page.getByTestId('intro-begin');
   if (await begin.isVisible().catch(() => false)) await begin.click();
 
-  const popEl = page.getByTestId('population');
-  const roundEl = page.getByTestId('round');
-  const yearsEl = page.getByTestId('years');
+  const popEl = page.locator('header').getByTestId('population');
+  const roundEl = page.locator('header').getByTestId('round');
+  const yearsEl = page.locator('header').getByTestId('years');
 
   // Simulate naive player: always click first three hidden cards in index order
   const clickThree = async () => {
@@ -47,5 +47,5 @@ test('Population grows deterministically under fixed seed', async ({ page }) => 
   }
 
   // At least reached end of Level 1 flow
-  expect(await page.getByTestId('round').textContent()).toBe('10');
+  expect(await page.locator('header').getByTestId('round').textContent()).toBe('10');
 });
