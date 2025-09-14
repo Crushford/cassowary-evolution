@@ -2,12 +2,12 @@ import { test, expect } from '@playwright/test';
 
 // List of all stories to test
 const stories = [
-  { id: 'example-button--primary', name: 'Primary Button' },
-  { id: 'example-button--secondary', name: 'Secondary Button' },
-  { id: 'example-button--danger', name: 'Danger Button' },
-  { id: 'example-button--large', name: 'Large Button' },
-  { id: 'example-button--small', name: 'Small Button' },
-  { id: 'example-button--disabled', name: 'Disabled Button' },
+  { id: 'components-button--primary', name: 'Primary Button' },
+  { id: 'components-button--secondary', name: 'Secondary Button' },
+  { id: 'components-button--danger', name: 'Danger Button' },
+  { id: 'components-button--large', name: 'Large Button' },
+  { id: 'components-button--small', name: 'Small Button' },
+  { id: 'components-button--disabled', name: 'Disabled Button' },
 ];
 
 // Viewport configurations for responsive testing

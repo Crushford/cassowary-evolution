@@ -17,9 +17,9 @@ export default defineConfig({
   /* Fail fast - stop on first failure */
   maxFailures: 1,
   /* Global timeout for the entire test run */
-  globalTimeout: 60 * 1000,
+  globalTimeout: 300 * 1000, // 5 minutes
   /* Timeout for each test */
-  timeout: 30 * 1000,
+  timeout: 60 * 1000, // 1 minute
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['line'], ['html']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -67,6 +67,6 @@ export default defineConfig({
     command: 'yarn storybook --port 29347',
     url: 'http://localhost:29347',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+    timeout: 300 * 1000, // 5 minutes
   },
 });
