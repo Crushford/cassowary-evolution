@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "1.0.0",
-    "generatedAt": "2025-09-14T17:16:03.101Z",
+    "generatedAt": "2025-09-14T19:28:39.262Z",
     "notes": [
       "Board cycle is [5,10,15,20,40,80] then resets to 5 at next zoom cycle.",
       "Population thresholds per step: [1,10,50,100,200,400] (enter when >= threshold).",
