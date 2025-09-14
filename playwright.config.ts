@@ -15,8 +15,12 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Fail fast - stop on first failure */
   maxFailures: 1,
+  /* Global timeout for the entire test run */
+  globalTimeout: 60 * 1000,
+  /* Timeout for each test */
+  timeout: 30 * 1000,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['line'], ['html']],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

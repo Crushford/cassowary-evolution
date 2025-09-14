@@ -30,7 +30,7 @@
     "format:check": "prettier --check src/**/*.{ts,tsx,js,jsx,json,css,md}",
     "storybook": "yarn dlx storybook dev -p 6006",
     "build-storybook": "yarn dlx storybook build",
-    "test:e2e": "playwright test",
+    "test:e2e": "playwright test --reporter=line",
     "test:e2e:ui": "playwright test --ui",
     "test:all": "yarn test && yarn test:e2e"
   },
