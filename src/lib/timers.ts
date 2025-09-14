@@ -13,5 +13,5 @@ export const ImmediateTimers: TimerAPI = {
     cb();
     return 0;
   },
-  clear: (_id) => {},
+  clear: () => {},
 };

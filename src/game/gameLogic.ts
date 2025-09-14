@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 // Legacy game logic - not used in new game system
 export const coordToKey = (coord: any): string => `${coord.r},${coord.c}`;
 export const keyToCoord = (key: string): any => {

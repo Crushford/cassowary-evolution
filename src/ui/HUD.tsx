@@ -1,4 +1,3 @@
-import { save, load } from '../lib/save';
 import type { GameState } from '../types/game';
 
 export default function HUD({ state }: { state: GameState }) {

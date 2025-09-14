@@ -10,7 +10,8 @@ export function deriveTraits(equipped: Equipped): Traits {
     get(equipped.scouting),
   ].filter(Boolean) as TraitDef[];
   const eggsDelta = eq.reduce(
-    (a, t) => a + (Number((t.effects as any).eggsPerClutchDelta) || 0),
+    (a, t) =>
+      a + (Number((t.effects as Record<string, unknown>).eggsPerClutchDelta) || 0),
     0,
   );
   return { eggsPerClutch: 3 + eggsDelta };
