@@ -7,23 +7,23 @@ test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/React App/);
 });
 
-test('displays welcome message', async ({ page }) => {
+test('displays game title', async ({ page }) => {
   await page.goto('/');
 
-  // Check for the welcome heading
-  await expect(page.getByRole('heading', { name: 'Welcome to Evolution' })).toBeVisible();
+  // Check for the game heading
+  await expect(page.getByRole('heading', { name: '🦚 Cassowary Queen' })).toBeVisible();
 });
 
-test('displays get started button', async ({ page }) => {
+test('displays game description', async ({ page }) => {
   await page.goto('/');
 
-  // Check for the Get Started button
-  await expect(page.getByRole('button', { name: 'Get Started' })).toBeVisible();
+  // Check for the game description
+  await expect(page.getByText('Choose 3 nests. Flip to see what fate dealt.')).toBeVisible();
 });
 
-test('displays learn more button', async ({ page }) => {
+test('displays game grid', async ({ page }) => {
   await page.goto('/');
 
-  // Check for the Learn More button
-  await expect(page.getByRole('button', { name: 'Learn More' })).toBeVisible();
+  // Check for the game grid
+  await expect(page.getByRole('grid', { name: '3x3 game board' })).toBeVisible();
 });
