@@ -1,5 +1,10 @@
 {
-  "version": 2,
-  "builds": [{ "src": "package.json", "use": "@vercel/static-build" }],
-  "routes": [{ "src": "/(.*)", "dest": "/" }]
+  "headers": [
+    {
+      "source": "/assets/sprites/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
 }

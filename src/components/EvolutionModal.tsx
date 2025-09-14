@@ -1,6 +1,7 @@
 import React from 'react';
 import { loadConfig, getEvolutionNodesForTier } from '../game/config';
 import type { GameState } from '../types/game';
+import { SPRITES } from '../assets/sprites';
 
 interface EvolutionModalProps {
   gameState: GameState;
@@ -72,9 +73,16 @@ export function EvolutionModal({
 
         <div className="mb-4 p-4 bg-gray-50 rounded-lg">
           <div className="flex justify-between items-center">
-            <span className="text-lg font-semibold">
-              Evolution Points: {gameState.progress.evolutionPoints}
-            </span>
+            <div className="flex items-center gap-2">
+              <img
+                src={SPRITES.epDNA}
+                alt="Evolution points"
+                className="pixelated sprite-32"
+              />
+              <span className="text-lg font-semibold">
+                Evolution Points: {gameState.progress.evolutionPoints}
+              </span>
+            </div>
             <span className="text-sm text-gray-600">
               Tier {currentTier} (Next milestone at{' '}
               {(currentTier + 1) * config.evolution.milestoneStepEP} EP)

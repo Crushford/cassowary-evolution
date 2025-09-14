@@ -1,4 +1,5 @@
 import type { GameState } from '../types/game';
+import { SPRITES } from '../assets/sprites';
 
 interface HUDProps {
   state: GameState;
@@ -58,8 +59,12 @@ export default function HUD({ state, onShowEvolution }: HUDProps) {
             </span>
           </span>
           <span className="flex items-center gap-1">
-            <span>🧬</span>
-            <span>
+            <img
+              src={SPRITES.epDNA}
+              alt="Evolution points"
+              className="pixelated inline-block sprite-32 align-middle"
+            />
+            <span className="ml-2 align-middle">
               EP <b data-testid="ep-balance">{state.progress.evolutionPoints}</b>
             </span>
           </span>

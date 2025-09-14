@@ -1,5 +1,6 @@
 import type { GameState } from '../types/game';
 import { getCurrentLevel } from '../game/config';
+import { SPRITES } from '../assets/sprites';
 
 export default function LevelOneBoard({
   state,
@@ -29,15 +30,27 @@ export default function LevelOneBoard({
             }`}
           >
             {state.board.selected[i] != null ? (
-              <span className="text-lg">
-                {state.board.outcomes[state.board.selected[i]] === 'fruit'
-                  ? '🍎'
-                  : state.board.outcomes[state.board.selected[i]] === 'barren'
-                    ? '🏜️'
-                    : state.board.outcomes[state.board.selected[i]] === 'predator'
-                      ? '🦅'
-                      : '❓'}
-              </span>
+              <img
+                src={
+                  state.board.outcomes[state.board.selected[i]] === 'fruit'
+                    ? SPRITES.fruitQuandong
+                    : state.board.outcomes[state.board.selected[i]] === 'barren'
+                      ? SPRITES.jungle
+                      : state.board.outcomes[state.board.selected[i]] === 'predator'
+                        ? SPRITES.predator
+                        : SPRITES.eggBlue
+                }
+                alt={
+                  state.board.outcomes[state.board.selected[i]] === 'fruit'
+                    ? 'Quandong fruit'
+                    : state.board.outcomes[state.board.selected[i]] === 'barren'
+                      ? 'Jungle tile'
+                      : state.board.outcomes[state.board.selected[i]] === 'predator'
+                        ? 'Predator'
+                        : 'Unknown'
+                }
+                className="pixelated sprite-32"
+              />
             ) : (
               <span className="text-sm opacity-50">?</span>
             )}
@@ -82,10 +95,19 @@ export default function LevelOneBoard({
                 className={`absolute inset-0 grid place-items-center ${
                   s === 'hidden' ? 'opacity-100' : 'opacity-0'
                 } transition-opacity duration-[var(--t-xs)]`}
+                style={{
+                  backgroundImage: `url('${SPRITES.jungle}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
               >
-                <div className="text-center">
-                  <div className="text-2xl mb-1">🪺</div>
-                  <div className="text-sm">Nest</div>
+                <div className="text-center bg-black/20 rounded-lg p-2">
+                  <img
+                    src={SPRITES.queen}
+                    alt="Cassowary Queen"
+                    className="pixelated sprite-48 mx-auto mb-1"
+                  />
+                  <div className="text-sm font-medium text-white drop-shadow">Nest</div>
                 </div>
               </div>
               {/* front (revealed/shadow) */}
@@ -93,18 +115,35 @@ export default function LevelOneBoard({
                 className={`absolute inset-0 grid place-items-center ${
                   s !== 'hidden' ? 'opacity-100' : 'opacity-0'
                 } transition-opacity duration-[var(--t-xs)] ${s === 'shadow' ? 'brightness-75 opacity-80' : ''}`}
+                style={{
+                  backgroundImage: `url('${SPRITES.jungle}')`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
               >
-                <div className="text-center">
-                  <div className="text-3xl mb-1">
-                    {state.board.outcomes[i] === 'fruit'
-                      ? '🍎'
-                      : state.board.outcomes[i] === 'barren'
-                        ? '🏜️'
-                        : state.board.outcomes[i] === 'predator'
-                          ? '🦅'
-                          : '❓'}
-                  </div>
-                  <div className="text-sm font-medium">
+                <div className="text-center bg-black/20 rounded-lg p-2">
+                  <img
+                    src={
+                      state.board.outcomes[i] === 'fruit'
+                        ? SPRITES.fruitQuandong
+                        : state.board.outcomes[i] === 'barren'
+                          ? SPRITES.jungle
+                          : state.board.outcomes[i] === 'predator'
+                            ? SPRITES.predator
+                            : SPRITES.eggBlue
+                    }
+                    alt={
+                      state.board.outcomes[i] === 'fruit'
+                        ? 'Quandong fruit (food)'
+                        : state.board.outcomes[i] === 'barren'
+                          ? 'Jungle tile (barren)'
+                          : state.board.outcomes[i] === 'predator'
+                            ? 'Predator: Thylacoleo'
+                            : 'Unknown'
+                    }
+                    className="pixelated sprite-48 mx-auto mb-1"
+                  />
+                  <div className="text-sm font-medium text-white drop-shadow">
                     {state.board.outcomes[i] === 'fruit'
                       ? 'Fruit'
                       : state.board.outcomes[i] === 'barren'

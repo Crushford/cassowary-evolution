@@ -8,12 +8,14 @@ import LevelOneBoard from './ui/LevelOneBoard';
 import HUD from './ui/HUD';
 import { EvolutionModal } from './components/EvolutionModal';
 import { Toast } from './components/Toast';
+import { SpriteShowcase } from './components/SpriteShowcase';
 
 export default function App() {
   const params = new URLSearchParams(location.search);
   const seed = params.get('seed') ?? undefined;
   const testMode = params.get('testMode') === '1';
   const fastPeek = params.get('fastPeek') === '1';
+  const showSprites = params.get('sprites') === '1';
 
   const [state, dispatch] = useReducer(reducer, undefined!, () =>
     initState(seed, testMode, fastPeek),
@@ -40,6 +42,11 @@ export default function App() {
       timers.clear(t2);
     };
   }, [state.board.selected.length, state.recipe.picksPerRound, state.ui.fastPeek]);
+
+  // Show sprite showcase if requested
+  if (showSprites) {
+    return <SpriteShowcase />;
+  }
 
   return (
     <div className="min-h-screen bg-app-0 text-ink-primary">
