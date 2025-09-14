@@ -22,4 +22,8 @@ yarn test
 echo "🏗️ Checking build..."
 yarn build
 
+# Update visual snapshots and add to staging
+echo "📸 Updating visual snapshots..."
+./scripts/update-snapshots.sh
+
 echo "✅ All pre-commit checks passed!"

@@ -20,49 +20,49 @@ const TileButton: React.FC<{
   onClick: () => void;
 }> = ({ tileType, isSelected, isRevealed, isHinted, isQueen, onClick }) => {
   const baseClasses =
-    'w-12 h-12 border-2 border-gray-600 flex items-center justify-center text-sm font-bold transition-all duration-200 hover:scale-105 cursor-pointer';
+    'w-12 h-12 border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 hover:scale-105 cursor-pointer';
 
-  let bgColor = 'bg-gray-200';
-  let borderColor = 'border-gray-600';
-  let textColor = 'text-gray-700';
+  let bgColor = 'bg-app-1';
+  let borderColor = 'border-border';
+  let textColor = 'text-ink-primary';
 
   if (isQueen) {
-    bgColor = 'bg-purple-300';
-    textColor = 'text-purple-900';
-    borderColor = 'border-purple-600';
+    bgColor = 'bg-accent/20';
+    textColor = 'text-accent';
+    borderColor = 'border-accent';
   } else if (isSelected) {
-    bgColor = 'bg-yellow-300';
-    borderColor = 'border-yellow-600';
-    textColor = 'text-yellow-900';
+    bgColor = 'bg-accent/15';
+    borderColor = 'border-accent';
+    textColor = 'text-ink-primary';
   } else if (isRevealed) {
     switch (tileType) {
       case 'food':
-        bgColor = 'bg-green-400';
-        borderColor = 'border-green-600';
-        textColor = 'text-green-900';
+        bgColor = 'bg-success/20';
+        borderColor = 'border-success';
+        textColor = 'text-success';
         break;
       case 'barren':
-        bgColor = 'bg-gray-400';
-        borderColor = 'border-gray-600';
-        textColor = 'text-gray-700';
+        bgColor = 'bg-app-2';
+        borderColor = 'border-border';
+        textColor = 'text-ink-secondary';
         break;
       case 'predator':
-        bgColor = 'bg-red-400';
-        borderColor = 'border-red-600';
-        textColor = 'text-red-900';
+        bgColor = 'bg-danger/20';
+        borderColor = 'border-danger';
+        textColor = 'text-danger';
         break;
     }
   } else if (isHinted) {
-    bgColor = 'bg-blue-200';
-    borderColor = 'border-blue-400';
-    textColor = 'text-blue-800';
+    bgColor = 'bg-app-2';
+    borderColor = 'border-border/80';
+    textColor = 'text-ink-secondary';
   }
 
   return (
     <button
       className={`${baseClasses} ${bgColor} ${borderColor} ${textColor} ${
-        isSelected ? 'ring-2 ring-yellow-500' : ''
-      } ${isHinted ? 'ring-1 ring-blue-400' : ''}`}
+        isSelected ? 'ring-2 ring-ring' : ''
+      } ${isHinted ? 'ring-1 ring-ring/60' : ''}`}
       onClick={onClick}
       disabled={isQueen}
       title={
@@ -106,8 +106,8 @@ export const GameGrid: React.FC<GameGridProps> = ({
   const isHinted = (coord: Coord) => hintedTiles.has(coordToKey(coord));
 
   return (
-    <div className="bg-amber-50 p-6 rounded-lg shadow-lg">
-      <h2 className="text-xl font-bold text-amber-900 mb-4 text-center">
+    <div className="app-surface p-6 rounded-lg">
+      <h2 className="text-xl font-bold text-ink-primary mb-4 text-center">
         Cassowary Territory
       </h2>
       <div className="grid grid-cols-9 gap-1 mx-auto w-fit">
@@ -132,7 +132,7 @@ export const GameGrid: React.FC<GameGridProps> = ({
           })
         )}
       </div>
-      <div className="mt-4 text-sm text-amber-800 text-center">
+      <div className="mt-4 text-sm text-ink-secondary text-center">
         <p>
           Select {3 - selectedTiles.length} more tile
           {3 - selectedTiles.length !== 1 ? 's' : ''} to place your partners

@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* Page baseline */
+body {
+  @apply bg-app-0 text-ink-primary;
+}
+
+/* A11y: consistent focus */
+:focus-visible {
+  outline: none;
+  @apply ring-2 ring-offset-2 ring-ring ring-offset-app-0;
+}
+
+/* Reusable surface helpers */
+.app-surface {
+  @apply bg-app-1 shadow-soft border border-border/60;
+}
+.app-surface-2 {
+  @apply bg-app-2 shadow-soft border border-border/60;
+}
+
+/* Text helpers (use sparingly; prefer semantic component styles) */
+.text-primary {
+  @apply text-ink-primary;
+}
+.text-secondary {
+  @apply text-ink-secondary;
+}
+.text-muted {
+  @apply text-ink-muted;
+}

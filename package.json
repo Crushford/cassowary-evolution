@@ -14,6 +14,7 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-scripts": "5.0.1",
+    "seedrandom": "^3.0.5",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
@@ -39,7 +40,8 @@
     "test:all:visual": "yarn test && yarn test:e2e && yarn test:visual",
     "chromatic": "chromatic --exit-zero-on-changes",
     "chromatic:ci": "chromatic --exit-zero-on-changes --auto-accept-changes",
-    "setup:testing": "./scripts/setup-testing.sh"
+    "setup:testing": "./scripts/setup-testing.sh",
+    "update:snapshots": "./scripts/update-snapshots.sh"
   },
   "browserslist": {
     "production": [
@@ -73,6 +75,7 @@
     "@storybook/react": "^8.6.14",
     "@storybook/react-vite": "^9.1.5",
     "@storybook/test-runner": "^0.23.0",
+    "@types/seedrandom": "^3",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10.4.21",

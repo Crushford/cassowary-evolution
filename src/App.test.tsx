@@ -8,8 +8,8 @@ test('renders cassowary queen title', () => {
   expect(titleElement).toHaveTextContent(/Cassowary Queen/i);
 });
 
-test('renders help button', () => {
+test('renders how to play button', () => {
   render(<App />);
-  const buttonElement = screen.getByRole('button', { name: /Help/i });
+  const buttonElement = screen.getByRole('button', { name: /How to Play/i });
   expect(buttonElement).toBeInTheDocument();
 });

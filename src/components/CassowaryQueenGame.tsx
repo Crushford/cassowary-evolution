@@ -66,23 +66,59 @@ export const CassowaryQueenGame: React.FC = () => {
   );
 
   const handleLayEggs = useCallback(() => {
-    if (gameState.selectedTiles.length !== 3) return;
+    console.log(
+      '🥚 handleLayEggs called with selectedTiles:',
+      gameState.selectedTiles
+    );
+
+    if (gameState.selectedTiles.length !== 3) {
+      console.log(
+        '❌ Cannot lay eggs: need exactly 3 tiles, have',
+        gameState.selectedTiles.length
+      );
+      return;
+    }
+
+    console.log('🎯 Current game state before resolution:', {
+      era: gameState.era.name,
+      playerChips: gameState.player.chips,
+      selectedTiles: gameState.selectedTiles,
+      roundComplete: gameState.roundComplete,
+    });
 
     const outcome = resolveRound(gameState.selectedTiles, gameState);
+    console.log('📊 Round outcome:', outcome);
     setRoundOutcome(outcome);
 
-    setGameState(prev => ({
-      ...prev,
-      player: {
-        ...prev.player,
-        chips: prev.player.chips + outcome.chipsDelta,
-      },
-      board: {
-        ...prev.board,
-        revealed: new Set(gameState.selectedTiles.map(coordToKey)),
-      },
-      roundComplete: true,
-    }));
+    const newChips = gameState.player.chips + outcome.chipsDelta;
+    console.log('💰 Chip calculation:', {
+      oldChips: gameState.player.chips,
+      delta: outcome.chipsDelta,
+      newChips,
+    });
+
+    setGameState(prev => {
+      const newState = {
+        ...prev,
+        player: {
+          ...prev.player,
+          chips: newChips,
+        },
+        board: {
+          ...prev.board,
+          revealed: new Set(gameState.selectedTiles.map(coordToKey)),
+        },
+        roundComplete: true,
+      };
+
+      console.log('🔄 Game state updated:', {
+        newChips: newState.player.chips,
+        revealedTiles: Array.from(newState.board.revealed),
+        roundComplete: newState.roundComplete,
+      });
+
+      return newState;
+    });
 
     // Check for rare offer
     if (maybeRollRareOffer()) {
@@ -90,25 +126,57 @@ export const CassowaryQueenGame: React.FC = () => {
         RARE_OFFERS[Math.floor(Math.random() * RARE_OFFERS.length)];
       setCurrentRareOffer(randomOffer);
       setShowRareOffer(true);
+      console.log('🎁 Rare offer rolled:', randomOffer);
     }
   }, [gameState]);
 
   const handleContinue = useCallback(() => {
+    console.log('➡️ handleContinue called');
+    console.log('🎯 Current state before continue:', {
+      era: gameState.era.name,
+      playerChips: gameState.player.chips,
+      roundComplete: gameState.roundComplete,
+      revealedTiles: Array.from(gameState.board.revealed),
+    });
+
     // Generate new board for next round
     const newBoard = generateBoard(gameState.era);
+    console.log('🆕 New board generated:', {
+      totalTiles: Object.keys(newBoard.tiles).length,
+      revealed: newBoard.revealed.size,
+      revealedHints: newBoard.revealedHints.size,
+    });
 
-    setGameState(prev => ({
-      ...prev,
-      board: newBoard,
-      selectedTiles: [],
-      roundComplete: false,
-    }));
+    setGameState(prev => {
+      const newState = {
+        ...prev,
+        board: newBoard,
+        selectedTiles: [],
+        roundComplete: false,
+      };
+
+      console.log('🔄 Game state updated for new round:', {
+        newRevealedTiles: Array.from(newState.board.revealed),
+        selectedTiles: newState.selectedTiles,
+        roundComplete: newState.roundComplete,
+      });
+
+      return newState;
+    });
 
     setRoundOutcome(undefined);
 
     // Check for prestige
     if (canPrestige(gameState)) {
+      console.log('✨ Prestige available!');
       setShowPrestigeModal(true);
+    } else {
+      console.log(
+        '❌ Prestige not available. Need',
+        gameState.era.cap,
+        'chips, have',
+        gameState.player.chips
+      );
     }
   }, [gameState]);
 
@@ -163,19 +231,19 @@ export const CassowaryQueenGame: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 p-4">
+    <div className="min-h-screen bg-app-0 p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold text-amber-900 mb-2">
+          <h1 className="text-4xl font-bold text-ink-primary mb-2">
             🦚 Cassowary Queen
           </h1>
-          <p className="text-lg text-amber-700">
+          <p className="text-lg text-ink-secondary">
             Lead your cassowary dynasty through the ages of evolution
           </p>
           <button
             onClick={() => setShowInstructions(true)}
-            className="mt-2 text-sm text-amber-600 hover:text-amber-800 underline"
+            className="mt-2 text-sm text-accent hover:text-accent-600 underline"
           >
             📖 How to Play
           </button>

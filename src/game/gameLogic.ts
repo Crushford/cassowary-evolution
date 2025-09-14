@@ -42,8 +42,20 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 
 // Board generation
 export const generateBoard = (era: EraRecipe): BoardState => {
+  console.log('🏗️ Generating new board for era:', era.name, {
+    predatorCount: era.predatorCount,
+    barrenCount: era.barrenCount,
+    foodCount: 80 - era.predatorCount - era.barrenCount,
+  });
+
   const allCoords = getAllCoordsExceptCenter();
+  console.log(
+    '📍 Total coordinates available (excluding center):',
+    allCoords.length
+  );
+
   const shuffled = shuffleArray(allCoords);
+  console.log('🔀 Shuffled coordinates:', shuffled.slice(0, 5), '...');
 
   const predatorCoords = shuffled.slice(0, era.predatorCount);
   const barrenCoords = shuffled.slice(
@@ -51,6 +63,13 @@ export const generateBoard = (era: EraRecipe): BoardState => {
     era.predatorCount + era.barrenCount
   );
   const foodCoords = shuffled.slice(era.predatorCount + era.barrenCount);
+
+  console.log('🎯 Tile distribution:', {
+    predators: predatorCoords.length,
+    barren: barrenCoords.length,
+    food: foodCoords.length,
+    total: predatorCoords.length + barrenCoords.length + foodCoords.length,
+  });
 
   const tiles: Record<string, TileType> = {};
 
@@ -67,13 +86,20 @@ export const generateBoard = (era: EraRecipe): BoardState => {
     tiles[coordToKey(coord)] = 'food';
   });
 
-  return {
-    size: 9,
+  const board = {
+    size: 9 as const,
     queen: { r: 4, c: 4 },
     tiles,
-    revealed: new Set(),
-    revealedHints: new Set(),
+    revealed: new Set<string>(),
+    revealedHints: new Set<string>(),
   };
+
+  console.log('✅ Board generated successfully:', {
+    totalTiles: Object.keys(tiles).length,
+    sampleTiles: Object.entries(tiles).slice(0, 10),
+  });
+
+  return board;
 };
 
 // Round resolution
@@ -81,6 +107,16 @@ export const resolveRound = (
   selections: Coord[],
   gameState: GameState
 ): RoundOutcome => {
+  console.log('🎯 resolveRound called with:', {
+    selections,
+    gameState: {
+      era: gameState.era.name,
+      playerChips: gameState.player.chips,
+      roundComplete: gameState.roundComplete,
+      selectedTilesCount: gameState.selectedTiles.length,
+    },
+  });
+
   let chips = 0;
   const flips: RoundOutcome['flips'] = [];
   let predatorNegated = false;
@@ -88,6 +124,12 @@ export const resolveRound = (
   for (const coord of selections) {
     const tileKey = coordToKey(coord);
     const tileType = gameState.board.tiles[tileKey];
+
+    console.log(`🔍 Processing tile at ${tileKey}:`, {
+      coord,
+      tileType,
+      tileExists: tileType !== undefined,
+    });
 
     if (tileType === 'food') {
       const multiplier = 1 + 0.5 * gameState.player.upgrades.eggCapacityTier;
@@ -99,6 +141,7 @@ export const resolveRound = (
         payout,
         survived: true,
       });
+      console.log(`🍎 Food tile found: +${payout} chips`);
     } else if (tileType === 'barren') {
       flips.push({
         coord,
@@ -106,17 +149,21 @@ export const resolveRound = (
         payout: 0,
         survived: true,
       });
-    } else {
-      // predator
+      console.log('🌱 Barren tile found: no chips');
+    } else if (tileType === 'predator') {
       let survived = false;
 
       // Check nest defense (first predator hit negated)
       if (!predatorNegated && gameState.player.upgrades.nestDefense) {
         predatorNegated = true;
         survived = true;
+        console.log('🛡️ Nest defense activated - predator negated');
       } else if (gameState.player.traits.claws) {
         // 50% chance to survive with claws
         survived = Math.random() < 0.5;
+        console.log(`🦅 Claws trait: ${survived ? 'survived' : 'died'}`);
+      } else {
+        console.log('🦅 Predator attack - no defense');
       }
 
       flips.push({
@@ -125,14 +172,19 @@ export const resolveRound = (
         payout: 0,
         survived,
       });
+    } else {
+      console.error('❌ Unknown tile type:', tileType, 'at', tileKey);
     }
   }
 
-  return {
+  const result = {
     selections,
     flips,
     chipsDelta: chips,
   };
+
+  console.log('📊 Round resolution complete:', result);
+  return result;
 };
 
 // Initial game state

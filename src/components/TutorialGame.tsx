@@ -41,7 +41,7 @@ export const TutorialGame: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100">
+    <div className="min-h-screen bg-app-0">
       {/* Top Bar */}
       <TutorialTopBar
         chips={chips}
@@ -55,10 +55,10 @@ export const TutorialGame: React.FC = () => {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-amber-900 mb-2">
+          <h1 className="text-4xl font-bold text-ink-primary mb-2">
             🦚 Cassowary Queen
           </h1>
-          <p className="text-lg text-amber-700">
+          <p className="text-lg text-ink-secondary">
             Choose 3 nests. Flip to see what fate dealt.
           </p>
         </div>
@@ -73,7 +73,7 @@ export const TutorialGame: React.FC = () => {
 
         {/* Footer Hint */}
         <div className="text-center mt-8">
-          <p className="text-sm text-amber-600 italic">
+          <p className="text-sm text-ink-muted italic">
             Pick 3 nests. Flip to see what fate dealt.
           </p>
         </div>
@@ -91,23 +91,21 @@ export const TutorialGame: React.FC = () => {
       {/* Instructions Modal */}
       {showInstructions && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 p-6">
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <div className="app-surface-2 rounded-2xl shadow-soft max-w-lg w-full mx-4 p-6">
+            <h3 className="text-xl font-bold text-ink-primary mb-4">
               How to Play - Tutorial Round
             </h3>
 
-            <div className="space-y-4 text-gray-700">
+            <div className="space-y-4 text-ink-secondary">
               <div>
-                <h4 className="font-semibold text-amber-800 mb-2">
-                  Objective:
-                </h4>
+                <h4 className="font-semibold text-accent mb-2">Objective:</h4>
                 <p>
                   Select 3 nests around the Queen for your partners to explore.
                 </p>
               </div>
 
               <div>
-                <h4 className="font-semibold text-amber-800 mb-2">Gameplay:</h4>
+                <h4 className="font-semibold text-accent mb-2">Gameplay:</h4>
                 <ul className="list-disc list-inside space-y-1">
                   <li>Click tiles to select them (up to 3)</li>
                   <li>Click selected tiles to deselect them</li>
@@ -118,7 +116,7 @@ export const TutorialGame: React.FC = () => {
               </div>
 
               <div>
-                <h4 className="font-semibold text-amber-800 mb-2">Results:</h4>
+                <h4 className="font-semibold text-accent mb-2">Results:</h4>
                 <ul className="list-disc list-inside space-y-1">
                   <li>
                     🍎 <strong>Fruit:</strong> +10 chips
@@ -136,7 +134,7 @@ export const TutorialGame: React.FC = () => {
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setShowInstructions(false)}
-                className="px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-colors duration-200"
+                className="px-6 py-2 bg-accent hover:bg-accent-600 active:bg-accent-700 text-app-0 font-semibold rounded-lg transition-colors duration-200"
               >
                 Got it!
               </button>
