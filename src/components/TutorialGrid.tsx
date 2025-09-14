@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Coord, TileType } from '../types/game';
+// Legacy types for old game system
+interface Coord {
+  r: number;
+  c: number;
+}
+
+type TileType = 'food' | 'barren' | 'predator';
 
 interface TutorialGridProps {
   onRoundComplete: (outcome: TutorialRoundOutcome) => void;

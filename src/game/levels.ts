@@ -1,4 +1,4 @@
-import type { LevelRecipe } from '../types/nestCards';
+import type { LevelRecipe } from '../types/game';
 
 export const LEVELS: Record<number, LevelRecipe> = {
   1: {
@@ -19,12 +19,4 @@ export const LEVELS: Record<number, LevelRecipe> = {
     composition: { fruit: 2, barren: 2, predator: 1 },
     yearsPerRound: 100_000,
   },
-};
-
-export const getLevel = (levelId: number): LevelRecipe => {
-  const level = LEVELS[levelId];
-  if (!level) {
-    throw new Error(`Level ${levelId} not found`);
-  }
-  return level;
 };

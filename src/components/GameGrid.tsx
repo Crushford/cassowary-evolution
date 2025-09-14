@@ -1,5 +1,19 @@
 import React from 'react';
-import { Coord, TileType, BoardState } from '../types/game';
+// Legacy types for old game system
+interface Coord {
+  r: number;
+  c: number;
+}
+
+type TileType = 'food' | 'barren' | 'predator';
+
+interface BoardState {
+  size: 9;
+  queen: Coord;
+  tiles: Record<string, TileType>;
+  revealed: Set<string>;
+  revealedHints: Set<string>;
+}
 import { coordToKey } from '../game/gameLogic';
 
 interface GameGridProps {

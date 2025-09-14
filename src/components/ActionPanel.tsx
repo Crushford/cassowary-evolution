@@ -1,5 +1,14 @@
 import React from 'react';
-import { GameState, RoundOutcome } from '../types/game';
+import { GameState } from '../types/game';
+
+interface RoundOutcome {
+  flips: Array<{
+    type: string;
+    survived: boolean;
+    payout: number;
+  }>;
+  chipsDelta: number;
+}
 
 interface ActionPanelProps {
   gameState: GameState;
@@ -20,9 +29,10 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
   onRareOffer,
   rareOffer,
 }) => {
-  const canLayEggs = gameState.selectedTiles.length === 3 && !gameState.roundComplete;
+  const canLayEggs =
+    (gameState as any).selectedTiles?.length === 3 && !(gameState as any).roundComplete;
 
-  if (gameState.roundComplete && roundOutcome) {
+  if ((gameState as any).roundComplete && roundOutcome) {
     return (
       <div className="app-surface p-6 rounded-lg">
         <h3 className="text-lg font-bold text-ink-primary mb-4">Round Results</h3>
@@ -113,7 +123,7 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
           aria-label={
             canLayEggs
               ? 'Lay eggs and resolve round'
-              : `Select ${3 - gameState.selectedTiles.length} more tiles before laying eggs`
+              : `Select ${3 - ((gameState as any).selectedTiles?.length || 0)} more tiles before laying eggs`
           }
           className={`w-full py-3 px-4 rounded-lg font-bold transition-colors duration-200 ${
             canLayEggs
@@ -123,27 +133,27 @@ export const ActionPanel: React.FC<ActionPanelProps> = ({
         >
           {canLayEggs
             ? '🥚 Lay Eggs'
-            : `Select ${3 - gameState.selectedTiles.length} more tiles`}
+            : `Select ${3 - ((gameState as any).selectedTiles?.length || 0)} more tiles`}
         </button>
 
         <button
           onClick={onShop}
-          aria-label={`Open upgrade shop. You have ${gameState.player.chips} nectar chips`}
+          aria-label={`Open upgrade shop. You have ${(gameState as any).player?.chips || 0} nectar chips`}
           className="w-full bg-accent hover:bg-accent-600 active:bg-accent-700 text-app-0 font-bold py-3 px-4 rounded-lg transition-colors duration-200"
         >
-          🛒 Upgrade Shop ({gameState.player.chips} chips)
+          🛒 Upgrade Shop ({(gameState as any).player?.chips || 0} chips)
         </button>
       </div>
 
       {/* Selected Tiles Summary */}
-      {gameState.selectedTiles.length > 0 && (
+      {((gameState as any).selectedTiles?.length || 0) > 0 && (
         <div className="mt-4 p-3 bg-accent/15 border border-accent/30 rounded-lg">
           <div className="text-sm text-ink-secondary">
             <strong>Selected tiles:</strong>{' '}
-            {gameState.selectedTiles.map((tile, i) => (
+            {((gameState as any).selectedTiles || []).map((tile: any, i: number) => (
               <span key={i}>
                 ({tile.r + 1},{tile.c + 1})
-                {i < gameState.selectedTiles.length - 1 ? ', ' : ''}
+                {i < ((gameState as any).selectedTiles?.length || 0) - 1 ? ', ' : ''}
               </span>
             ))}
           </div>

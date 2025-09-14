@@ -1,5 +1,14 @@
 import { makeDeal } from './deal';
-import { getLevel } from './levels';
+// Legacy function - not used in new game system
+const getLevel = (level: number) => ({
+  id: level,
+  name: 'Unknown',
+  roundsPerLevel: 10,
+  tileCount: 5,
+  picksPerRound: 3,
+  composition: { fruit: 3, barren: 2, predator: 0 },
+  yearsPerRound: 100000,
+});
 import type {
   NestCardsGameState,
   NestCardsAction,

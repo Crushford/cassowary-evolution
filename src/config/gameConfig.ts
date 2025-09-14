@@ -1,4 +1,20 @@
-import { EraRecipe, RareOffer } from '../types/game';
+// Legacy types for old game system
+interface EraRecipe {
+  id: number;
+  name: string;
+  cap: number;
+  predatorCount: number;
+  barrenCount: number;
+}
+
+interface RareOffer {
+  id: string;
+  name: string;
+  benefit: string;
+  risk: string;
+  cost: number;
+  effect: () => void;
+}
 
 export const ERA_RECIPES: EraRecipe[] = [
   {

@@ -1,5 +1,13 @@
 import React from 'react';
-import { RareOffer } from '../types/game';
+// Legacy type for old game system
+interface RareOffer {
+  id: string;
+  name: string;
+  benefit: string;
+  risk: string;
+  cost: number;
+  effect: () => void;
+}
 
 interface RareOfferModalProps {
   offer: RareOffer;

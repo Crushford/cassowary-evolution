@@ -19,9 +19,11 @@ export const PrestigeModal: React.FC<PrestigeModalProps> = ({
   onPrestige,
   onClose,
 }) => {
-  const nextEraIndex = gameState.era.id + 1;
+  const legacyGameState = gameState as any;
+  const nextEraIndex = (legacyGameState.era?.id || 0) + 1;
   const nextEra = nextEraIndex < 4 ? `Era ${nextEraIndex + 1}` : 'The End';
-  const flavorText = ERA_FLAVOR_TEXT[gameState.era.id] || 'The cycle continues...';
+  const flavorText =
+    ERA_FLAVOR_TEXT[legacyGameState.era?.id || 0] || 'The cycle continues...';
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -47,14 +49,14 @@ export const PrestigeModal: React.FC<PrestigeModalProps> = ({
               What happens when you prestige:
             </h4>
             <ul className="text-ink-secondary space-y-1 text-sm">
-              <li>• Spend all {gameState.player.chips} nectar-chips</li>
+              <li>• Spend all {legacyGameState.player?.chips || 0} nectar-chips</li>
               <li>• Advance to the next era with harsher conditions</li>
               <li>
                 • Keep your permanent traits:{' '}
                 {[
-                  gameState.player.traits.claws && 'Claws',
-                  gameState.player.traits.arms && 'Arms',
-                  gameState.player.traits.brain && 'Brain',
+                  legacyGameState.player?.traits?.claws && 'Claws',
+                  legacyGameState.player?.traits?.arms && 'Arms',
+                  legacyGameState.player?.traits?.brain && 'Brain',
                 ]
                   .filter(Boolean)
                   .join(', ') || 'None yet'}
@@ -84,7 +86,7 @@ export const PrestigeModal: React.FC<PrestigeModalProps> = ({
               onClick={onClose}
               className="flex-1 bg-app-2 text-ink-muted border border-border/60 font-bold py-3 px-6 rounded-lg transition-colors duration-200"
             >
-              Stay in {gameState.era.name}
+              Stay in {legacyGameState.era?.name || 'Unknown'}
             </button>
           </div>
         </div>

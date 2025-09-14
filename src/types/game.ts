@@ -1,75 +1,68 @@
-export type Coord = { r: number; c: number }; // 0..8
-export type TileType = 'food' | 'barren' | 'predator';
+export type Outcome = 'fruit' | 'barren' | 'predator';
+export type Slot = 'survival' | 'reproduction' | 'scouting';
 
-export interface EraRecipe {
-  id: number;
-  name: string;
-  cap: number;
-  predatorCount: number;
-  barrenCount: number;
-  // derived: foodCount = 80 - pred - barren
+export interface Traits {
+  eggsPerClutch: number;
 }
 
-export interface BoardState {
-  size: 9;
-  queen: Coord; // {r:4,c:4}
-  tiles: Record<string, TileType>; // key = `${r},${c}` for all non-queen coords
-  revealed: Set<string>; // tiles flipped this round
-  revealedHints: Set<string>; // tiles hinted safe (scout/raven)
-}
-
-export interface PlayerState {
-  chips: number;
-  partners: number; // starts 3, max 5
-  traits: {
-    claws: boolean;
-    arms: boolean; // prestige 2+
-    brain: boolean; // prestige 3+
-  };
-  upgrades: {
-    eggCapacityTier: number;
-    scoutTier: number;
-    nestDefense: boolean;
-    mapMemory: boolean;
-  };
-}
-
-export interface RoundOutcome {
-  selections: Coord[];
-  flips: Array<{
-    coord: Coord;
-    type: TileType;
-    payout: number;
-    survived: boolean;
-  }>;
-  chipsDelta: number;
-}
-
-export interface RareOffer {
+export interface TraitDef {
   id: string;
   name: string;
-  benefit: string;
-  risk: string;
-  cost: number;
-  effect: () => void; // Applied when purchased
+  slot: Slot;
+  tags: string[];
+  effects: Record<string, unknown>;
+  unlockAtLevel: number;
+  rarity: 'common' | 'rare' | 'epic';
+}
+
+export interface LevelRecipe {
+  id: number;
+  name: string;
+  roundsPerLevel: number; // 10
+  tileCount: number; // 5
+  picksPerRound: number; // 3
+  composition: { fruit: number; barren: number; predator: number };
+  yearsPerRound: number; // 100_000
+}
+
+export interface RoundBoard {
+  outcomes: Outcome[]; // len 5
+  selected: number[]; // indices chosen
+  revealed: ('hidden' | 'revealed' | 'shadow')[]; // card face state
+  fullyRevealed: boolean; // after full-board peek
+}
+
+export interface Progress {
+  currentLevel: number;
+  roundInLevel: number;
+  globalRound: number;
+  globalYears: number;
+  population: number;
+  evolutionLevel: number;
+  seed: string;
+}
+
+export interface Equipped {
+  survival?: string;
+  reproduction?: string;
+  scouting?: string;
+}
+
+export interface UIFlags {
+  showIntro: boolean;
+  showEndModal: boolean;
+  showLevelComplete: boolean;
+  admireMode: boolean;
+  blocking: boolean;
+  testMode: boolean;
+  fastPeek: boolean;
 }
 
 export interface GameState {
-  era: EraRecipe;
-  board: BoardState;
-  player: PlayerState;
-  rareOffer?: RareOffer;
-  selectedTiles: Coord[];
-  roundComplete: boolean;
-}
-
-export interface Upgrade {
-  id: string;
-  name: string;
-  description: string;
-  cost: number;
-  maxTier?: number;
-  currentTier?: number;
-  purchased?: boolean;
-  effect: (gameState: GameState) => GameState;
+  recipe: LevelRecipe;
+  traits: Traits;
+  equipped: Equipped;
+  progress: Progress;
+  board: RoundBoard;
+  ui: UIFlags;
 }

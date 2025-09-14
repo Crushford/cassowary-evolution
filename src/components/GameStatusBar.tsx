@@ -10,11 +10,13 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
   gameState,
   onPrestige,
 }) => {
+  const legacyGameState = gameState as any;
   const progressPercentage = Math.min(
-    (gameState.player.chips / gameState.era.cap) * 100,
+    ((legacyGameState.player?.chips || 0) / (legacyGameState.era?.cap || 100)) * 100,
     100,
   );
-  const canPrestige = gameState.player.chips >= gameState.era.cap;
+  const canPrestige =
+    (legacyGameState.player?.chips || 0) >= (legacyGameState.era?.cap || 100);
 
   return (
     <div
@@ -25,21 +27,25 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Era Info */}
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-ink-primary">{gameState.era.name}</span>
-          <span className="text-sm text-ink-secondary">Era {gameState.era.id}</span>
+          <span className="text-lg font-bold text-ink-primary">
+            {legacyGameState.era?.name || 'Unknown'}
+          </span>
+          <span className="text-sm text-ink-secondary">
+            Era {legacyGameState.era?.id || 0}
+          </span>
         </div>
 
         {/* Chips */}
         <div
           className="flex items-center gap-2"
           role="status"
-          aria-label={`Current chips: ${gameState.player.chips} out of ${gameState.era.cap} required`}
+          aria-label={`Current chips: ${legacyGameState.player?.chips || 0} out of ${legacyGameState.era?.cap || 100} required`}
         >
           <span className="text-lg font-bold text-success" aria-hidden="true">
-            🍯 {gameState.player.chips}
+            🍯 {legacyGameState.player?.chips || 0}
           </span>
           <span className="text-sm text-ink-secondary" aria-hidden="true">
-            / {gameState.era.cap}
+            / {legacyGameState.era?.cap || 100}
           </span>
         </div>
 
@@ -47,10 +53,10 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
         <div
           className="flex items-center gap-2"
           role="status"
-          aria-label={`Current partners: ${gameState.player.partners}`}
+          aria-label={`Current partners: ${legacyGameState.player?.partners || 0}`}
         >
           <span className="text-lg font-bold text-ink-primary" aria-hidden="true">
-            👥 {gameState.player.partners}
+            👥 {legacyGameState.player?.partners || 0}
           </span>
           <span className="text-sm text-ink-secondary" aria-hidden="true">
             partners
@@ -62,9 +68,9 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
           <div
             className="bg-app-2 rounded-full h-4 overflow-hidden"
             role="progressbar"
-            aria-valuenow={gameState.player.chips}
+            aria-valuenow={legacyGameState.player?.chips || 0}
             aria-valuemin={0}
-            aria-valuemax={gameState.era.cap}
+            aria-valuemax={legacyGameState.era?.cap || 100}
             aria-label={`Progress towards era cap: ${progressPercentage.toFixed(0)}%`}
           >
             <div
@@ -73,7 +79,8 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
             />
           </div>
           <div className="text-xs text-ink-muted mt-1" aria-hidden="true">
-            {gameState.player.chips} / {gameState.era.cap} nectar-chips
+            {legacyGameState.player?.chips || 0} / {legacyGameState.era?.cap || 100}{' '}
+            nectar-chips
           </div>
         </div>
 
@@ -90,23 +97,23 @@ export const GameStatusBar: React.FC<GameStatusBarProps> = ({
       </div>
 
       {/* Traits Display */}
-      {(gameState.player.traits.claws ||
-        gameState.player.traits.arms ||
-        gameState.player.traits.brain) && (
+      {(legacyGameState.player?.traits?.claws ||
+        legacyGameState.player?.traits?.arms ||
+        legacyGameState.player?.traits?.brain) && (
         <div className="mt-3 pt-3 border-t border-border/60">
           <div className="flex items-center gap-2 text-sm">
             <span className="text-ink-secondary font-semibold">Traits:</span>
-            {gameState.player.traits.claws && (
+            {legacyGameState.player?.traits?.claws && (
               <span className="bg-danger/15 text-danger border border-danger/30 px-2 py-1 rounded-full text-xs">
                 🦅 Claws
               </span>
             )}
-            {gameState.player.traits.arms && (
+            {legacyGameState.player?.traits?.arms && (
               <span className="bg-accent/15 text-accent border border-accent/30 px-2 py-1 rounded-full text-xs">
                 🦾 Arms
               </span>
             )}
-            {gameState.player.traits.brain && (
+            {legacyGameState.player?.traits?.brain && (
               <span className="bg-success/15 text-success border border-success/30 px-2 py-1 rounded-full text-xs">
                 🧠 Brain
               </span>

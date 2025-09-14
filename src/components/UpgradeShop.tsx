@@ -1,5 +1,17 @@
 import React from 'react';
-import { GameState, Upgrade } from '../types/game';
+import { GameState } from '../types/game';
+
+// Legacy type for old game system
+interface Upgrade {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  maxTier?: number;
+  currentTier?: number;
+  purchased?: boolean;
+  effect: (gameState: GameState) => GameState;
+}
 import { getAvailableUpgrades, getUpgradeCost } from '../game/upgrades';
 
 interface UpgradeShopProps {
@@ -13,6 +25,7 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
   onClose,
   onPurchaseUpgrade,
 }) => {
+  const legacyGameState = gameState as any;
   const availableUpgrades = getAvailableUpgrades(gameState);
 
   return (
@@ -37,7 +50,7 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
           <div className="grid gap-4 md:grid-cols-2">
             {availableUpgrades.map((upgrade) => {
               const cost = getUpgradeCost(upgrade, upgrade.currentTier || 0);
-              const canAfford = gameState.player.chips >= cost;
+              const canAfford = (legacyGameState.player?.chips || 0) >= cost;
 
               return (
                 <div
@@ -93,7 +106,7 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
             <div className="text-sm text-gray-600">
               Available chips:{' '}
               <span className="font-bold text-green-600">
-                🍯 {gameState.player.chips}
+                🍯 {legacyGameState.player?.chips || 0}
               </span>
             </div>
             <button
