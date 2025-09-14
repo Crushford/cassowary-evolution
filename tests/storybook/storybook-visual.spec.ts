@@ -53,7 +53,7 @@ test.describe('Storybook Accessibility Tests', () => {
       await page.waitForLoadState('networkidle');
 
       // Basic accessibility checks
-      const button = page.locator('button');
+      const button = page.locator('button').first();
       await expect(button).toBeVisible();
 
       // Check if button has proper ARIA attributes when disabled
