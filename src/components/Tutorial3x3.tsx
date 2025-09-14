@@ -31,7 +31,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
   foodCount = 6,
   barrenCount = 2,
   predatorCount = 0,
-  testMode = false,
+  testMode = false, // eslint-disable-line @typescript-eslint/no-unused-vars
   goal = 100,
 }) => {
   const [gameState, setGameState] = useState<GameState>({
@@ -146,7 +146,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       'w-16 h-16 border-2 border-gray-400 flex items-center justify-center text-2xl cursor-pointer transition-all duration-200';
 
     if (row === 1 && col === 1) {
-      return `${baseClass} bg-yellow-200 border-yellow-600 cursor-not-allowed`;
+      return `${baseClass} bg-accent/20 border-accent cursor-not-allowed`;
     }
 
     if (gameState.roundResults) {
@@ -156,30 +156,30 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       if (result) {
         switch (result.type) {
           case 'food':
-            return `${baseClass} bg-green-200 border-green-600`;
+            return `${baseClass} bg-success/20 border-success`;
           case 'barren':
-            return `${baseClass} bg-gray-200 border-gray-600`;
+            return `${baseClass} bg-app-1 border-border`;
           case 'predator':
-            return `${baseClass} bg-red-200 border-red-600`;
+            return `${baseClass} bg-danger/20 border-danger`;
         }
       }
-      return `${baseClass} bg-gray-100 border-gray-300`;
+      return `${baseClass} bg-app-1 border-border/60`;
     }
 
     const isSelected = gameState.selectedTiles.some(
       ([r, c]) => r === row && c === col
     );
     if (isSelected) {
-      return `${baseClass} bg-blue-200 border-blue-600`;
+      return `${baseClass} bg-accent/20 border-accent`;
     }
 
-    return `${baseClass} bg-white hover:bg-gray-50`;
+    return `${baseClass} bg-app-0 hover:bg-app-1`;
   };
 
   if (gameState.gameComplete) {
     return (
       <div className="flex flex-col items-center space-y-4 p-8">
-        <h2 className="text-3xl font-bold text-green-600">Victory!</h2>
+        <h2 className="text-3xl font-bold text-success">Victory!</h2>
         <p className="text-xl">
           Population reached:{' '}
           <span data-testid="population">{gameState.population}</span>
@@ -227,7 +227,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
       <div className="flex space-x-4">
         <button
           data-testid="end-round"
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="px-6 py-2 bg-accent text-white rounded-lg disabled:bg-app-2 disabled:cursor-not-allowed"
           onClick={handleEndRound}
           disabled={
             gameState.selectedTiles.length !== 3 ||
@@ -240,7 +240,7 @@ const Tutorial3x3: React.FC<Tutorial3x3Props> = ({
         {gameState.roundResults && (
           <button
             data-testid="continue"
-            className="px-6 py-2 bg-green-600 text-white rounded-lg"
+            className="px-6 py-2 bg-success text-white rounded-lg"
             onClick={handleContinue}
           >
             Continue

@@ -121,7 +121,7 @@ const TutorialTile: React.FC<{
 
       {/* Selection indicator */}
       {isSelected && !isRevealed && (
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full ring-2 ring-white"></div>
+        <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full ring-2 ring-app-0"></div>
       )}
     </button>
   );
@@ -333,7 +333,7 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
       {/* Game Board */}
       <div className="relative aspect-square max-w-[min(80vmin,640px)] w-full mx-auto">
         <div
-          className="grid grid-cols-3 grid-rows-3 gap-2 p-2 rounded-2xl bg-neutral-900/40 shadow-lg h-full"
+          className="grid grid-cols-3 grid-rows-3 gap-2 p-2 rounded-2xl bg-app-1/40 shadow-lg h-full"
           role="grid"
           aria-label="3x3 game board"
         >
@@ -368,8 +368,8 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
               key={i}
               className={`w-12 h-12 rounded-lg border-2 border-dashed flex items-center justify-center text-xl transition-all duration-200 ${
                 i < selectedTiles.length
-                  ? 'border-amber-400 bg-amber-400/10'
-                  : 'border-gray-400 bg-gray-400/10'
+                  ? 'border-amber-400 bg-accent/10'
+                  : 'border-gray-400 bg-app-2/10'
               }`}
             >
               {i < selectedTiles.length ? '🦚' : '👤'}
@@ -383,7 +383,7 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
           className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
             canEndRound
               ? 'bg-amber-600 hover:bg-amber-700 text-white shadow-lg hover:shadow-xl transform hover:scale-105'
-              : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+              : 'bg-app-2 text-ink-muted cursor-not-allowed'
           }`}
         >
           End Round
@@ -391,7 +391,7 @@ export const TutorialGrid: React.FC<TutorialGridProps> = ({
       </div>
 
       {/* Status Text */}
-      <p className="text-sm text-amber-700 text-center max-w-md">
+      <p className="text-sm text-ink-secondary text-center max-w-md">
         {selectedTiles.length === 0
           ? 'Choose 3 nests for your partners'
           : selectedTiles.length < 3

@@ -2,12 +2,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 
 const meta: Meta<typeof Button> = {
-  title: 'Example/Button',
+  title: 'Components/Button',
   component: Button,
   parameters: {
     layout: 'centered',
+    chromatic: {
+      tags: ['visual', 'component'],
+      viewports: [375, 768, 1024],
+    },
   },
-  tags: ['autodocs'],
+  tags: ['autodocs', 'visual'],
   argTypes: {
     variant: {
       control: { type: 'select' },
@@ -65,5 +69,55 @@ export const Disabled: Story = {
   args: {
     children: 'Button',
     disabled: true,
+  },
+};
+
+// Interactive states for Chromatic testing
+export const HoverState: Story = {
+  args: {
+    children: 'Hover me',
+    variant: 'primary',
+  },
+  parameters: {
+    chromatic: {
+      modes: {
+        hover: {
+          hover: true,
+        },
+      },
+    },
+  },
+};
+
+export const FocusState: Story = {
+  args: {
+    children: 'Focus me',
+    variant: 'secondary',
+  },
+  parameters: {
+    chromatic: {
+      modes: {
+        focus: {
+          focus: true,
+        },
+      },
+    },
+  },
+};
+
+// Different content lengths to test layout
+export const LongText: Story = {
+  args: {
+    children: 'This is a very long button text that might wrap',
+    variant: 'primary',
+    size: 'sm',
+  },
+};
+
+export const ShortText: Story = {
+  args: {
+    children: 'Hi',
+    variant: 'danger',
+    size: 'lg',
   },
 };

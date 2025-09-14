@@ -54,20 +54,20 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
       case 'food':
         return 'text-green-600 bg-green-50 border-green-200';
       case 'barren':
-        return 'text-gray-600 bg-gray-50 border-gray-200';
+        return 'text-ink-secondary bg-app-1 border-border/60';
       case 'predator':
         return 'text-red-600 bg-red-50 border-red-200';
       default:
-        return 'text-gray-600 bg-gray-50 border-gray-200';
+        return 'text-ink-secondary bg-app-1 border-border/60';
     }
   };
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in slide-in-from-bottom-4 duration-300">
+      <div className="app-surface-2 rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-in slide-in-from-bottom-4 duration-300">
         {/* Header */}
-        <div className="p-6 border-b border-gray-200">
-          <h3 className="text-xl font-bold text-gray-900 text-center">
+        <div className="p-6 border-b border-border/60">
+          <h3 className="text-xl font-bold text-ink-primary text-center">
             Round Results
           </h3>
         </div>
@@ -92,7 +92,7 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
                   >
                     {getResultText(flip.type, flip.payout)}
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-ink-muted">
                     Nest {flip.coord.r + 1},{flip.coord.c + 1}
                   </p>
                 </div>
@@ -107,12 +107,12 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
           ))}
 
           {/* Total */}
-          <div className="border-t border-gray-200 pt-4">
+          <div className="border-t border-border/60 pt-4">
             <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold text-gray-700">
+              <span className="text-lg font-semibold text-ink-secondary">
                 Total Chips:
               </span>
-              <span className="text-xl font-bold text-amber-600">
+              <span className="text-xl font-bold text-accent">
                 +{outcome.chipsDelta}
               </span>
             </div>
@@ -120,16 +120,16 @@ export const TutorialResultPanel: React.FC<TutorialResultPanelProps> = ({
         </div>
 
         {/* Actions */}
-        <div className="p-6 border-t border-gray-200 flex space-x-3">
+        <div className="p-6 border-t border-border/60 flex space-x-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-ink-secondary hover:text-gray-800 transition-colors duration-200"
           >
             Close
           </button>
           <button
             onClick={onContinue}
-            className="flex-1 px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="flex-1 px-6 py-3 bg-accent hover:bg-accent-600 text-app-0 font-semibold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Deal next season
           </button>

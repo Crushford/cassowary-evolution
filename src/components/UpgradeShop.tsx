@@ -17,13 +17,13 @@ export const UpgradeShop: React.FC<UpgradeShopProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4">
+      <div className="app-surface-2 rounded-lg shadow-soft max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+        <div className="bg-accent text-app-0 p-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Evolution Shop</h2>
             <button
               onClick={onClose}
-              className="text-white hover:text-gray-200 text-2xl font-bold"
+              className="text-app-0 hover:text-app-0/80 text-2xl font-bold"
             >
               ×
             </button>
