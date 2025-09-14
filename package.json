@@ -19,6 +19,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "yarn start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --bail",
     "test:watch": "react-scripts test",
@@ -28,11 +29,17 @@
     "lint:fix": "eslint src --ext .ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write src/**/*.{ts,tsx,js,jsx,json,css,md}",
     "format:check": "prettier --check src/**/*.{ts,tsx,js,jsx,json,css,md}",
-    "storybook": "yarn dlx storybook dev -p 6006",
+    "storybook": "yarn dlx storybook dev -p 29347",
     "build-storybook": "yarn dlx storybook build",
     "test:e2e": "playwright test --reporter=line",
     "test:e2e:ui": "playwright test --ui",
-    "test:all": "yarn test && yarn test:e2e"
+    "test:visual": "playwright test --config=playwright-storybook.config.ts --reporter=line",
+    "test:visual:ui": "playwright test --config=playwright-storybook.config.ts --ui",
+    "test:all": "yarn test && yarn test:e2e",
+    "test:all:visual": "yarn test && yarn test:e2e && yarn test:visual",
+    "chromatic": "chromatic --exit-zero-on-changes",
+    "chromatic:ci": "chromatic --exit-zero-on-changes --auto-accept-changes",
+    "setup:testing": "./scripts/setup-testing.sh"
   },
   "browserslist": {
     "production": [
@@ -57,9 +64,11 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
+    "@storybook/addon-a11y": "^9.1.5",
     "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-interactions": "^8.6.14",
     "@storybook/addon-links": "^9.1.5",
+    "@storybook/addon-viewport": "^9.0.8",
     "@storybook/blocks": "^8.6.14",
     "@storybook/react": "^9.1.5",
     "@storybook/react-webpack5": "^9.1.5",
@@ -67,6 +76,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "autoprefixer": "^10.4.21",
+    "chromatic": "^13.1.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

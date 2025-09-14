@@ -2,14 +2,14 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders welcome message', () => {
+test('renders cassowary queen title', () => {
   render(<App />);
-  const welcomeElement = screen.getByText(/Welcome to Evolution/i);
-  expect(welcomeElement).toBeInTheDocument();
+  const titleElement = screen.getByRole('heading', { level: 1 });
+  expect(titleElement).toHaveTextContent(/Cassowary Queen/i);
 });
 
-test('renders get started button', () => {
+test('renders how to play button', () => {
   render(<App />);
-  const buttonElement = screen.getByText(/Get Started/i);
+  const buttonElement = screen.getByRole('button', { name: /How to Play/i });
   expect(buttonElement).toBeInTheDocument();
 });

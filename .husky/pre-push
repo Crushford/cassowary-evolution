@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🚀 Running pre-push checks..."
+
+# Run all tests including E2E
+echo "🧪 Running comprehensive test suite..."
+yarn test:all
+
+# Run visual tests if Storybook is available
+echo "🎨 Running visual regression tests..."
+if [ -d "storybook-static" ] || yarn build-storybook; then
+  yarn test:visual
+else
+  echo "⚠️ Skipping visual tests - Storybook not built"
+fi
+
+echo "✅ All pre-push checks passed!"
