@@ -31,25 +31,6 @@ export function initState(
   const equipped = {} as const;
   const traits = deriveTraits(equipped);
 
-  // Debug logging for initial state
-  console.log('🚀 INIT_STATE Debug:', {
-    seed,
-    testMode,
-    fastPeek,
-    currentLevel: currentLevel
-      ? {
-          levelIndex: currentLevel.levelIndex,
-          cardCount: currentLevel.cardCount,
-          populationMin: currentLevel.populationMin,
-          scaleLabel: currentLevel.scaleLabel,
-        }
-      : null,
-    recipe: {
-      tileCount: recipe.tileCount,
-      composition: recipe.composition,
-    },
-  });
-
   return {
     recipe,
     traits,
@@ -169,24 +150,6 @@ export function reducer(state: GameState, action: Action): GameState {
       const currentLevel = getCurrentLevel(population, state.progress.currentCycle);
       const cardCount = currentLevel?.cardCount ?? nextRecipe.tileCount;
 
-      // Debug logging
-      console.log('🔍 NEXT_SEASON Debug:', {
-        population,
-        currentCycle: state.progress.currentCycle,
-        currentLevel: currentLevel
-          ? {
-              levelIndex: currentLevel.levelIndex,
-              cardCount: currentLevel.cardCount,
-              populationMin: currentLevel.populationMin,
-              scaleLabel: currentLevel.scaleLabel,
-            }
-          : null,
-        cardCount,
-        previousCardCount: state.board.outcomes.length,
-        roundInLevel,
-        globalRound,
-      });
-
       // Create a temporary recipe with the correct tile count and proper composition
       const fruit = Math.floor(cardCount * 0.6); // 60% fruit
       const barren = Math.floor(cardCount * 0.3); // 30% barren
@@ -205,24 +168,7 @@ export function reducer(state: GameState, action: Action): GameState {
         },
       };
 
-      console.log('🎲 Deal Recipe:', {
-        tileCount: tempRecipe.tileCount,
-        composition: tempRecipe.composition,
-        total:
-          tempRecipe.composition.fruit +
-          tempRecipe.composition.barren +
-          tempRecipe.composition.predator,
-      });
-
       const nextOutcomes = makeDeal(state.progress.seed, globalRound + 1, tempRecipe);
-
-      console.log('🎯 Generated Outcomes:', {
-        count: nextOutcomes.length,
-        outcomes: nextOutcomes,
-        fruit: nextOutcomes.filter((o) => o === 'fruit').length,
-        barren: nextOutcomes.filter((o) => o === 'barren').length,
-        predator: nextOutcomes.filter((o) => o === 'predator').length,
-      });
 
       const newState = {
         ...state,

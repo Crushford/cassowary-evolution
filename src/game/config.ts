@@ -218,28 +218,6 @@ export function getCurrentLevel(
     (level) => level.populationMin <= population && level.cycleIndex <= currentCycle,
   );
 
-  console.log('🏗️ getCurrentLevel called:', {
-    population,
-    currentCycle,
-    availableLevels: availableLevels.map((level) => ({
-      levelIndex: level.levelIndex,
-      cardCount: level.cardCount,
-      populationMin: level.populationMin,
-      cycleIndex: level.cycleIndex,
-      scaleLabel: level.scaleLabel,
-    })),
-    selectedLevel:
-      availableLevels.length > 0
-        ? {
-            levelIndex: availableLevels[availableLevels.length - 1].levelIndex,
-            cardCount: availableLevels[availableLevels.length - 1].cardCount,
-            populationMin: availableLevels[availableLevels.length - 1].populationMin,
-            cycleIndex: availableLevels[availableLevels.length - 1].cycleIndex,
-            scaleLabel: availableLevels[availableLevels.length - 1].scaleLabel,
-          }
-        : null,
-  });
-
   if (availableLevels.length === 0) return null;
 
   // Return the highest level (last in the filtered array)
