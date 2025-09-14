@@ -188,13 +188,20 @@ export function reducer(state: GameState, action: Action): GameState {
       });
 
       // Create a temporary recipe with the correct tile count and proper composition
+      const fruit = Math.floor(cardCount * 0.6); // 60% fruit
+      const barren = Math.floor(cardCount * 0.3); // 30% barren
+      const predator = Math.floor(cardCount * 0.1); // 10% predator
+
+      // Ensure total equals cardCount by adding remaining to fruit
+      const remaining = cardCount - (fruit + barren + predator);
+
       const tempRecipe = {
         ...nextRecipe,
         tileCount: cardCount,
         composition: {
-          fruit: Math.floor(cardCount * 0.6), // 60% fruit
-          barren: Math.floor(cardCount * 0.3), // 30% barren
-          predator: Math.floor(cardCount * 0.1), // 10% predator
+          fruit: fruit + remaining, // Add remaining cards to fruit
+          barren: barren,
+          predator: predator,
         },
       };
 
