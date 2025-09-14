@@ -1,8 +1,8 @@
 import React from 'react';
-import { CassowaryQueenGame } from './components/CassowaryQueenGame';
+import { TutorialGame } from './components/TutorialGame';
 
 function App() {
-  return <CassowaryQueenGame />;
+  return <TutorialGame />;
 }
 
 export default App;
