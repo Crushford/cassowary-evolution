@@ -1,4 +1,4 @@
-import { test, expect } from '@chromatic-com/playwright';
+import { test, expect } from '@playwright/test';
 
 // List of all stories to test
 const stories = [

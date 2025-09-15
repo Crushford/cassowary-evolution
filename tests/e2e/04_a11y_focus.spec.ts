@@ -1,4 +1,4 @@
-import { test, expect } from '@chromatic-com/playwright';
+import { test, expect } from '@playwright/test';
 import { handleIntroModal } from './helpers';
 
 test.describe('A11y Sanity + Focus Order', () => {

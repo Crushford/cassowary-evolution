@@ -2,13 +2,13 @@
 
 echo "🔍 Running pre-commit checks..."
 
+# Fix formatting first
+echo "🎨 Fixing code formatting..."
+yarn lint:fix
+
 # Run linting
 echo "📝 Running ESLint..."
 yarn lint
-
-# Run formatting check
-echo "🎨 Checking code formatting..."
-yarn format:check
 
 # Run type checking
 echo "🔧 Running TypeScript type check..."

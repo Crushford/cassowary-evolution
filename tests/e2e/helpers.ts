@@ -1,4 +1,4 @@
-import { Page } from '@chromatic-com/playwright';
+import { Page } from '@playwright/test';
 
 /**
  * Helper function to pick the first N cards in a deterministic order
