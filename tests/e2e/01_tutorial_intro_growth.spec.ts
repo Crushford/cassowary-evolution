@@ -9,7 +9,8 @@ import {
 
 test.describe('Tutorial Flow + Intro + Basic Growth', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-01&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test('should show intro modal and allow navigation', async ({ page }) => {

@@ -9,7 +9,8 @@ import {
 
 test.describe('Full Cycle to 80 and Reset to 5', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-03&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test('should progress through all board growth thresholds', async ({ page }) => {

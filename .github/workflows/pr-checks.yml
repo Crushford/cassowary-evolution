@@ -75,10 +75,10 @@ jobs:
       - name: Sanity checks
         run: |
           echo "PWD=$(pwd)"
-          node -e "console.log('Node',process.version)"
-          node -e "console.log('Resolve chromatic PW:', require.resolve('@chromatic-com/playwright'))"
+          node -e "console.log('Node', process.version)"
+          ls -al build || true
 
-      - name: Run E2E tests (Playwright starts the app server)
+      - name: Run E2E tests
         env:
           CI: "true"
         run: yarn test:e2e

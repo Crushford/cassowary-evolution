@@ -9,13 +9,15 @@ import {
   purchaseEvolutionNode,
   isEvolutionNodeAvailable,
   getEvolutionNodeCost,
-  waitForEPThreshold
+  waitForEPThreshold,
+  handleIntroModal
 } from './helpers';
 
 test.describe('EP Milestones + Evolution Purchases', () => {
   test.beforeEach(async ({ page }) => {
     // Use a seed that occasionally has failures to accumulate deaths/EP
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test('should accumulate EP from deaths', async ({ page }) => {
@@ -49,19 +51,25 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should open evolution modal at EP milestone 10', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
     
-    // Play until we reach 10 EP
+    // Wait for page to load completely
+    await page.waitForLoadState('domcontentloaded');
+    
+    // Handle intro modal first
+    await handleIntroModal(page);
+    
+    // Play until we reach 10 EP with explicit timeout
     await waitForEPThreshold(page, 10, 30);
     
-    // Evolution modal should be available
-    await expect(page.getByTestId('evolution-open')).toBeVisible();
+    // Evolution modal should be available with explicit timeout
+    await expect(page.getByTestId('evolution-open')).toBeVisible({ timeout: 15_000 });
     
     // Open evolution modal
     await openEvolutionModal(page);
     
-    // Should show tier 1 nodes
-    await expect(page.getByTestId('evolution-node-eggs-1')).toBeVisible();
+    // Should show tier 1 nodes with explicit timeout
+    await expect(page.getByTestId('evolution-node-eggs-1')).toBeVisible({ timeout: 15_000 });
     await expect(page.getByTestId('evolution-node-digestion-1')).toBeVisible();
     
     // Should not show higher tier nodes yet
@@ -69,7 +77,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should show correct node costs and availability', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we have enough EP
     await waitForEPThreshold(page, 25, 30);
@@ -92,7 +101,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should purchase evolution node and apply effects', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we have enough EP for digestion-1
     await waitForEPThreshold(page, 25, 30);
@@ -113,7 +123,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should show tier 2 nodes at EP milestone 20', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we reach 20 EP
     await waitForEPThreshold(page, 20, 40);
@@ -127,7 +138,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should handle prerequisite requirements', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we have enough EP for eggs-2 (30 EP)
     await waitForEPThreshold(page, 30, 50);
@@ -151,7 +163,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should prevent purchasing already owned nodes', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we have enough EP
     await waitForEPThreshold(page, 25, 30);
@@ -168,7 +181,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should show correct EP balance in evolution modal', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we have some EP
     await waitForEPThreshold(page, 15, 30);
@@ -182,7 +196,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should handle multiple purchases in sequence', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Play until we have enough EP for multiple purchases
     await waitForEPThreshold(page, 50, 60);
@@ -208,7 +223,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   });
 
   test('should show tier progression correctly', async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-02&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
     
     // Test different EP levels
     const testCases = [
@@ -219,7 +235,8 @@ test.describe('EP Milestones + Evolution Purchases', () => {
     
     for (const testCase of testCases) {
       // Navigate to a page with the required EP
-      await page.goto(`/?seed=cq-e2e-seed-02&testMode=1&ep=${testCase.ep}`);
+      await page.goto(`/?ep=${testCase.ep}`); // baseURL already includes seed & testMode
+      await page.waitForLoadState('domcontentloaded');
       
       await openEvolutionModal(page);
       

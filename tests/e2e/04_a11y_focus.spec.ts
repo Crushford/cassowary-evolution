@@ -3,7 +3,8 @@ import { handleIntroModal } from './helpers';
 
 test.describe('A11y Sanity + Focus Order', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/?seed=cq-e2e-seed-04&testMode=1');
+    await page.goto('/'); // baseURL already includes seed & testMode
+    await page.waitForLoadState('domcontentloaded');
   });
 
   test('should have proper focus order from load', async ({ page }) => {
