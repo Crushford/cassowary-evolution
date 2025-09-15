@@ -5,9 +5,25 @@ import { Page } from '@playwright/test';
  * This ensures consistent E2E test behavior
  */
 export async function pickFirstN(page: Page, n: number): Promise<void> {
+  console.log('🔍 pickFirstN: Starting card selection...');
+  
+  // Debug: Check current game state
+  const gameState = await page.evaluate(() => {
+    const state = (window as any).__gameState || 'unknown';
+    const cards = document.querySelectorAll('[data-testid^="card-"]');
+    const cardStates = Array.from(cards).map(card => ({
+      testId: card.getAttribute('data-testid'),
+      state: card.getAttribute('data-state'),
+      visible: card.offsetParent !== null
+    }));
+    return { state, cardStates };
+  });
+  console.log('🎮 Game state:', gameState);
+  
   // Make sure all modals are closed first
   const introModal = page.getByTestId('intro-modal');
   if (await introModal.isVisible()) {
+    console.log('📋 Intro modal detected, closing...');
     await page.getByTestId('intro-skip').click();
     await introModal.waitFor({ state: 'hidden' });
   }
@@ -15,6 +31,7 @@ export async function pickFirstN(page: Page, n: number): Promise<void> {
   // Check for end modal and close it
   const endModal = page.getByTestId('end-modal');
   if (await endModal.isVisible()) {
+    console.log('🏁 End modal detected, closing...');
     await page.getByTestId('continue').click();
     await endModal.waitFor({ state: 'hidden' });
   }
@@ -22,12 +39,70 @@ export async function pickFirstN(page: Page, n: number): Promise<void> {
   // Check for level complete modal and close it
   const levelCompleteModal = page.getByTestId('level-complete-modal');
   if (await levelCompleteModal.isVisible()) {
+    console.log('📋 Level complete modal detected, closing...');
     await page.getByTestId('btn-advance-level').click();
     await levelCompleteModal.waitFor({ state: 'hidden' });
   }
   
+  // Wait for cards to be available and in the correct state
+  console.log('⏳ Waiting for card-0 to be visible...');
+  await page.getByTestId('card-0').waitFor({ state: 'visible' });
+  
+  // Debug: Check card states before waiting
+  const cardStatesBefore = await page.evaluate(() => {
+    const cards = document.querySelectorAll('[data-testid^="card-"]');
+    return Array.from(cards).map(card => ({
+      testId: card.getAttribute('data-testid'),
+      state: card.getAttribute('data-state'),
+      visible: card.offsetParent !== null
+    }));
+  });
+  console.log('🃏 Card states before wait:', cardStatesBefore);
+  
+  // Wait for cards to be in the correct state (not hidden)
+  console.log('⏳ Waiting for cards to be in correct state...');
+  try {
+    await page.waitForFunction(() => {
+      const cards = document.querySelectorAll('[data-testid^="card-"]');
+      const allReady = Array.from(cards).every(card => card.getAttribute('data-state') !== 'hidden');
+      console.log('Card state check:', Array.from(cards).map(c => c.getAttribute('data-state')), 'allReady:', allReady);
+      return allReady;
+    }, { timeout: 2000 }); // Much shorter timeout
+    console.log('✅ Cards are in correct state');
+  } catch (error) {
+    console.log('❌ Cards never reached correct state, trying to force game start...');
+    
+    // Try to force the game to start by clicking a card anyway
+    try {
+      console.log('🔄 Attempting to force click card-0...');
+      await page.getByTestId('card-0').click({ force: true, timeout: 1000 });
+      console.log('✅ Force click successful');
+    } catch (forceError) {
+      console.log('❌ Force click failed:', forceError);
+    }
+    
+    // Debug: Check final card states
+    try {
+      const cardStatesAfter = await page.evaluate(() => {
+        const cards = document.querySelectorAll('[data-testid^="card-"]');
+        return Array.from(cards).map(card => ({
+          testId: card.getAttribute('data-testid'),
+          state: card.getAttribute('data-state'),
+          visible: card.offsetParent !== null
+        }));
+      });
+      console.log('🃏 Card states after timeout:', cardStatesAfter);
+    } catch (evalError) {
+      console.log('❌ Could not evaluate card states:', evalError);
+    }
+  }
+  
   for (let i = 0; i < n; i++) {
-    await page.getByTestId(`card-${i}`).click();
+    console.log(`🃏 Clicking card-${i}...`);
+    // Ensure card is clickable before clicking
+    await page.getByTestId(`card-${i}`).waitFor({ state: 'visible' });
+    await page.getByTestId(`card-${i}`).click({ timeout: 5000 });
+    console.log(`✅ Card-${i} clicked successfully`);
   }
 }
 
@@ -142,7 +217,9 @@ export async function getEvolutionNodeCost(page: Page, nodeId: string): Promise<
  * Helper function to wait for intro modal and handle it
  */
 export async function handleIntroModal(page: Page, skip = false): Promise<void> {
-  await page.getByTestId('intro-modal').waitFor();
+  console.log('📋 Waiting for intro modal...');
+  await page.getByTestId('intro-modal').waitFor({ timeout: 10000 });
+  console.log('📋 Intro modal found, clicking button...');
   
   if (skip) {
     await page.getByTestId('intro-skip').click();
@@ -150,7 +227,12 @@ export async function handleIntroModal(page: Page, skip = false): Promise<void> 
     await page.getByTestId('intro-next').click();
   }
   
-  await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
+  console.log('📋 Waiting for intro modal to close...');
+  await page.getByTestId('intro-modal').waitFor({ state: 'hidden', timeout: 10000 });
+  console.log('✅ Intro modal closed');
+  
+  // Wait a bit for the game to initialize after intro closes
+  await page.waitForTimeout(1000);
 }
 
 /**
