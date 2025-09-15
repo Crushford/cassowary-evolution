@@ -8,7 +8,6 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     chromatic: {
       tags: ['visual', 'component'],
-      viewports: [375, 768, 1024],
     },
   },
   tags: ['autodocs', 'visual'],

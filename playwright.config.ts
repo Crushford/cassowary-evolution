@@ -1,10 +1,15 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
   testDir: './tests',
+  testIgnore: [
+    '**/unit/**',
+    '**/integration/**',
+    '**/chromatic/**',
+  ],
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -41,7 +46,10 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        browserName: 'chromium',
+        viewport: { width: 1280, height: 800 },
+      },
     },
     // Comment out other browsers for faster testing
     // {

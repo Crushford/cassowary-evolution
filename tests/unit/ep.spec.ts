@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals';
 import { GameState } from '../../src/types/game';
 
 describe('EP (Evolution Points) Accounting', () => {

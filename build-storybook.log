@@ -1,0 +1,30 @@
+[1m@storybook/core v8.6.14
+[22m
+info => Cleaning outputDir: [36m../../../../../var/folders/y_/wknbmyms1y1d8f4y1shnk7780000gn/T/chromatic--49812-VwPTz3qjAoOe[39m
+info => Loading presets
+info Found existing addon "@storybook/addon-viewport", skipping.
+info Found existing addon "@storybook/addon-viewport", skipping.
+info => Building manager..
+info => Manager built ([38;2;181;126;229m129 ms[39m)
+info => Building preview..
+info Addon-docs: using MDX3
+info => Using implicit CSS loaders
+info => Using default Webpack5 setup
+info Using tsconfig paths for react-docgen
+info => Copying static files: [36mpublic[39m at [36m../../../../../var/folders/y_/wknbmyms1y1d8f4y1shnk7780000gn/T/chromatic--49812-VwPTz3qjAoOe[39m
+WARN asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+WARN This can impact web performance.
+WARN Assets: 
+WARN   670.7aa692fe.iframe.bundle.js (826 KiB)
+WARN   967.275d75e7.iframe.bundle.js (364 KiB)
+WARN   961.bc745f55.iframe.bundle.js (1.42 MiB)
+WARN   150.b5764cfc.iframe.bundle.js (987 KiB)
+WARN entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+WARN Entrypoints:
+WARN   main (1.45 MiB)
+WARN       runtime~main.8154a0a2.iframe.bundle.js
+WARN       961.bc745f55.iframe.bundle.js
+WARN       main.8b162c9d.iframe.bundle.js
+WARN 
+info => Preview built ([38;2;181;126;229m3.91 s[39m)
+info => Output directory: /var/folders/y_/wknbmyms1y1d8f4y1shnk7780000gn/T/chromatic--49812-VwPTz3qjAoOe

@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll } from '@jest/globals';
 import { loadConfig, getCurrentLevel } from '../../src/game/config';
 
 describe('Level Generation', () => {

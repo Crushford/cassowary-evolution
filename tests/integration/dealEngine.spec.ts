@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals';
 import { makeDeal } from '../../src/game/deal';
 import { getOddsTable } from '../../src/game/config';
 import type { LevelRecipe } from '../../src/types/game';

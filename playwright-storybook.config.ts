@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 
 /**
  * Playwright configuration for Storybook visual testing
@@ -45,24 +45,39 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        browserName: 'chromium',
+        viewport: { width: 1280, height: 800 },
+      },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { 
+        browserName: 'firefox',
+        viewport: { width: 1280, height: 800 },
+      },
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { 
+        browserName: 'webkit',
+        viewport: { width: 1280, height: 800 },
+      },
     },
     /* Test against mobile viewports. */
     {
       name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
+      use: { 
+        browserName: 'chromium',
+        viewport: { width: 393, height: 851 },
+      },
     },
     {
       name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
+      use: { 
+        browserName: 'webkit',
+        viewport: { width: 390, height: 844 },
+      },
     },
   ],
 

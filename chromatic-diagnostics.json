@@ -1,0 +1,205 @@
+{
+  "announcedBuild": {
+    "id": "68c7db99b0fd978b2e5bc647",
+    "number": 11,
+    "status": "ANNOUNCED",
+    "autoAcceptChanges": false,
+    "app": {
+      "id": "68c7d2d786e2397e419c48e5",
+      "turboSnapAvailability": "UNAVAILABLE"
+    }
+  },
+  "configuration": {},
+  "environment": {},
+  "exitCode": 210,
+  "exitCodeKey": "MISSING_DEPENDENCY",
+  "flags": {
+    "playwright": true,
+    "debug": true,
+    "outputDir": [],
+    "storybookBuildDir": [],
+    "externals": [],
+    "onlyStoryFiles": [],
+    "onlyStoryNames": [],
+    "untraced": [],
+    "fileHashing": true,
+    "interactive": true
+  },
+  "git": {
+    "version": "2.50.1",
+    "gitUserEmail": "jrushford@gitlab.com",
+    "uncommittedHash": "06f28c30e5192bd440ba234c2f853b7de835575a",
+    "rootPath": "/Users/jrushford@gitlab.com/Documents/personal/evolution",
+    "commit": "076c722fa718b01dd31a7ea3b895ab51576701b2",
+    "committedAt": 1757878178000,
+    "committerEmail": "jrushford@gitlab.com",
+    "committerName": "James Rushford",
+    "branch": "add-evolution-pints",
+    "slug": "crushford/cassowary-evolution",
+    "fromCI": false,
+    "parentCommits": [
+      "076c722fa718b01dd31a7ea3b895ab51576701b2"
+    ]
+  },
+  "input": [],
+  "isOnboarding": true,
+  "options": {
+    "fromCI": false,
+    "inAction": false,
+    "dryRun": false,
+    "debug": true,
+    "autoAcceptChanges": false,
+    "exitZeroOnChanges": false,
+    "exitOnceUploaded": false,
+    "diagnosticsFile": "chromatic-diagnostics.json",
+    "fileHashing": true,
+    "interactive": false,
+    "isLocalBuild": false,
+    "originalArgv": [
+      "--playwright",
+      "--project-token=chpt_fa6d3a835b2121d",
+      "--debug"
+    ],
+    "logFile": "chromatic.log",
+    "forceRebuild": true,
+    "playwright": true,
+    "storybookLogFile": "build-archive.log",
+    "branchName": ""
+  },
+  "packageJson": {
+    "name": "evolution",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "@chromatic-com/playwright": "^0.12.7",
+      "@testing-library/dom": "^10.4.1",
+      "@testing-library/jest-dom": "^6.8.0",
+      "@testing-library/react": "^16.3.0",
+      "@testing-library/user-event": "^13.5.0",
+      "@types/jest": "^27.5.2",
+      "@types/node": "^16.18.126",
+      "@types/react": "^19.1.13",
+      "@types/react-dom": "^19.1.9",
+      "lodash": "^4.17.21",
+      "react": "^19.1.1",
+      "react-dom": "^19.1.1",
+      "react-scripts": "5.0.1",
+      "seedrandom": "^3.0.5",
+      "typescript": "^4.9.5",
+      "web-vitals": "^2.1.4"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "dev": "yarn start",
+      "build": "react-scripts build",
+      "preview": "npx serve -s build -l 5173",
+      "test": "react-scripts test --watchAll=false --bail",
+      "test:watch": "react-scripts test",
+      "eject": "react-scripts eject",
+      "prepare": "husky",
+      "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
+      "lint:fix": "eslint src --ext .ts,.tsx,.js,.jsx --fix",
+      "format": "prettier --write src/**/*.{ts,tsx,js,jsx,json,css,md}",
+      "format:check": "prettier --check src/**/*.{ts,tsx,js,jsx,json,css,md}",
+      "storybook": "storybook dev -p 29347",
+      "build-storybook": "storybook build",
+      "test:e2e": "playwright test --reporter=line",
+      "test:e2e:ui": "playwright test --ui",
+      "test:e2e:ci": "playwright test --reporter=line",
+      "test:e2e:smoke": "playwright test tests/e2e/01_tutorial_intro_growth.spec.ts tests/e2e/02_ep_milestones_evolution.spec.ts --reporter=line",
+      "test:e2e:balanced": "playwright test tests/e2e/01_tutorial_intro_growth.spec.ts tests/e2e/02_ep_milestones_evolution.spec.ts tests/e2e/03_cycle_reset.spec.ts --reporter=line",
+      "test:e2e:exhaustive": "playwright test tests/e2e/ --reporter=line",
+      "test:unit": "./scripts/generate-test-config.sh && react-scripts test --testPathPattern=src/__tests__/unit --watchAll=false --bail",
+      "test:integration": "./scripts/generate-test-config.sh && react-scripts test --testPathPattern=src/__tests__/integration --watchAll=false --bail",
+      "test:visual": "playwright test --config=playwright-storybook.config.ts --reporter=line",
+      "test:visual:ui": "playwright test --config=playwright-storybook.config.ts --ui",
+      "test:chromatic": "playwright test --config=playwright-chromatic.config.ts --reporter=line",
+      "test:chromatic:ui": "playwright test --config=playwright-chromatic.config.ts --ui",
+      "test:all": "yarn test:unit && yarn test:integration && yarn test:e2e:balanced",
+      "test:all:visual": "yarn test && yarn test:e2e && yarn test:visual",
+      "chromatic": "chromatic --exit-zero-on-changes",
+      "chromatic:ci": "chromatic --exit-zero-on-changes --auto-accept-changes",
+      "setup:testing": "./scripts/setup-testing.sh",
+      "setup:chromatic": "./scripts/setup-chromatic.sh",
+      "update:snapshots": "./scripts/update-snapshots.sh"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    },
+    "lint-staged": {
+      "src/**/*.{ts,tsx,js,jsx}": [
+        "eslint --fix",
+        "prettier --write"
+      ],
+      "src/**/*.{json,css,md}": [
+        "prettier --write"
+      ]
+    },
+    "devDependencies": {
+      "@playwright/test": "^1.55.0",
+      "@storybook/addon-a11y": "^8.6.14",
+      "@storybook/addon-essentials": "^8.6.14",
+      "@storybook/addon-interactions": "^8.6.14",
+      "@storybook/addon-links": "^8.6.14",
+      "@storybook/addon-viewport": "^8.6.14",
+      "@storybook/blocks": "^8.6.14",
+      "@storybook/react": "^8.6.14",
+      "@storybook/react-vite": "^8.6.14",
+      "@storybook/react-webpack5": "^8.6.14",
+      "@storybook/test": "^8.6.14",
+      "@storybook/test-runner": "^0.23.0",
+      "@types/lodash": "^4",
+      "@types/seedrandom": "^3",
+      "@typescript-eslint/eslint-plugin": "^7",
+      "@typescript-eslint/parser": "^7",
+      "autoprefixer": "^10.4.21",
+      "chromatic": "^13.1.4",
+      "eslint": "^8.57.0",
+      "eslint-config-prettier": "^10.1.8",
+      "eslint-plugin-prettier": "^5.5.4",
+      "eslint-plugin-react": "^7.37.5",
+      "husky": "^9.1.7",
+      "jest-environment-jsdom": "^30.1.2",
+      "lint-staged": "^16.1.6",
+      "postcss": "^8.5.6",
+      "prettier": "^3.6.2",
+      "storybook": "^8.6.14",
+      "tailwindcss": "^3.4.0",
+      "ts-loader": "^9.5.4",
+      "tsx": "^4.20.5",
+      "vite": "^7.1.5"
+    }
+  },
+  "packagePath": "/Users/jrushford@gitlab.com/Documents/personal/evolution/package.json",
+  "projectMetadata": {
+    "hasRouter": true,
+    "creationDate": {},
+    "storybookCreationDate": {},
+    "numberOfCommitters": 1,
+    "numberOfAppFiles": 0
+  },
+  "rebuildForBuildId": "68c7d804146e7347b71e1052",
+  "runtimeMetadata": {
+    "nodePlatform": "darwin",
+    "nodeVersion": "24.0.1",
+    "packageManager": "yarn",
+    "packageManagerVersion": "4.9.1"
+  },
+  "sessionId": "d1b752c3-1756-4438-aa14-7c1734d2bfc9",
+  "sourceDir": "/var/folders/y_/wknbmyms1y1d8f4y1shnk7780000gn/T/chromatic--47473-AzW7MzfvYKCJ",
+  "startedAt": 1757928345663,
+  "storybook": {
+    "baseDir": "."
+  },
+  "task": "build",
+  "userError": true
+}

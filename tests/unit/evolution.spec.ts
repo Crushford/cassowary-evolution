@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll } from '@jest/globals';
 import { loadConfig, getEvolutionNodesForTier } from '../../src/game/config';
 import { GameState } from '../../src/types/game';
 

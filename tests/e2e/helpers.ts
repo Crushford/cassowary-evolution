@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page } from '@chromatic-com/playwright';
 
 /**
  * Helper function to pick the first N cards in a deterministic order
@@ -22,7 +22,7 @@ export async function pickFirstN(page: Page, n: number): Promise<void> {
   // Check for level complete modal and close it
   const levelCompleteModal = page.getByTestId('level-complete-modal');
   if (await levelCompleteModal.isVisible()) {
-    await page.getByTestId('continue').click();
+    await page.getByTestId('btn-advance-level').click();
     await levelCompleteModal.waitFor({ state: 'hidden' });
   }
   

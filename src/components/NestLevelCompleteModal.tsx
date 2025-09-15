@@ -18,7 +18,10 @@ export const NestLevelCompleteModal: React.FC<NestLevelCompleteModalProps> = ({
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      data-testid="level-complete-modal"
+    >
       <div
         ref={modalRef}
         className="bg-white rounded-lg shadow-xl max-w-md mx-4 p-6 focus:outline-none"

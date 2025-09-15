@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chromatic-com/playwright": "^0.12.7",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
@@ -44,6 +45,9 @@
     "test:integration": "./scripts/generate-test-config.sh && react-scripts test --testPathPattern=src/__tests__/integration --watchAll=false --bail",
     "test:visual": "playwright test --config=playwright-storybook.config.ts --reporter=line",
     "test:visual:ui": "playwright test --config=playwright-storybook.config.ts --ui",
+    "test:chromatic": "playwright test --config=playwright-chromatic.config.ts --reporter=line",
+    "test:chromatic:ui": "playwright test --config=playwright-chromatic.config.ts --ui",
+    "chromatic:pw": "chromatic --playwright --project-token=chpt_fa6d3a835b2121d --diagnostics",
     "test:all": "yarn test:unit && yarn test:integration && yarn test:e2e:balanced",
     "test:all:visual": "yarn test && yarn test:e2e && yarn test:visual",
     "chromatic": "chromatic --exit-zero-on-changes",

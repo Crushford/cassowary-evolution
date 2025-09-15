@@ -1,0 +1,63 @@
+11:25:43.346 Chromatic CLI v13.1.4
+             https://www.chromatic.com/docs/cli 
+ 
+11:25:43.354 Authenticating with Chromatic 
+11:25:43.354     → Connecting to https://index.chromatic.com
+11:25:43.727 Authenticated with Chromatic
+                 → Using project token '****************121d'
+11:25:43.728 Retrieving git information
+11:25:43.728 execGitCommand: git --version
+11:25:43.738 execGitCommand result: 'git version 2.50.1'
+11:25:43.739 execGitCommand: git --no-pager log -n 1 --format="%H ## %ct ## %ae ## %an"
+11:25:43.749 execGitCommand result: '076c722fa718b01dd31a7ea3b895ab51576701b2 ## 1757878178 ## jrushford@gitlab.com ## James Rushford'
+11:25:43.750 execGitCommand: git branch --show-current
+11:25:43.759 execGitCommand result: 'add-evolution-pints'
+11:25:43.863 execGitCommand: git --no-pager log -n 1 --skip=1 --format="%H"
+11:25:43.872 execGitCommand result: '24d8693c490518eddc7086f59507107c2e4a7bc0'
+11:25:43.873 git info: {"commit":{"commit":"076c722fa718b01dd31a7ea3b895ab51576701b2","committedAt":1757878178000,"committerEmail":"jrushford@gitlab.com","committerName":"James Rushford"},"branch":"add-evolution-pints","fromCI":false}
+11:25:43.873 execGitCommand: git config user.email
+11:25:43.900 execGitCommand result: 'jrushford@gitlab.com'
+11:25:43.901 execGitCommand: (git diff --name-only --no-relative --diff-filter=d --cached;git diff --name-only --no-relative --diff-filter=d;git ls-files --others --exclude-standard) | git hash-object --stdin-paths | git hash-object --stdin
+11:25:43.927 execGitCommand result: '06f28c30e5192bd440ba234c2f853b7de835575a'
+11:25:43.927 execGitCommand: git rev-parse --show-toplevel
+11:25:43.937 execGitCommand result: '/Users/jrushford@gitlab.com/Documents/personal/evolution'
+11:25:43.937 execGitCommandOneLine: git log --reverse --format=%cd --date=iso
+11:25:43.948 execGitCommandOneLine: git log --follow --reverse --format=%cd --date=iso -- .storybook
+11:25:43.958 execGitCommandCountLines: git shortlog -sn --all --since="6 months ago"
+11:25:43.968 execGitCommandCountLines: git ls-files -- "*page*.js" "*page*.jsx" "*page*.ts" "*page*.tsx" "*Page*.js" "*Page*.jsx" "*Page*.ts" "*Page*.tsx" "*screen*.js" "*screen*.jsx" "*screen*.ts" "*screen*.tsx" "*Screen*.js" "*Screen*.jsx" "*Screen*.ts" "*Screen*.tsx"
+11:25:43.977 execGitCommand: git config --get remote.origin.url
+11:25:43.985 execGitCommand result: 'https://github.com/Crushford/cassowary-evolution.git'
+11:25:44.338 App firstBuild: %o, lastBuild: %o {"committedAt":1757878178000} {"commit":"076c722fa718b01dd31a7ea3b895ab51576701b2","committedAt":1757878178000}
+11:25:44.338 execGitCommand: git cat-file -e "076c722fa718b01dd31a7ea3b895ab51576701b2^{commit}"
+11:25:44.353 execGitCommand result: ''
+11:25:44.354 Adding last branch build commit 076c722fa718b01dd31a7ea3b895ab51576701b2 to commits with builds
+11:25:44.354 step: checking 20 up to 1757878178
+11:25:44.354 step: commitsWithBuilds: 076c722fa718b01dd31a7ea3b895ab51576701b2
+11:25:44.354 step: commitsWithoutBuilds:
+11:25:44.354 execGitCommand: git rev-list HEAD       --since 1757878178       -n 20 --not 076c722fa718b01dd31a7ea3b895ab51576701b2
+11:25:44.366 execGitCommand result: ''
+11:25:44.367 step: candidateCommits: , visitedCommitsWithoutBuilds:
+11:25:44.367 step: no candidateCommits; we are done
+11:25:44.726 Final commitsWithBuilds: 076c722fa718b01dd31a7ea3b895ab51576701b2
+11:25:44.726 execGitCommand: git rev-list 076c722fa718b01dd31a7ea3b895ab51576701b2 --not "076c722fa718b01dd31a7ea3b895ab51576701b2^@"
+11:25:44.740 execGitCommand result: '076c722fa718b01dd31a7ea3b895ab51576701b2'
+11:25:44.741 Found parentCommits: 076c722fa718b01dd31a7ea3b895ab51576701b2
+11:25:45.097 Retrieved git information
+                 → Commit '076c722' on branch 'add-evolution-pints'; found 1 parent build
+11:25:45.097 Collecting test suite metadata
+11:25:45.097 {"storybookV6error":{"code":"MODULE_NOT_FOUND","requireStack":["/Users/jrushford@gitlab.com/.npm/_npx/86f55be96e7aba1d/node_modules/chromatic/dist/chunk-TKGT252T.js","/Users/jrushford@gitlab.com/.npm/_npx/86f55be96e7aba1d/node_modules/chromatic/dist/bin.js"]}}
+11:25:45.111 {"configDirectory":".storybook","mainConfig":{"code":"import type { StorybookConfig } from '@storybook/react-webpack5';\n\nconst config: StorybookConfig = {\n  stories: ['../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],\n  staticDirs: ['../public'],\n  addons: [\n    '@storybook/addon-links',\n    '@storybook/addon-essentials',\n    '@storybook/addon-interactions',\n    '@storybook/addon-viewport',\n    '@storybook/addon-a11y',\n  ],\n  framework: {\n    name: '@storybook/react-webpack5',\n    options: {},\n  },\n  docs: {\n    autodocs: 'tag',\n  },\n  typescript: {\n    check: false,\n    reactDocgen: 'react-docgen-typescript',\n    reactDocgenTypescriptOptions: {\n      shouldExtractLiteralValuesFromEnum: true,\n      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),\n    },\n  },\n  webpackFinal: async (config) => {\n    // Ensure TypeScript files are handled properly\n    config.module.rules.push({\n      test: /\\.tsx?$/,\n      use: [\n        {\n          loader: 'ts-loader',\n          options: {\n            transpileOnly: true,\n          },\n        },\n      ],\n    });\n    return config;\n  },\n};\n\nexport default config;"}}
+11:25:45.111 No viewlayer package listed in dependencies. Checking transitive dependencies.
+11:25:45.113 [{"status":"fulfilled","value":{}},{"status":"rejected","reason":{}},{"status":"rejected","reason":{}}]
+11:25:45.113 Collected test suite metadata
+                 → Playwright for E2E
+11:25:45.113 Initializing build
+11:25:45.114 Got environment:
+             {}
+11:25:45.662 Initialized build
+                 → Build 11 initialized
+11:25:45.664 ✖ Failed to import `@chromatic-com/playwright`, is it installed in `package.json`?
+             
+             ℹ To run `chromatic --playwright` you must have `@chromatic-com/playwright` installed.
+11:25:45.664     → Command failed: undefined
+11:25:45.671 ℹ Wrote Chromatic diagnostics report to chromatic-diagnostics.json

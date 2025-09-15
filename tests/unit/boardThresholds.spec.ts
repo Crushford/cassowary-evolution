@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals';
 import { getCurrentLevel } from '../../src/game/config';
 
 describe('Board Transition Selection', () => {

@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll } from '@jest/globals';
 import { loadConfig, getEvolutionNodesForTier } from '../../src/game/config';
 import { GameState } from '../../src/types/game';
 
@@ -234,9 +235,9 @@ describe('Evolution Modal Integration', () => {
       // arms-1 requires claws-1 (purchased) and is tier 4 (40+ EP)
       const arms1Node = config.evolution.nodes.find(n => n.id === 'arms-1')!;
       const canBuyArms1 = gameState.progress!.evolutionPoints >= arms1Node.cost &&
-        arms1Node.prereq?.every(prereqId => 
+        (arms1Node.prereq?.every(prereqId => 
           gameState.progress!.purchasedNodes.includes(prereqId)
-        ) ?? true;
+        ) ?? true);
       
       expect(canBuyArms1).toBe(true);
     });

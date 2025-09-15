@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect } from "@chromatic-com/playwright";
 
 test("Level 1: select 3 → full-board peek → admire/return → next season", async ({ page }) => {
   const qs = new URLSearchParams({ seed: "l1-seed-001", testMode: "1", fastPeek: "1" });

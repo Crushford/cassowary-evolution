@@ -190,7 +190,7 @@ function oddsTables() {
 const cfg: Config = {
   meta: {
     version: "1.0.0",
-    generatedAt: new Date().toISOString(),
+    generatedAt: "2025-09-15T10:30:25.495Z", // Fixed timestamp for deterministic builds
     notes: [
       "Board cycle is [5,10,15,20,40,80] then resets to 5 at next zoom cycle.",
       "Population thresholds per step: [1,10,50,100,200,400] (enter when >= threshold).",
