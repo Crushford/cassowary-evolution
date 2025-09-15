@@ -16,7 +16,11 @@ yarn tsc --noEmit
 
 # Run unit tests
 echo "🧪 Running unit tests..."
-yarn test
+yarn test:unit
+
+# Run integration tests
+echo "🧪 Running integration tests..."
+yarn test:integration
 
 # Run build check
 echo "🏗️ Checking build..."
