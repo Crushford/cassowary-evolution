@@ -21,6 +21,17 @@ export default function App() {
     initState(seed, testMode, fastPeek),
   );
 
+  // Test-only API for deterministic testing
+  if (testMode) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).__test = {
+      setEp: (n: number) => {
+        // Dispatch action to set EP directly
+        dispatch({ type: 'SET_EP', payload: n });
+      },
+    };
+  }
+
   // Toggle motion-off on html for tests/reduced motion
   useEffect(() => {
     const off =

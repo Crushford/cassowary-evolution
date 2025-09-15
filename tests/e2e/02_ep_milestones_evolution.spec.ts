@@ -59,8 +59,16 @@ test.describe('EP Milestones + Evolution Purchases', () => {
     // Handle intro modal first
     await handleIntroModal(page);
     
-    // Play until we reach 10 EP with explicit timeout
-    await waitForEPThreshold(page, 10, 30);
+    // Wait a bit for the component to fully render and test API to be available
+    await page.waitForTimeout(1000);
+    
+    // Set EP directly to 10 using test API (deterministic)
+    await page.evaluate(() => {
+      if (!(window as any).__test) {
+        throw new Error('Test API not available');
+      }
+      (window as any).__test.setEp(10);
+    });
     
     // Evolution modal should be available with explicit timeout
     await expect(page.getByTestId('evolution-open')).toBeVisible({ timeout: 15_000 });

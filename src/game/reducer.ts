@@ -19,7 +19,8 @@ export type Action =
   | { type: 'CLOSE_EVOLUTION_MODAL' }
   | { type: 'PURCHASE_EVOLUTION_NODE'; nodeId: string }
   | { type: 'DISMISS_BOARD_GROWTH_TOAST' }
-  | { type: 'DISMISS_EP_GAIN_TOAST' };
+  | { type: 'DISMISS_EP_GAIN_TOAST' }
+  | { type: 'SET_EP'; payload: number };
 
 export function initState(
   seed = 'cassowary-default',
@@ -261,6 +262,12 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'DISMISS_EP_GAIN_TOAST':
       return { ...state, ui: { ...state.ui, showEPGainToast: false, epGainMessage: '' } };
+
+    case 'SET_EP':
+      return {
+        ...state,
+        progress: { ...state.progress, evolutionPoints: action.payload },
+      };
 
     default:
       return state;
