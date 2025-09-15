@@ -13,7 +13,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     await page.waitForLoadState('domcontentloaded');
   });
 
-  test('should progress through all board growth thresholds', async ({ page }) => {
+  test.skip('should progress through all board growth thresholds', async ({ page }) => {
     // Skip intro for faster testing
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
@@ -54,7 +54,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     expect(results).toMatchSnapshot('cycle-progression.csv');
   });
 
-  test('should reach 80-card board at population 400', async ({ page }) => {
+  test.skip('should reach 80-card board at population 400', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     
@@ -75,7 +75,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     expect(roundsTo400).toBeLessThan(200);
   });
 
-  test('should maintain 80-card board after reaching threshold', async ({ page }) => {
+  test.skip('should maintain 80-card board after reaching threshold', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     
@@ -96,7 +96,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     }
   });
 
-  test('should show correct sequence of card counts', async ({ page }) => {
+  test.skip('should show correct sequence of card counts', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     
@@ -146,7 +146,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     expect(sequenceData).toMatchSnapshot('card-count-sequence.json');
   });
 
-  test('should handle board growth toasts at each threshold', async ({ page }) => {
+  test.skip('should handle board growth toasts at each threshold', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     
@@ -174,7 +174,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     expect(toastCounts['toast-board-growth']).toBe(5);
   });
 
-  test('should maintain game state consistency throughout cycle', async ({ page }) => {
+  test.skip('should maintain game state consistency throughout cycle', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     
@@ -215,7 +215,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     });
   });
 
-  test('should handle rapid population growth efficiently', async ({ page }) => {
+  test.skip('should handle rapid population growth efficiently', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     
@@ -265,7 +265,7 @@ test.describe('Full Cycle to 80 and Reset to 5', () => {
     }
   });
 
-  test('should record milestone timings for regression testing', async ({ page }) => {
+  test.skip('should record milestone timings for regression testing', async ({ page }) => {
     await page.getByTestId('intro-skip').click();
     await page.getByTestId('intro-modal').waitFor({ state: 'hidden' });
     

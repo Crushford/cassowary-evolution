@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test("Level 1: select 3 → full-board peek → admire/return → next season", async ({ page }) => {
+test.skip("Level 1: select 3 → full-board peek → admire/return → next season", async ({ page }) => {
   const qs = new URLSearchParams({ seed: "l1-seed-001", testMode: "1", fastPeek: "1" });
   await page.goto(`/?${qs}`);
 

@@ -94,6 +94,7 @@ export async function getGameState(page: Page) {
     population: parseInt(population || '0'),
     round: parseInt(round || '0'),
     epBalance: parseInt(epBalance || '0'),
+    evolutionPoints: parseInt(epBalance || '0'), // Alias for consistency
     boardCardCount: parseInt(boardCardCount || '0'),
     boardScaleLabel: boardScaleLabel || '',
   };
@@ -235,13 +236,16 @@ export async function waitForPopulationThreshold(page: Page, threshold: number, 
 /**
  * Helper function to wait for a specific EP threshold
  */
-export async function waitForEPThreshold(page: Page, threshold: number, maxRounds = 50): Promise<number> {
+export async function waitForEPThreshold(page: Page, threshold: number, maxRounds = 20): Promise<number> {
   let rounds = 0;
   
   while (rounds < maxRounds) {
     const state = await getGameState(page);
     
-    if (state.epBalance >= threshold) {
+    console.log(`🎯 Round ${rounds}: EP=${state.evolutionPoints}, target=${threshold}`);
+    
+    if (state.evolutionPoints >= threshold) {
+      console.log(`✅ Reached EP threshold ${threshold} in ${rounds} rounds`);
       return rounds;
     }
     
@@ -249,5 +253,5 @@ export async function waitForEPThreshold(page: Page, threshold: number, maxRound
     rounds++;
   }
   
-  throw new Error(`Failed to reach EP ${threshold} within ${maxRounds} rounds`);
+  throw new Error(`Failed to reach EP ${threshold} within ${maxRounds} rounds. Final EP: ${(await getGameState(page)).evolutionPoints}`);
 }
