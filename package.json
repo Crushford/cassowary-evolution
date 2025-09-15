@@ -2,6 +2,7 @@
   "name": "evolution",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "yarn@4.9.1",
   "dependencies": {
     "@chromatic-com/playwright": "^0.12.7",
     "@testing-library/dom": "^10.4.1",
