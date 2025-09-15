@@ -41,6 +41,7 @@
     "test:e2e:smoke": "playwright test tests/e2e/01_tutorial_intro_growth.spec.ts tests/e2e/02_ep_milestones_evolution.spec.ts --reporter=line",
     "test:e2e:balanced": "playwright test tests/e2e/01_tutorial_intro_growth.spec.ts tests/e2e/02_ep_milestones_evolution.spec.ts tests/e2e/03_cycle_reset.spec.ts --reporter=line",
     "test:e2e:exhaustive": "playwright test tests/e2e/ --reporter=line",
+    "tsc": "tsc --noEmit",
     "test:unit": "./scripts/generate-test-config.sh && react-scripts test --testPathPattern=src/__tests__/unit --watchAll=false --bail",
     "test:integration": "./scripts/generate-test-config.sh && react-scripts test --testPathPattern=src/__tests__/integration --watchAll=false --bail",
     "test:visual": "playwright test --config=playwright-storybook.config.ts --reporter=line",

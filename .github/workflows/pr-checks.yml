@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened]
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
   PLAYWRIGHT_BROWSERS_PATH: '0'
 
 jobs:
@@ -23,6 +23,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+
+      - name: Install Yarn 4
+        run: corepack enable && corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -55,6 +58,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+
+      - name: Install Yarn 4
+        run: corepack enable && corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -92,6 +98,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+
+      - name: Install Yarn 4
+        run: corepack enable && corepack prepare yarn@4.9.1 --activate
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
