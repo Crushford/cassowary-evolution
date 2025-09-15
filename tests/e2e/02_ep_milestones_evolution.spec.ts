@@ -50,7 +50,7 @@ test.describe('EP Milestones + Evolution Purchases', () => {
     expect(finalState.epBalance).toBeGreaterThanOrEqual(0);
   });
 
-  test.skip('should open evolution modal at EP milestone 10', async ({ page }) => {
+  test('should open evolution modal at EP milestone 10', async ({ page }) => {
     // Set a shorter timeout for this specific test
     test.setTimeout(10000);
     console.log('🚀 Starting EP milestone 10 test...');
@@ -115,6 +115,9 @@ test.describe('EP Milestones + Evolution Purchases', () => {
     await page.goto('/'); // baseURL already includes seed & testMode
     await page.waitForLoadState('domcontentloaded');
     
+    // Handle intro modal first
+    await handleIntroModal(page);
+    
     // Play until we have enough EP
     await waitForEPThreshold(page, 25, 30);
     
@@ -138,6 +141,9 @@ test.describe('EP Milestones + Evolution Purchases', () => {
   test('should purchase evolution node and apply effects', async ({ page }) => {
     await page.goto('/'); // baseURL already includes seed & testMode
     await page.waitForLoadState('domcontentloaded');
+    
+    // Handle intro modal first
+    await handleIntroModal(page);
     
     // Play until we have enough EP for digestion-1
     await waitForEPThreshold(page, 25, 30);
