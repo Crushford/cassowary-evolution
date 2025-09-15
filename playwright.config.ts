@@ -1,95 +1,50 @@
-import { defineConfig } from '@playwright/test';
+// playwright.config.ts
+import { defineConfig, devices } from '@playwright/test';
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
+const isCI = !!process.env.CI;
+
 export default defineConfig({
+  // Your E2E tests for the app live under ./tests (adjust only if needed)
   testDir: './tests',
+  // Ignore non-E2E buckets here so this config only targets the app
   testIgnore: [
     '**/unit/**',
     '**/integration/**',
+    '**/storybook/**',
     '**/chromatic/**',
   ],
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Fail fast - stop on first failure */
-  maxFailures: 1,
-  /* Global timeout for the entire test run */
-  globalTimeout: 300 * 1000, // 5 minutes
-  /* Timeout for each test */
-  timeout: 60 * 1000, // 1 minute
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['line']],
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+
+  // CI ergonomics
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 1 : undefined,
+  timeout: 60_000,
+  globalTimeout: 300_000,
+  reporter: [['line'], ['html', { outputFolder: 'playwright-report' }]],
+
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000/?seed=cq-e2e-01&testMode=1',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    // app base URL; tests should do: await page.goto('/')
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
-
-    /* Ignore webpack dev server overlay */
     ignoreHTTPSErrors: true,
-
-    /* Force stable viewport and color scheme for deterministic tests */
     viewport: { width: 1280, height: 800 },
     colorScheme: 'dark',
   },
 
-  /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: { 
-        browserName: 'chromium',
-        viewport: { width: 1280, height: 800 },
-      },
-    },
-    // Comment out other browsers for faster testing
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
 
-  /* Run your local preview server before starting the tests */
+  // ⭐ KEY: let Playwright start/stop the server when no BASE_URL is injected
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: 'yarn start',
+        // CI: build + serve static CRA bundle; Local: fast dev server
+        command: isCI
+          ? 'yarn build && npx serve -s build -l 3000'
+          : 'yarn start',
         url: 'http://localhost:3000',
-        reuseExistingServer: !process.env.CI,
-        timeout: 300 * 1000, // 5 minutes
+        reuseExistingServer: !isCI,
+        timeout: 120_000
       },
 });

@@ -49,7 +49,7 @@
     "test:visual:ui": "playwright test --config=playwright-storybook.config.ts --ui",
     "test:chromatic": "playwright test --config=playwright-chromatic.config.ts --reporter=line",
     "test:chromatic:ui": "playwright test --config=playwright-chromatic.config.ts --ui",
-    "chromatic:pw": "chromatic --playwright --project-token=chpt_fa6d3a835b2121d --diagnostics",
+    "chromatic:pw": "chromatic --playwright --project-token=$CHROMATIC_PROJECT_TOKEN --diagnostics",
     "test:all": "yarn test:unit && yarn test:integration && yarn test:e2e:balanced",
     "test:all:visual": "yarn test && yarn test:e2e && yarn test:visual",
     "chromatic": "chromatic --exit-zero-on-changes",
