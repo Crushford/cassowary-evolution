@@ -42,6 +42,19 @@ const config: StorybookConfig = {
         },
       ],
     });
+
+    // Remove Storybook's react-docgen (JS) loader if added by presets
+    if (Array.isArray(config.module.rules)) {
+      config.module.rules = config.module.rules.filter((rule: any) => {
+        const uses = (rule && rule.use) || [];
+        const useArray = Array.isArray(uses) ? uses : [uses].filter(Boolean);
+        const hasReactDocgenLoader = useArray.some((u: any) => {
+          const loaderPath = typeof u === 'string' ? u : u && u.loader;
+          return loaderPath && loaderPath.includes('react-docgen-loader');
+        });
+        return !hasReactDocgenLoader;
+      });
+    }
     return config;
   },
 };

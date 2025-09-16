@@ -161,6 +161,7 @@ jobs:
         env:
           CI: "true"
           STORYBOOK_DISABLE_TELEMETRY: "1"
+          SB_DOCGEN_DISABLED: "1"
           PW_LOGLEVEL: debug
           NODE_OPTIONS: "--max-old-space-size=4096"
         run: |
