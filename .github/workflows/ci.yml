@@ -55,7 +55,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/pw-browsers
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
 
     steps:
       - uses: actions/checkout@v4
@@ -133,7 +133,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
-      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/pw-browsers
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
 
     steps:
       - name: Checkout code
