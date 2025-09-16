@@ -70,7 +70,11 @@ jobs:
           key: pw-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install Playwright (browsers + system deps)
-        run: yarn playwright install --with-deps
+        run: |
+          # Set PLAYWRIGHT_BROWSERS_PATH to a writable location
+          export PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/ms-playwright
+          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
+          yarn playwright install --with-deps
 
       - name: Sanity checks
         run: |
@@ -137,7 +141,11 @@ jobs:
         run: yarn install --immutable
 
       - name: Install Playwright browsers
-        run: yarn playwright install --with-deps
+        run: |
+          # Set PLAYWRIGHT_BROWSERS_PATH to a writable location
+          export PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/ms-playwright
+          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
+          yarn playwright install --with-deps
 
       - name: Verify Storybook dependencies
         run: |
@@ -145,6 +153,9 @@ jobs:
           node -e "console.log('react-docgen:', require.resolve('react-docgen'))" || echo "react-docgen not found"
           node -e "console.log('@storybook/core:', require.resolve('@storybook/core'))" || echo "@storybook/core not found"
           ls -la node_modules/@storybook/ || echo "No @storybook modules found"
+          echo "Checking webpack and related dependencies..."
+          node -e "console.log('webpack:', require.resolve('webpack'))" || echo "webpack not found"
+          node -e "console.log('webpack-dev-server:', require.resolve('webpack-dev-server'))" || echo "webpack-dev-server not found"
 
       - name: Run visual tests (static storybook)
         env:
@@ -159,8 +170,10 @@ jobs:
           echo "Yarn: $(yarn -v)"
           echo "PWD: $(pwd)"
           ls -la
+          echo "--- Clearing any existing Storybook build ---"
+          rm -rf storybook-static || true
           echo "--- Storybook static probe ---"
-          yarn build-storybook --debug-webpack
+          yarn build-storybook --debug-webpack --quiet
           ( yarn serve -s storybook-static -l 29348 2>&1 | tee -a playwright-sb-probe.log & echo $! > .sb_probe.pid ) || true
           sleep 3
           if ! ps -p $(cat .sb_probe.pid) > /dev/null 2>&1; then
