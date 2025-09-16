@@ -3,7 +3,6 @@ name: CI
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
 
 env:
   NODE_VERSION: '20'
@@ -140,11 +139,19 @@ jobs:
       - name: Install Playwright browsers
         run: yarn playwright install --with-deps
 
+      - name: Verify Storybook dependencies
+        run: |
+          echo "Checking Storybook dependencies..."
+          node -e "console.log('react-docgen:', require.resolve('react-docgen'))" || echo "react-docgen not found"
+          node -e "console.log('@storybook/core:', require.resolve('@storybook/core'))" || echo "@storybook/core not found"
+          ls -la node_modules/@storybook/ || echo "No @storybook modules found"
+
       - name: Run visual tests (static storybook)
         env:
           CI: "true"
           STORYBOOK_DISABLE_TELEMETRY: "1"
           PW_LOGLEVEL: debug
+          NODE_OPTIONS: "--max-old-space-size=4096"
         run: |
           set +e
           export DEBUG=pw:browser,pw:webserver
@@ -153,7 +160,7 @@ jobs:
           echo "PWD: $(pwd)"
           ls -la
           echo "--- Storybook static probe ---"
-          yarn build-storybook
+          yarn build-storybook --debug-webpack
           ( yarn serve -s storybook-static -l 29348 2>&1 | tee -a playwright-sb-probe.log & echo $! > .sb_probe.pid ) || true
           sleep 3
           if ! ps -p $(cat .sb_probe.pid) > /dev/null 2>&1; then
