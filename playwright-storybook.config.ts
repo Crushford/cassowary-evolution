@@ -86,7 +86,7 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: {
     command: isCI
-      ? 'bash -lc "yarn build-storybook && serve -s storybook-static -l 29347 2>&1 | tee -a playwright-sb-webserver.log"'
+      ? 'bash -lc "yarn build-storybook && yarn serve -s storybook-static -l 29347 2>&1 | tee -a playwright-sb-webserver.log"'
       : 'yarn storybook --port 29347',
     // Wait for the iframe to be available (ensures static build is served)
     url: 'http://localhost:29347/iframe.html',
