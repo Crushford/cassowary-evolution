@@ -25,10 +25,11 @@ export default defineConfig({
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
     command: isCI
-      ? 'yarn build && serve -s build -l 3000'
+      ? 'bash -lc "yarn build && serve -s build -l 3000 2>&1 | tee -a playwright-webserver.log"'
       : 'yarn start',
-    url: 'http://localhost:3000',
+    // Wait specifically for the healthcheck to be live
+    url: 'http://localhost:3000/__ready.txt',
     reuseExistingServer: !isCI,
-    timeout: 120_000,
+    timeout: 180_000,
   },
 });

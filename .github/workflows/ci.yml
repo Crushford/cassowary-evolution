@@ -34,10 +34,37 @@ jobs:
         run: yarn build
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
+        run: yarn playwright install --with-deps
 
       - name: E2E tests (local preview)
-        run: yarn test:e2e:ci
+        env:
+          CI: "true"
+        run: |
+          set +e
+          export DEBUG=pw:browser,pw:webserver
+          yarn test:e2e
+          EXIT=$?
+          if [ -f playwright-webserver.log ]; then
+            echo "--- WebServer Log (tail) ---"
+            tail -n 200 playwright-webserver.log || true
+          fi
+          exit $EXIT
+
+      - name: Upload Playwright report (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload web server log (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-webserver-log
+          path: playwright-webserver.log
+          if-no-files-found: ignore
 
       - name: Visual regression tests
         run: yarn test:visual
