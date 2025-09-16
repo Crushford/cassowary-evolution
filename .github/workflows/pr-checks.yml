@@ -136,11 +136,45 @@ jobs:
       - name: Install Playwright browsers
         run: yarn playwright install --with-deps
 
-      - name: Build Storybook
-        run: yarn build-storybook
-
-      - name: Run visual tests
-        run: yarn test:visual
+      - name: Run visual tests (static storybook)
+        env:
+          CI: "true"
+          STORYBOOK_DISABLE_TELEMETRY: "1"
+          PW_LOGLEVEL: debug
+        run: |
+          set +e
+          export DEBUG=pw:browser,pw:webserver
+          echo "Node: $(node -v)"
+          echo "Yarn: $(yarn -v)"
+          echo "PWD: $(pwd)"
+          ls -la
+          echo "--- Storybook static probe ---"
+          yarn build-storybook
+          ( serve -s storybook-static -l 29348 2>&1 | tee -a playwright-sb-probe.log & echo $! > .sb_probe.pid ) || true
+          sleep 3
+          if ! ps -p $(cat .sb_probe.pid) > /dev/null 2>&1; then
+            echo "❌ Storybook probe server died immediately"
+            tail -n +1 playwright-sb-probe.log || true
+            exit 1
+          fi
+          for i in {1..20}; do
+            if curl -fsS http://localhost:29348/iframe.html > /dev/null; then
+              echo "✅ Storybook probe responded on 29348"; break
+            fi
+            echo "⏳ Waiting for Storybook probe… ($i)"; sleep 1
+          done
+          kill $(cat .sb_probe.pid) || true
+          yarn test:visual
+          EXIT=$?
+          if [ -f playwright-sb-webserver.log ]; then
+            echo "--- Storybook WebServer Log (tail) ---"
+            tail -n 200 playwright-sb-webserver.log || true
+          fi
+          if [ -f playwright-sb-probe.log ]; then
+            echo "--- Storybook Probe Log (tail) ---"
+            tail -n 200 playwright-sb-probe.log || true
+          fi
+          exit $EXIT
 
       - name: Upload visual test results
         uses: actions/upload-artifact@v4
@@ -151,6 +185,20 @@ jobs:
             test-results/
             playwright-report/
           retention-days: 3
+      - name: Upload Storybook web server log (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-sb-webserver-log
+          path: playwright-sb-webserver.log
+          if-no-files-found: ignore
+      - name: Upload Storybook probe log (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-sb-probe-log
+          path: playwright-sb-probe.log
+          if-no-files-found: ignore
 
   # Chromatic visual testing for PRs (Storybook)
   chromatic-checks:

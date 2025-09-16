@@ -1,5 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
+const isCI = !!process.env.CI;
+
 /**
  * Playwright configuration for Storybook visual testing
  * @see https://playwright.dev/docs/test-configuration
@@ -83,9 +85,12 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'yarn storybook --port 29347',
-    url: 'http://localhost:29347',
+    command: isCI
+      ? 'bash -lc "yarn build-storybook && serve -s storybook-static -l 29347 2>&1 | tee -a playwright-sb-webserver.log"'
+      : 'yarn storybook --port 29347',
+    // Wait for the iframe to be available (ensures static build is served)
+    url: 'http://localhost:29347/iframe.html',
     reuseExistingServer: !process.env.CI,
-    timeout: 300 * 1000, // 5 minutes
+    timeout: 180 * 1000,
   },
 });
