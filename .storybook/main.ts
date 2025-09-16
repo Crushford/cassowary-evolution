@@ -44,16 +44,25 @@ const config: StorybookConfig = {
     });
 
     // Remove Storybook's react-docgen (JS) loader if added by presets
-    if (Array.isArray(config.module.rules)) {
-      config.module.rules = config.module.rules.filter((rule: any) => {
-        const uses = (rule && rule.use) || [];
-        const useArray = Array.isArray(uses) ? uses : [uses].filter(Boolean);
-        const hasReactDocgenLoader = useArray.some((u: any) => {
+    if (Array.isArray(config.module?.rules)) {
+      const originalRules = config.module.rules as any[];
+      config.module.rules = originalRules.map((rule: any) => {
+        if (!rule || !rule.use) return rule;
+        const useArray = Array.isArray(rule.use) ? rule.use : [rule.use];
+        const filtered = useArray.filter((u: any) => {
           const loaderPath = typeof u === 'string' ? u : u && u.loader;
-          return loaderPath && loaderPath.includes('react-docgen-loader');
+          return !(loaderPath && String(loaderPath).includes('react-docgen-loader'));
         });
-        return !hasReactDocgenLoader;
+        if (filtered.length !== useArray.length) {
+          return { ...rule, use: filtered };
+        }
+        return rule;
       });
+      if (process.env.CI) {
+        const hasDocgenLoader = JSON.stringify(config.module.rules).includes('react-docgen-loader');
+        // eslint-disable-next-line no-console
+        console.log('[storybook] react-docgen-loader present after strip?', hasDocgenLoader);
+      }
     }
     return config;
   },

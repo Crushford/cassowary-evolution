@@ -49,6 +49,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: code-quality
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/pw-browsers
 
     steps:
       - uses: actions/checkout@v4
@@ -66,15 +71,13 @@ jobs:
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
-          path: ~/.cache/ms-playwright
-          key: pw-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
 
-      - name: Install Playwright (browsers + system deps)
-        run: |
-          # Set PLAYWRIGHT_BROWSERS_PATH to a writable location
-          export PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/ms-playwright
-          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
-          yarn playwright install --with-deps
+      - name: Install Playwright browsers (Chromium + system deps)
+        run: yarn playwright install --with-deps chromium
 
       - name: Sanity checks
         run: |
@@ -124,6 +127,11 @@ jobs:
     name: Storybook Visual Tests
     runs-on: ubuntu-latest
     needs: code-quality
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ runner.temp }}/pw-browsers
 
     steps:
       - name: Checkout code
@@ -140,12 +148,16 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Install Playwright browsers
-        run: |
-          # Set PLAYWRIGHT_BROWSERS_PATH to a writable location
-          export PLAYWRIGHT_BROWSERS_PATH=$HOME/.cache/ms-playwright
-          mkdir -p $PLAYWRIGHT_BROWSERS_PATH
-          yarn playwright install --with-deps
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install Playwright browsers (Chromium + system deps)
+        run: yarn playwright install --with-deps chromium
 
       - name: Verify Storybook dependencies
         run: |
@@ -262,7 +274,10 @@ jobs:
     name: Comment on PR
     runs-on: ubuntu-latest
     needs: [code-quality, app-e2e, storybook-visual, chromatic-storybook]
-    if: always() && github.event_name == 'pull_request'
+    if: always() && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target')
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Comment PR with results
         uses: actions/github-script@v7
@@ -272,7 +287,7 @@ jobs:
         with:
           script: |
             const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-            const issue_number = context.issue.number;
+            const issue_number = context.payload.pull_request ? context.payload.pull_request.number : context.issue.number;
             
             const codeQuality = '${{ needs.code-quality.result }}';
             const appE2e = '${{ needs.app-e2e.result }}';
@@ -313,6 +328,12 @@ jobs:
 
             Check the [Actions tab](https://github.com/${{ github.repository }}/actions) for detailed logs and artifacts.
             `;
+
+            // Skip commenting for forked PRs for safety
+            if (context.payload.pull_request && context.payload.pull_request.head && context.payload.pull_request.head.repo && context.payload.pull_request.head.repo.fork) {
+              core.info('Skipping PR comment for forked repository.');
+              return;
+            }
 
             // Find existing bot comment
             const { data: comments } = await github.rest.issues.listComments({
