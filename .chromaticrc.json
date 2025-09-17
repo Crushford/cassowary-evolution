@@ -1,0 +1,18 @@
+{
+  "projectToken": "YOUR_CHROMATIC_PROJECT_TOKEN",
+  "buildScriptName": "build-storybook",
+  "exitZeroOnChanges": true,
+  "autoAcceptChanges": false,
+  "exitOnceUploaded": true,
+  "ignoreLastBuildOnBranch": "main",
+  "storybookBuildDir": "storybook-static",
+  "storybookConfigDir": ".storybook",
+  "onlyChanged": false,
+  "skip": false,
+  "debug": false,
+  "verbose": false,
+  "uploadOnly": false,
+  "preserveMissingSpecs": true,
+  "includeTags": ["visual"],
+  "excludeTags": ["skip-visual"]
+}

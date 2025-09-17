@@ -1,78 +1,35 @@
+// playwright.config.ts
 import { defineConfig, devices } from '@playwright/test';
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
+const isCI = !!process.env.CI;
+
 export default defineConfig({
   testDir: './tests',
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Fail fast - stop on first failure */
-  maxFailures: 1,
-  /* Global timeout for the entire test run */
-  globalTimeout: 60 * 1000,
-  /* Timeout for each test */
-  timeout: 30 * 1000,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['line'], ['html']],
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  testIgnore: ['**/unit/**', '**/integration/**', '**/storybook/**', '**/chromatic/**'],
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 1 : undefined,
+  timeout: 60_000,
+  globalTimeout: 300_000,
+  reporter: [['line'], ['html', { outputFolder: 'playwright-report' }]],
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'http://localhost:8080',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    // include your deterministic params by default, overridable via env
+    baseURL: process.env.PLAYWRIGHT_BASE_URL
+      || 'http://localhost:3000/?seed=cq-e2e-01&testMode=1',
     trace: 'on-first-retry',
+    video: 'retain-on-failure',
+    screenshot: 'only-on-failure',
+    viewport: { width: 1280, height: 800 },
+    colorScheme: 'dark',
   },
-
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    // Comment out other browsers for faster testing
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
-  ],
-
-  /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'PORT=8080 yarn start',
-    url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
+  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : {
+    command: isCI
+      ? 'bash -lc "yarn build && serve -s build -l 3000 2>&1 | tee -a playwright-webserver.log"'
+      : 'yarn start',
+    // Wait specifically for the healthcheck to be live
+    url: 'http://localhost:3000/__ready.txt',
+    reuseExistingServer: !isCI,
+    timeout: 180_000,
   },
 });

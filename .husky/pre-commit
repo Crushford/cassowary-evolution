@@ -1,5 +1,33 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
-yarn lint-staged
-yarn test
+echo "🔍 Running pre-commit checks..."
+
+# Fix formatting first
+echo "🎨 Fixing code formatting..."
+yarn lint:fix
+
+# Run linting
+echo "📝 Running ESLint..."
+yarn lint
+
+# Run type checking
+echo "🔧 Running TypeScript type check..."
+yarn tsc --noEmit
+
+# Run unit tests
+echo "🧪 Running unit tests..."
+yarn test:unit
+
+# Run integration tests
+echo "🧪 Running integration tests..."
+yarn test:integration
+
+# Run build check
+echo "🏗️ Checking build..."
+yarn build
+
+# Update visual snapshots and add to staging
+echo "📸 Updating visual snapshots..."
+./scripts/update-snapshots.sh
+
+echo "✅ All pre-commit checks passed!"

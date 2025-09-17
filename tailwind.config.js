@@ -1,10 +1,4 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+// This file imports the TypeScript config to maintain type safety
+const { default: config } = require('./tailwind.config.ts');
+
+module.exports = config;

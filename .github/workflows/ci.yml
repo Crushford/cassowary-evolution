@@ -1,0 +1,366 @@
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: ['**']
+  workflow_dispatch: {}
+
+env:
+  NODE_VERSION: '20'
+  PLAYWRIGHT_BROWSERS_PATH: '0'
+
+jobs:
+  # Quick checks for all PRs and pushes
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Run linting
+        run: yarn lint
+
+      - name: Check formatting
+        run: yarn format:check
+
+      - name: Type check
+        run: yarn tsc --noEmit
+
+      - name: Run unit tests
+        run: yarn test
+
+      - name: Build check
+        run: yarn build
+
+  # App E2E tests with Chromatic Playwright integration
+  app-e2e:
+    name: App E2E + Chromatic Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: code-quality
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install Playwright browsers (Chromium + system deps)
+        run: yarn playwright install --with-deps chromium
+
+      - name: Sanity checks
+        run: |
+          echo "PWD=$(pwd)"
+          node -e "console.log('Node', process.version)"
+          ls -al build || true
+
+      - name: Run E2E tests
+        env:
+          CI: "true"
+        run: |
+          set +e
+          export DEBUG=pw:browser,pw:webserver
+          yarn test:e2e
+          EXIT=$?
+          # Preserve web server logs if present
+          if [ -f playwright-webserver.log ]; then
+            echo "--- WebServer Log (tail) ---"
+            tail -n 200 playwright-webserver.log || true
+          fi
+          exit $EXIT
+
+      - name: Upload Playwright report (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          if-no-files-found: ignore
+
+      - name: Upload web server log (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-webserver-log
+          path: playwright-webserver.log
+          if-no-files-found: ignore
+
+      - name: Upload Chromatic snapshots (Playwright)
+        if: success()   # only if tests passed
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: yarn chromatic:pw
+
+  # Storybook visual regression tests
+  storybook-visual:
+    name: Storybook Visual Tests
+    runs-on: ubuntu-latest
+    needs: code-quality
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          key: pw-browsers-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install Playwright browsers (Chromium + system deps)
+        run: yarn playwright install --with-deps chromium
+
+      - name: Verify Storybook dependencies
+        run: |
+          echo "Checking Storybook dependencies..."
+          node -e "console.log('react-docgen:', require.resolve('react-docgen'))" || echo "react-docgen not found"
+          node -e "console.log('@storybook/core:', require.resolve('@storybook/core'))" || echo "@storybook/core not found"
+          ls -la node_modules/@storybook/ || echo "No @storybook modules found"
+          echo "Checking webpack and related dependencies..."
+          node -e "console.log('webpack:', require.resolve('webpack'))" || echo "webpack not found"
+          node -e "console.log('webpack-dev-server:', require.resolve('webpack-dev-server'))" || echo "webpack-dev-server not found"
+
+      - name: Run visual tests (static storybook)
+        env:
+          CI: "true"
+          STORYBOOK_DISABLE_TELEMETRY: "1"
+          SB_DOCGEN_DISABLED: "1"
+          PW_LOGLEVEL: debug
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        run: |
+          set +e
+          export DEBUG=pw:browser,pw:webserver
+          echo "Node: $(node -v)"
+          echo "Yarn: $(yarn -v)"
+          echo "PWD: $(pwd)"
+          ls -la
+          echo "--- Clearing any existing Storybook build ---"
+          rm -rf storybook-static || true
+          echo "--- Storybook static probe ---"
+          yarn build-storybook --debug-webpack --quiet
+          ( yarn serve -s storybook-static -l 29348 2>&1 | tee -a playwright-sb-probe.log & echo $! > .sb_probe.pid ) || true
+          sleep 3
+          if ! ps -p $(cat .sb_probe.pid) > /dev/null 2>&1; then
+            echo "❌ Storybook probe server died immediately"
+            tail -n +1 playwright-sb-probe.log || true
+            exit 1
+          fi
+          for i in {1..20}; do
+            if curl -fsS http://localhost:29348/iframe.html > /dev/null; then
+              echo "✅ Storybook probe responded on 29348"; break
+            fi
+            echo "⏳ Waiting for Storybook probe… ($i)"; sleep 1
+          done
+          kill $(cat .sb_probe.pid) || true
+          yarn test:visual
+          EXIT=$?
+          if [ -f playwright-sb-webserver.log ]; then
+            echo "--- Storybook WebServer Log (tail) ---"
+            tail -n 200 playwright-sb-webserver.log || true
+          fi
+          if [ -f playwright-sb-probe.log ]; then
+            echo "--- Storybook Probe Log (tail) ---"
+            tail -n 200 playwright-sb-probe.log || true
+          fi
+          exit $EXIT
+
+      - name: Upload visual test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: visual-test-results
+          path: |
+            test-results/
+            playwright-report/
+          retention-days: 3
+
+      - name: Upload Storybook web server log (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-sb-webserver-log
+          path: playwright-sb-webserver.log
+          if-no-files-found: ignore
+
+      - name: Upload Storybook probe log (if failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-sb-probe-log
+          path: playwright-sb-probe.log
+          if-no-files-found: ignore
+
+  # Chromatic visual testing for PRs (Storybook)
+  chromatic-storybook:
+    name: Chromatic Storybook Tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    needs: code-quality
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Build Storybook
+        run: yarn build-storybook
+
+      - name: Run Chromatic tests
+        run: yarn chromatic --exit-zero-on-changes
+        env:
+          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+  # Comment on PR with results
+  pr-comment:
+    name: Comment on PR
+    runs-on: ubuntu-latest
+    needs: [code-quality, app-e2e, storybook-visual, chromatic-storybook]
+    if: always() && (github.event_name == 'pull_request' || github.event_name == 'pull_request_target')
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Comment PR with results
+        uses: actions/github-script@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        with:
+          script: |
+            const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+            const issue_number = context.payload.pull_request ? context.payload.pull_request.number : context.issue.number;
+            
+            const codeQuality = '${{ needs.code-quality.result }}';
+            const appE2e = '${{ needs.app-e2e.result }}';
+            const storybookVisual = '${{ needs.storybook-visual.result }}';
+            const chromaticStorybook = '${{ needs.chromatic-storybook.result }}';
+
+            const getStatus = (result) => {
+              switch(result) {
+                case 'success': return '✅ Passed';
+                case 'failure': return '❌ Failed';
+                case 'cancelled': return '⏹️ Cancelled';
+                case 'skipped': return '⏭️ Skipped';
+                default: return '⏳ Running';
+              }
+            };
+
+            const comment = `
+            ## 🔍 Pull Request Test Results
+
+            | Test Type | Status |
+            |-----------|--------|
+            | **Code Quality** | ${getStatus(codeQuality)} |
+            | **App E2E + Chromatic** | ${getStatus(appE2e)} |
+            | **Storybook Visual** | ${getStatus(storybookVisual)} |
+            | **Chromatic Storybook** | ${getStatus(chromaticStorybook)} |
+
+            ---
+
+            ### 📋 Test Details
+            - **Linting**: ESLint checks for code quality
+            - **Formatting**: Prettier formatting validation
+            - **Type Check**: TypeScript type checking
+            - **Unit Tests**: Jest unit test suite
+            - **Build Check**: Production build verification
+            - **App E2E**: Playwright end-to-end tests with Chromatic snapshots
+            - **Storybook Visual**: Playwright visual regression tests for Storybook
+            - **Chromatic Storybook**: Storybook visual testing
+
+            Check the [Actions tab](https://github.com/${{ github.repository }}/actions) for detailed logs and artifacts.
+            `;
+
+            // Skip commenting for forked PRs for safety
+            if (context.payload.pull_request && context.payload.pull_request.head && context.payload.pull_request.head.repo && context.payload.pull_request.head.repo.fork) {
+              core.info('Skipping PR comment for forked repository.');
+              return;
+            }
+
+            // Find existing bot comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number,
+            });
+
+            const botComment = comments.find(comment => 
+              comment.user.type === 'Bot' && comment.body.includes('Pull Request Test Results')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                issue_number,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body: comment
+              });
+            }

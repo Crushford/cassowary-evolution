@@ -1,0 +1,29 @@
+[
+  {
+    "id": "fruit_digestion_1",
+    "name": "Fruit Digestion",
+    "slot": "reproduction",
+    "tags": ["foodYield"],
+    "effects": { "eggsPerClutchDelta": 1 },
+    "unlockAtLevel": 1,
+    "rarity": "common"
+  },
+  {
+    "id": "claws_basic",
+    "name": "Claws",
+    "slot": "survival",
+    "tags": ["predatorResist"],
+    "effects": { "predatorSurvivalBonus": 0.25 },
+    "unlockAtLevel": 2,
+    "rarity": "common"
+  },
+  {
+    "id": "scout_hearing",
+    "name": "Keen Hearing",
+    "slot": "scouting",
+    "tags": ["peek"],
+    "effects": { "revealUnselectedOne": true },
+    "unlockAtLevel": 2,
+    "rarity": "rare"
+  }
+]

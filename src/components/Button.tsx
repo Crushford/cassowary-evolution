@@ -16,13 +16,14 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
 }) => {
   const baseClasses =
-    'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
+    'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-app-0';
 
   const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+    primary:
+      'bg-accent text-app-0 hover:bg-accent-600 active:bg-accent-700 focus:ring-ring',
     secondary:
-      'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+      'bg-app-1 text-ink-primary border border-border/60 hover:bg-app-2 focus:ring-ring',
+    danger: 'bg-danger text-ink-primary hover:bg-danger/80 focus:ring-ring',
   };
 
   const sizeClasses = {
