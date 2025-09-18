@@ -1,0 +1,33 @@
+:root {
+  --bg: #0b0e12;
+  --panel: #11161c;
+  --panel-2: #0e141a;
+  --line: #1e2630;
+  --wood: #2a2017;
+  --metal: #4c5b6a;
+  --text: #d6dfea;
+  --text-dim: #9aa8b5;
+  --accent: #37e0c1; /* Accent A */
+  --food: #9be564;
+  --danger: #ff5a63;
+  --rival: #e7a84f;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: dark; /* force dark visuals */
+  }
+}
+
+/* micro animation keyframes */
+@keyframes pegPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

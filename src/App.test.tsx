@@ -2,14 +2,16 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders welcome message', () => {
+// Updated to match current UI
+
+test('renders app title', () => {
   render(<App />);
-  const welcomeElement = screen.getByText(/Welcome to Evolution/i);
-  expect(welcomeElement).toBeInTheDocument();
+  const title = screen.getByText(/Cassowary Panchino/i);
+  expect(title).toBeInTheDocument();
 });
 
-test('renders get started button', () => {
+test('renders primary game controls', () => {
   render(<App />);
-  const buttonElement = screen.getByText(/Get Started/i);
-  expect(buttonElement).toBeInTheDocument();
+  expect(screen.getByText(/Next Step/i)).toBeInTheDocument();
+  expect(screen.getByText(/Drop Egg/i)).toBeInTheDocument();
 });

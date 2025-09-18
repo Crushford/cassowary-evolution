@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    'Inter',
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
+  font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
+  /* Enhanced mobile touch support */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Improved mobile interactions */
+@media (hover: none) and (pointer: coarse) {
+  /* Touch device optimizations */
+  button,
+  [role='button'] {
+    min-height: 44px; /* iOS recommended touch target */
+    min-width: 44px;
+  }
+
+  /* Larger touch targets for game controls */
+  .game-control {
+    min-height: 48px;
+    padding: 12px 16px;
+  }
+}
+
+/* Smooth scrolling and momentum */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Container query support fallback */
+@supports not (container-type: inline-size) {
+  .responsive-container {
+    /* Fallback for browsers without container query support */
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* optional: subtle noise - uncomment when texture is available */
+/*
+.bg-noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url('/textures/noise-512.png');
+  mix-blend-mode: soft-light;
+}
+*/
